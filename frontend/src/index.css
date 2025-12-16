@@ -15,6 +15,7 @@
   --main-dark-blue-40: rgba(51, 78, 98, 0.4);
   --main-dark-blue-70: rgba(51, 78, 98, 0.7);
 
+  --main-button-gradient: linear-gradient(to right, #7696ff, #1f4ad6);
   --button-gradient: linear-gradient(
     to right,
     rgba(10, 49, 78, 0.5),
@@ -32,8 +33,6 @@
     overflow-x: hidden;
   }
 }
-/* border-[rgb(var(--border-color)/0.3)] */
-/* border-[rgb(var(--border-color)62] */
 
 .hide-scrollbar {
   &::-webkit-scrollbar {
@@ -46,11 +45,25 @@
   width: 100vw;
   min-height: 100vh;
   background-color: var(--bg);
-  background: linear-gradient(180deg, #06141f 0%, #000407 100vh);
+  background: linear-gradient(180deg, #06141f 0%, #01090f 100vh, #000407 200vh);
 }
 @layer utilities {
+  .electrolize {
+    font-family: var(--electrolize);
+  }
+  .noto-sans {
+    font-family: var(--noto-sans);
+  }
+
+  .arvo {
+    font-family: var(--arvo);
+  }
+
   .main-btn {
-    @apply flex items-center text-(--white) border-2 border-(--main-dark-blue-40)  [background-image:var(--button-gradient)]  w-fit py-3 px-10 rounded-sm hover:cursor-pointer hover:border-(--main-dark-blue-70) hover:opacity-90 transition-all duration-500 ease-in-out;
+    @apply flex items-center text-(--white) [background-image:var(--main-button-gradient)] w-fit py-3 px-11 rounded-4xl hover:cursor-pointer;
+    background-size: 150% 100%; /* make it bigger than the button */
+    background-position: 0% 0%;
+    animation: btn-bg-move-gradient 6s ease-in-out infinite reverse;
   }
 
   .action-btn {
@@ -97,49 +110,78 @@
     box-shadow: 0px 0px 180px 5px var(--main-light-blue);
   }
 
-  .glow-default {
-    @apply absolute h-100  w-0;
+  .glow-white-default {
+    @apply -top-70 opacity-40 absolute h-100  w-0 z-20;
     transform: rotate(20deg);
+    box-shadow: 0px 0px 200px 25px var(--white);
+    animation: spotlight-glow-white 8s linear infinite alternate;
   }
 
-  .glow-white-default {
-    @apply -top-70 opacity-40 absolute h-100  w-0;
-    transform: rotate(20deg);
-    box-shadow: 0px 0px 150px 20px var(--white);
-    animation: main-glow 3s ease-in-out infinite alternate;
+  .delayed-white-glow {
+    animation-delay: 3s;
   }
 
   .glow-blue-default {
-    @apply -top-60 absolute h-100  w-0 opacity-10;
+    @apply -top-60 absolute h-100 w-0 opacity-10 z-20;
     transform: rotate(20deg);
     box-shadow: 0px 0px 130px 80px var(--main-light-blue);
+    animation: spotlight-glow-blue 6s linear infinite alternate;
+  }
+
+  .delayed-blue-glow {
+    animation-delay: 1s;
   }
 
   .glow-middle {
-    @apply left-250 -top-20 opacity-30 absolute h-100  w-0;
+    @apply left-[51vw] -top-10 opacity-30 absolute h-100  w-0 z-20;
     transform: rotate(10deg);
     box-shadow: 0px 0px 600px 100px var(--main-light-blue);
+    animation-delay: 500ms;
+    animation: spotlight-glow-middle 6s linear infinite alternate;
   }
 
-  .electrolize {
-    font-family: var(--electrolize);
-  }
-  .noto-sans {
-    font-family: var(--noto-sans);
-  }
-
-  .arvo {
-    font-family: var(--arvo);
-  }
-
-  @keyframes main-glow {
+  @keyframes spotlight-glow-white {
     0% {
+      opacity: 0.1;
+      box-shadow: -30px 0px 200px 40px var(--white);
+    }
+    50% {
       opacity: 0.4;
-      box-shadow: 0px 0px 150px 20px var(--white);
+      box-shadow: -15px 0px 200px 25px var(--white);
+    }
+    100% {
+      opacity: 0.5;
+      box-shadow: 0px 0px 200px 30px var(--white);
+    }
+  }
+
+  @keyframes spotlight-glow-middle {
+    0% {
+      opacity: 0.2;
+      box-shadow: 40px -50px 600px 300px var(--main-light-blue);
+    }
+    50% {
+      opacity: 0.3;
+      box-shadow: 20px -30px 600px 100px var(--main-light-blue);
     }
     100% {
       opacity: 0.4;
-      box-shadow: 0px 0px 150px 20px var(--white);
+      box-shadow: 0px 0px 600px 110px var(--main-light-blue);
+    }
+  }
+
+  @keyframes spotlight-glow-blue {
+    0% {
+      opacity: 0.05;
+      box-shadow: 40px -60px 130px 400px var(--main-light-blue);
+    }
+    50% {
+      opacity: 0.15;
+      box-shadow: 20px -20px 130px 200px var(--main-light-blue);
+    }
+    100% {
+      opacity: 0.2;
+      box-shadow: 0px 5px 130px 90px var(--main-light-blue);
     }
   }
 
@@ -181,6 +223,18 @@
     100% {
       opacity: 1;
       filter: blur(0.6px);
+    }
+  }
+
+  @keyframes btn-bg-move-gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 0%;
+    }
+    100% {
+      background-position: 0% 0%;
     }
   }
 }
