@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./components/pages/Home";
 import SecretDetails from "./components/pages/SecretDetails";
 import MySecrets from "./components/pages/MySecrets";
-import Header from "./components/partials/Header";
+import Header from "./components/partials/MainPartials/Header";
 
 function App() {
   return (
