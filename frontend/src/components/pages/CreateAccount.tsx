@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import BackButton from "../partials/BackButton";
 
-const SignIn = () => {
+const CreateAccount = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -11,10 +11,10 @@ const SignIn = () => {
         <div className="absolute -top-15 left-0 opacity-70 hover:opacity-100">
           <BackButton />
         </div>
-        <h1 className="mx-auto text-3xl ">Welcome</h1>
-        <h2 className="text-2xl noto-sans mt-7 mb-1">Sign In</h2>
-        <p className="text-sm text-(--gray) noto-sans">
-          Access your account to unlock even more features.
+        <h1 className="mx-auto text-3xl">Welcome</h1>
+        <h2 className="text-2xl noto-sans mt-7 mb-1">Create Account</h2>
+        <p className="text-sm text-(--gray) noto-sans ml-0.5">
+          Join MonoShare to unlock even more features.
         </p>
         <form action="" method="post">
           <div className="flex flex-col noto-sans mt-6 gap-1">
@@ -129,18 +129,47 @@ const SignIn = () => {
               </svg>
             </div>
           </div>
+          <div className="flex flex-col noto-sans mt-6 gap-1">
+            <p className="font-light text-sm">Confirm Password</p>
+            <div className="group flex gap-2 items-center border border-gray-400/20 px-3 rounded-xl transform-all duration-200 focus-within:border-(--main-light-blue)  focus-within:outline-3 focus-within:outline-cyan-600/30 focus-within:bg-blue-300/10">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="-0.5 -0.5 16 16"
+                fill="none"
+                id="Key-Line--Streamline-Majesticons"
+                height="20"
+                width="20"
+                stroke="#a1a1a1"
+                className="group-focus-within:stroke-(--main-light-blue)"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9.375 9.375a3.75 3.75 0 1 0 -3.5893750000000004 -2.6606249999999996L5.625 6.875l-3.566875 3.566875a0.625 0.625 0 0 0 -0.18312499999999998 0.44187499999999996V12.5a0.625 0.625 0 0 0 0.625 0.625h1.25a0.625 0.625 0 0 0 0.625 -0.625 0.625 0.625 0 0 1 0.625 -0.625 0.625 0.625 0 0 0 0.625 -0.625 0.625 0.625 0 0 1 0.625 -0.625h0.36624999999999996a0.625 0.625 0 0 0 0.44187499999999996 -0.18312499999999998L8.125 9.375l0.16062500000000002 -0.16062500000000002A3.7493749999999997 3.7493749999999997 0 0 0 9.375 9.375zm1.25 -3.75a1.25 1.25 0 0 0 -1.25 -1.25"
+                  stroke-width="1"
+                ></path>
+              </svg>
+              <input
+                type="password"
+                name=""
+                id=""
+                placeholder="********"
+                className="text-sm w-full text-(--gray) outline-0  py-2"
+              />
+            </div>
+          </div>
           <button className="noto-sans w-full py-3 mt-6 text-sm font-medium cursor-pointer bg-(--white) text-black rounded-lg">
             Sign In
           </button>
         </form>
         <div className="m-auto mt-5">
           <p className="noto-sans text-sm font-normal text-(--gray)">
-            New to MonoShare?{" "}
+            Already have an account?{" "}
             <Link
-              to="/create-account"
+              to="/sign-in"
               className="text-(--main-light-blue) font-normal hover:underline"
             >
-              Create account
+              Sign in
             </Link>
           </p>
         </div>
@@ -149,4 +178,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default CreateAccount;

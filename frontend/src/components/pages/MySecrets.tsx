@@ -1,4 +1,5 @@
 // import MySecretsDeletePopup from "../partials/MySecretsPartials/MySecretsDeletePopup";
+import BackButton from "../partials/BackButton";
 import MySecretsEmptyList from "../partials/MySecretsPartials/MySecretsEmptyList";
 import MySecretsItem from "../partials/MySecretsPartials/MySecretsItem";
 
@@ -28,7 +29,10 @@ const MySecrets = () => {
         <h1 className="mt-20 electrolize font-bold">My Secrets</h1>
 
         {/* //*Active */}
-        <section className="flex flex-col min-w-201">
+        <section className="relative flex flex-col min-w-201">
+          <div className="absolute -left-40 top-16.75 opacity-70 hover:opacity-100">
+            <BackButton />
+          </div>
           <div className="flex items-center h-fit mt-20 justify-between mb-2 w-190">
             <div className="flex items-center gap-2">
               <svg

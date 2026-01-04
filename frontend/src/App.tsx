@@ -4,6 +4,7 @@ import SecretDetails from "./components/pages/SecretDetails";
 import MySecrets from "./components/pages/MySecrets";
 import Header from "./components/partials/MainPartials/Header";
 import SignIn from "./components/pages/SignIn";
+import CreateAccount from "./components/pages/CreateAccount";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/details" element={<SecretDetails />} />
         <Route path="/mysecrets" element={<MySecrets />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/create-account" element={<CreateAccount />} />
       </Routes>
     </div>
   );
