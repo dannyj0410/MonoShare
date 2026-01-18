@@ -3,8 +3,8 @@ import Home from "./components/pages/Home";
 import SecretDetails from "./components/pages/SecretDetails";
 import MySecrets from "./components/pages/MySecrets";
 import Header from "./components/partials/MainPartials/Header";
-import SignIn from "./components/pages/SignIn";
-import CreateAccount from "./components/pages/CreateAccount";
+import SignIn from "./components/pages/AuthPages/SignIn";
+import CreateAccount from "./components/pages/AuthPages/CreateAccount";
 
 function App() {
   return (
