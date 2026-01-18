@@ -1,51 +1,75 @@
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import { sample_secrets } from "../data";
-import { prisma } from "../config/prisma.config";
+import { prisma } from "../../prisma/prisma-client";
 import { SecretStatus } from "@prisma/client";
+import { CreateSecretDto } from "../interfaces/secret.dto";
+import { HTTP_NOT_FOUND } from "../constants/http_status";
 
 export const getSecrets = asyncHandler(async (req: Request, res: Response) => {
-  //   const posts = await PostModel.find().sort({
-  //     createdAt: "descending",
-  //   });
-  const secrets = sample_secrets;
-  res.send(secrets);
+  const allSecrets = await prisma.secret.findMany();
+  if (!allSecrets) {
+    res.status(HTTP_NOT_FOUND).json({ message: "No secrets found." });
+    return;
+  }
+  res.json({ message: "All secrets", secrets: allSecrets });
 });
 
-export const createSecret = asyncHandler(
-  async (req: Request, res: Response) => {
-    const { text, status, receiver, expiresAt, userId } = req.body.data;
+// export const createSecret = asyncHandler(
+//   async (req: Request, res: Response) => {
+//     const { text, status, receiver, expiresAt } = req.body
+//        as CreateSecretDto;
 
-    console.log(SecretStatus);
-    if (!Object.values(SecretStatus).includes(status)) {
-      res.status(400).json({
-        message: `Invalid status. Must be one of: ${Object.values(
-          SecretStatus
-        ).join(", ")}`,
-      });
-      return;
-    }
+//     console.log(SecretStatus);
+//     if (!Object.values(SecretStatus).includes(status)) {
+//       res.status(400).json({
+//         message: `Invalid status. Must be one of: ${Object.values(
+//           SecretStatus
+//         ).join(", ")}`,
+//       });
+//       return;
+//     }
+//     // Inject userId through auth middleware
+//     const secret = await prisma.secret.create({
+//       data: {
+//         text,
+//         status,
+//         receiver,
+//         expiresAt: new Date(expiresAt),
+//         creator: {
+//           connect: {
+//             id: userId,
+//           },
+//         },
+//       },
+//     });
 
-    const secret = await prisma.secret.create({
-      data: {
-        text,
-        status,
-        receiver,
-        expiresAt: new Date(expiresAt),
-        creator: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
-    });
+//     res.status(201).json({
+//       message: "Secret created successfully",
+//       secret,
+//     });
+//   }
+// );
 
-    res.status(201).json({
-      message: "Secret created successfully",
-      secret,
-    });
-  }
-);
+// export const getUsersSecrets = asyncHandler(
+//   async (req: Request, res: Response) => {
+//     // inject id through auth
+
+//     const userWithSecrets = await prisma.user.findUnique({
+//       where: { id },
+//       include: { ownedSecrets: true },
+//     });
+
+//     if (!userWithSecrets) {
+//       res.status(404).json({ message: "User not found" });
+//       return;
+//     }
+
+//     res.json({
+//       message: "This users secrets are:",
+//       ownedSecrets: userWithSecrets.ownedSecrets,
+//     });
+//   }
+// );
 
 // export const updateSecret = asyncHandler(async (req, res) => {
 //   const { secretId, status } = req.body;

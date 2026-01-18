@@ -1,9 +1,5 @@
 import { Router } from "express";
-
-import { sample_secrets } from "../data";
 import { getSecrets } from "../controller/secretCntrl";
-
-import { HTTP_BAD_REQUEST } from "../constants/http_status";
 
 const router = Router();
 
@@ -26,17 +22,4 @@ router.get("/", getSecrets);
 //   })
 // );
 
-// router.post(
-//   "/create",
-//   auth,
-//   asyncHandler(async (req, res) => {
-//     if (!req.body) {
-//       res.status(HTTP_BAD_REQUEST).send("Invalid create post request!");
-//     }
-//     const post = await PostModel.create(req.body);
-
-//     res.send(post);
-//   })
-// );
-
-export default router;
+export { router as secretsRoute };

@@ -1,4 +1,3 @@
-// prisma/seed.ts
 import { PrismaClient, SecretStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -8,6 +7,7 @@ async function main() {
   const user = await prisma.user.create({
     data: {
       email: "testuser@example.com",
+      passwordHash: "",
     },
   });
 
@@ -107,5 +107,4 @@ main()
     await prisma.$disconnect();
   });
 
-// Connect mongodb somehow
 // npx prisma db seed
