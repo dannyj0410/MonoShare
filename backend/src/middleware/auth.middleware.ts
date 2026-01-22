@@ -26,5 +26,6 @@ export const requireAuth = async (
 
   req.user = session.user;
   req.session = session;
+
   next();
 };

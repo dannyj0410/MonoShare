@@ -1,5 +1,3 @@
-import { Request } from "express";
-
 export interface AuthDto {
   email: string;
   password: string;

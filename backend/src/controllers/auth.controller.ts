@@ -1,7 +1,9 @@
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import { prisma } from "../../prisma/prisma-client";
+import argon2 from "argon2";
 import { AuthDto } from "../interfaces/auth.dto";
+import { AuthService } from "../services/auth.service";
 import {
   HTTP_BAD_REQUEST,
   HTTP_CONFLICT,
@@ -9,8 +11,6 @@ import {
   HTTP_SUCCESS,
   HTTP_UNAUTHORIZED,
 } from "../constants/http_status";
-import { AuthService } from "../services/auth.service";
-import argon2 from "argon2";
 
 // *CREATE
 export const createUser = asyncHandler(async (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ export const createUser = asyncHandler(async (req: Request, res: Response) => {
       .json({ message: "Email and password are required" });
     return;
     // throw new Error("Email and password are required");
-    //throw error or return both work
+    //throw error or return both work, use global error handler if throwing errors
   }
 
   if (password !== confirm) {
@@ -140,7 +140,8 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     });
 });
 
-export const signoutUser = asyncHandler(async (req: Request, res: Response) => {
+// *SIGN OUT
+export const signoutUser = asyncHandler(async (req: any, res: Response) => {
   if (!req.session) {
     res.status(HTTP_UNAUTHORIZED).send({ message: "Unable to logout" });
     return;

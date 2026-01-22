@@ -2,6 +2,7 @@
   "compilerOptions": {
     // "module": "node16",
     // "moduleResolution": "node16",
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "module": "commonjs",
     "moduleResolution": "node",
     "ignoreDeprecations": "6.0",
@@ -13,10 +14,9 @@
     "types": ["node"]
   },
   "include": [
-    "src/**/*",
-    "src/config/prisma.config.ts",
-    "src/prisma",
-    "prisma/seed.ts",
-    "src/types"
+    "src/**/*"
+    // "src/config/prisma.config.ts",
+    // "src/prisma",
+    // "prisma/seed.ts"
   ]
 }

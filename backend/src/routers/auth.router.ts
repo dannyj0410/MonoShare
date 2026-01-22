@@ -7,4 +7,4 @@ const router = express.Router();
 router.post("/register", createUser);
 // router.post("/signin", requireAuth, signinUser);
 
-export { router as userRoute };
+export { router as authRouter };
