@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import BackButton from "../../partials/BackButton";
-import { useRegister } from "../../../hooks/useRegister";
 import axios from "axios";
+import { useRegister } from "../../../hooks/useRegister";
+import BackButton from "../../partials/BackButton";
 import ErrorPopup from "../../partials/MainPartials/ErrorPopup";
+import {
+  validateConfirmPassword,
+  validateEmail,
+  validatePassword,
+} from "../../../utils/validators/auth.validator";
 
 const CreateAccount = () => {
   const [createFormData, setCreateFormData] = useState({
@@ -11,6 +16,12 @@ const CreateAccount = () => {
     password: "",
     confirm: "",
   });
+  const [formErrors, setFormErrors] = useState<{
+    email?: string;
+    password?: string;
+    confirm?: string;
+  }>({});
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -22,38 +33,78 @@ const CreateAccount = () => {
     reset,
   } = useRegister();
 
-  const errorMessage =
-    isError && axios.isAxiosError(error) ? error.response?.data.message : null;
-
-  const errorVisibility = !!errorMessage;
-
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (isError) reset();
     const { name, value } = e.target;
+
     setCreateFormData({ ...createFormData, [name]: value });
+    setFormErrors((prev) => ({ ...prev, [name]: undefined }));
   };
+
+  const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    let error: string | undefined;
+
+    if (name === "email") {
+      error = validateEmail(value);
+    }
+    if (name === "password") {
+      error = validatePassword(value);
+
+      if (createFormData.confirm) {
+        const confirmError = validateConfirmPassword(
+          value,
+          createFormData.confirm,
+        );
+
+        setFormErrors((prev) => ({
+          ...prev,
+          [name]: error,
+          confirm: confirmError,
+        }));
+        return;
+      }
+    }
+    if (name === "confirm") {
+      error = validateConfirmPassword(createFormData.password, value);
+    }
+
+    setFormErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
+  };
+
+  const errorMessage =
+    isError && axios.isAxiosError(error) ? error.response?.data.message : null;
+
+  const showError = !!errorMessage;
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (
-      !createFormData.email ||
-      !createFormData.password ||
-      !createFormData.confirm
-    )
+    const emailError = validateEmail(createFormData.email);
+    const passwordError = validatePassword(createFormData.password);
+    const confirmError = validateConfirmPassword(createFormData.confirm);
+
+    if (emailError || passwordError || confirmError) {
+      setFormErrors({
+        email: emailError,
+        password: passwordError,
+        confirm: confirmError,
+      });
       return;
+    }
 
     registerMutate(createFormData);
-    // console.log("message:", result.message);
-    // console.log("Created user:", result.user);
   };
 
   return (
     <div className="w-screen h-screen pt-45">
       <ErrorPopup
         message={errorMessage}
-        errorVisibility={errorVisibility}
-        setErrorVisibility={reset}
+        showError={showError}
+        resetError={reset}
       />
       <div className="relative flex flex-col w-md h-fit rounded-xl m-auto py-8 px-8 z-10 bg-white/3 border-gray-400/20 border">
         <div className="absolute -top-15 left-0 opacity-70 hover:opacity-100">
@@ -65,9 +116,13 @@ const CreateAccount = () => {
           Join MonoShare to unlock even more features.
         </p>
         <form onSubmit={submitForm}>
+          {/* Email */}
           <div className="flex flex-col noto-sans mt-6 gap-1">
             <p className="font-light text-sm">Email</p>
-            <div className="group flex gap-2 items-center border border-gray-400/20 hover:border-gray-400/30 px-3 rounded-xl duration-200 focus-within:border-(--main-light-blue) focus-within:hover:border-(--main-light-blue) focus-within:outline-3 focus-within:outline-cyan-600/30 focus-within:bg-blue-300/10">
+
+            <div
+              className={`${formErrors.email ? "border-red-400 outline-3 outline-red-600/25 hover:bg-red-500/5" : "border-gray-400/20 hover:border-gray-400/30 focus-within:bg-blue-300/10"} mb-px group flex gap-2 items-center border px-3 rounded-xl duration-200 focus-within:border-(--main-light-blue) focus-within:hover:border-(--main-light-blue) focus-within:outline-3 focus-within:outline-cyan-600/30`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -78,7 +133,7 @@ const CreateAccount = () => {
                 id="Mail--Streamline-Tabler"
                 height="20"
                 width="20"
-                className="group-focus-within:stroke-(--main-light-blue)"
+                className={`group-focus-within:stroke-(--main-light-blue) ${formErrors.email && "stroke-red-500"}`}
               >
                 <desc>Mail Streamline Icon: https://streamlinehq.com</desc>
                 <path
@@ -94,13 +149,30 @@ const CreateAccount = () => {
                 className="text-sm w-full text-(--gray) outline-0 py-2"
                 value={createFormData.email}
                 onChange={onChangeHandler}
+                onBlur={onBlurHandler}
+                onFocus={(e) =>
+                  setFormErrors((prev) => ({
+                    ...prev,
+                    [e.target.name]: undefined,
+                  }))
+                }
               />
             </div>
+            <div className="h-4">
+              {formErrors.email && (
+                <p className="font-light tracking-wide text-xs ml-2 text-red-400">
+                  {formErrors.email}
+                </p>
+              )}
+            </div>
           </div>
+
           {/* Password */}
-          <div className="flex flex-col noto-sans mt-6 gap-1">
+          <div className="flex flex-col noto-sans gap-1">
             <p className="font-light text-sm">Password</p>
-            <div className="group flex gap-2 items-center border border-gray-400/20 hover:border-gray-400/30 px-3 rounded-xl transform-all duration-200 focus-within:border-(--main-light-blue) focus-within:hover:border-(--main-light-blue) focus-within:outline-3 focus-within:outline-cyan-600/30 focus-within:bg-blue-300/10">
+            <div
+              className={`${formErrors.password ? "border-red-400 outline-3 outline-red-600/25 hover:bg-red-500/5" : "border-gray-400/20 hover:border-gray-400/30 focus-within:bg-blue-300/10"} mb-px group flex gap-2 items-center border px-3 rounded-xl duration-200 focus-within:border-(--main-light-blue) focus-within:hover:border-(--main-light-blue) focus-within:outline-3 focus-within:outline-cyan-600/30`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="-0.5 -0.5 16 16"
@@ -109,7 +181,7 @@ const CreateAccount = () => {
                 height="20"
                 width="20"
                 stroke="#a1a1a1"
-                className="group-focus-within:stroke-(--main-light-blue)"
+                className={`group-focus-within:stroke-(--main-light-blue) ${formErrors.password && "stroke-red-500"}`}
               >
                 <path
                   strokeLinecap="round"
@@ -125,6 +197,13 @@ const CreateAccount = () => {
                 className="text-sm w-full text-(--gray) outline-0  py-2"
                 value={createFormData.password}
                 onChange={onChangeHandler}
+                onBlur={onBlurHandler}
+                onFocus={(e) =>
+                  setFormErrors((prev) => ({
+                    ...prev,
+                    [e.target.name]: undefined,
+                  }))
+                }
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -179,12 +258,21 @@ const CreateAccount = () => {
                 ></path>
               </svg>
             </div>
+            <div className="h-4">
+              {formErrors.password && (
+                <p className="font-light tracking-wide text-xs ml-2 text-red-400">
+                  {formErrors.password}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Confirm Password */}
-          <div className="flex flex-col noto-sans mt-6 gap-1">
+          <div className="flex flex-col noto-sans gap-1">
             <p className="font-light text-sm">Confirm Password</p>
-            <div className="group flex gap-2 items-center border border-gray-400/20 hover:border-gray-400/30 px-3 rounded-xl transform-all duration-200 focus-within:border-(--main-light-blue) focus-within:hover:border-(--main-light-blue) focus-within:outline-3 focus-within:outline-cyan-600/30 focus-within:bg-blue-300/10">
+            <div
+              className={`${formErrors.confirm ? "border-red-400 outline-3 outline-red-600/25 hover:bg-red-500/5" : "border-gray-400/20 hover:border-gray-400/30 focus-within:bg-blue-300/10"} mb-px group flex gap-2 items-center border px-3 rounded-xl transform-all duration-200 focus-within:border-(--main-light-blue) focus-within:hover:border-(--main-light-blue) focus-within:outline-3 focus-within:outline-cyan-600/30`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="-0.5 -0.5 16 16"
@@ -193,7 +281,7 @@ const CreateAccount = () => {
                 height="20"
                 width="20"
                 stroke="#a1a1a1"
-                className="group-focus-within:stroke-(--main-light-blue)"
+                className={`group-focus-within:stroke-(--main-light-blue) ${formErrors.confirm && "stroke-red-500"}`}
               >
                 <path
                   strokeLinecap="round"
@@ -209,6 +297,13 @@ const CreateAccount = () => {
                 className="text-sm w-full text-(--gray) outline-0  py-2"
                 value={createFormData.confirm}
                 onChange={onChangeHandler}
+                onBlur={onBlurHandler}
+                onFocus={(e) =>
+                  setFormErrors((prev) => ({
+                    ...prev,
+                    [e.target.name]: undefined,
+                  }))
+                }
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -263,8 +358,17 @@ const CreateAccount = () => {
                 ></path>
               </svg>
             </div>
+            <div className="h-4">
+              {formErrors.confirm && (
+                <p className="font-light tracking-wide text-xs ml-2 text-red-400">
+                  {formErrors.confirm}
+                </p>
+              )}
+            </div>
           </div>
-          <button className="noto-sans w-full py-3 mt-6 text-sm font-medium cursor-pointer bg-(--white) text-black rounded-lg">
+          <button
+            className={`${formErrors.email || formErrors.password || formErrors.confirm ? "bg-red-400/70 text-white/80" : "bg-(--white) text-black"} mt-2 noto-sans w-full py-3 text-sm font-medium cursor-pointer rounded-lg transition-colors duration-300 ease-in-out`}
+          >
             {isRegistering ? "Authenticating..." : "Create Account"}
           </button>
         </form>

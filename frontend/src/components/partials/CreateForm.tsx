@@ -188,7 +188,7 @@ const CreateForm = () => {
           {/* Create Button */}
 
           <Link
-            to="/details"
+            to="/details/123"
             className="group relative overflow-hidden action-btn py-2.5 px-7 border-3 rounded-xl arvo"
           >
             <span>Create</span>
@@ -291,7 +291,7 @@ const CreateForm = () => {
                     d="M5 13l4 4L19 7"
                   ></path>
                 </svg>
-                <p className="electrolize text-xs">destroy</p>
+                <p className="electrolize text-xs">erase</p>
               </div>
             </div>
           </div>

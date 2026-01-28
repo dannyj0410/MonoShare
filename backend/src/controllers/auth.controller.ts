@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import { prisma } from "../../prisma/prisma-client";
 import argon2 from "argon2";
-import { AuthDto, UserDto, UserResponse } from "../dtos/auth.dto";
+import { AuthDto, UserResponse } from "../dtos/auth.dto";
 import { AuthService } from "../services/auth.service";
 import {
   HTTP_BAD_REQUEST,
@@ -17,22 +17,17 @@ export const createUser = asyncHandler(
   async (req: Request, res: Response<UserResponse>) => {
     const { email, password, confirm } = req.body as AuthDto;
 
-    if (!email || !password || !confirm) {
-      res
-        .status(HTTP_BAD_REQUEST)
-        .json({ message: "Email and password are required" });
-      return;
-      // throw new Error("Email and password are required");
-      //throw error or return both work, use global error handler if throwing errors
-    }
-
-    if (password !== confirm) {
-      res.status(HTTP_BAD_REQUEST).json({ message: "Password not confirmed" });
+    const validation = AuthService.validateAuthPayload({
+      email,
+      password,
+      confirm,
+    });
+    if (!validation.success) {
+      res.status(HTTP_BAD_REQUEST).json({ message: validation.message! });
       return;
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-
     const userExists = await prisma.user.findUnique({
       where: { email: normalizedEmail },
     });

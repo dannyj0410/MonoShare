@@ -1,17 +1,31 @@
+import { useEffect } from "react";
+
 const ErrorPopup = ({
   message,
-  errorVisibility,
-  setErrorVisibility,
+  showError,
+  resetError,
 }: {
   message: string | null;
-  errorVisibility: boolean;
-  setErrorVisibility: () => void;
+  showError: boolean;
+  resetError: () => void;
 }) => {
+  useEffect(() => {
+    if (!showError) return;
+
+    const timer = setTimeout(() => {
+      resetError();
+    }, 7000);
+
+    return () => clearTimeout(timer);
+  }, [showError, resetError]);
+
+  if (!showError) return null;
+
   return (
-    errorVisibility && (
+    showError && (
       <div
         className="animate-shake fixed electrolize text-md font-bold flex items-center bottom-0 right-0 mb-10 mr-20 px-3 py-3 rounded-lg border-red-400/30 border bg-red-400/15 cursor-pointer hover:opacity-70"
-        onClick={setErrorVisibility}
+        onClick={resetError}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
