@@ -1,23 +1,69 @@
 import { SecretStatus } from "@prisma/client";
 
-export interface CreateSecretDto {
-  text: string;
-  status: SecretStatus;
-  receiver?: string | null;
-  expiresAt: string; // or maybe Date, but preferable an ISO string. Might have to create the date, add 7 days and then send it to the backend. Or send a value of '1h, 1d, or 7d' to the backend and create the date in the api
-}
-
-export interface UpdateSecretStatusDto {
-  secretId: string;
-  status: "ACTIVE" | "VIEWED" | "EXPIRED";
-}
-
-export interface SecretResponse {
+export interface SecretBase {
   id: string;
-  text: string;
+  encryptedText: string;
+  encryptionIV: string;
+  creatorId?: string;
   status: SecretStatus;
-  receiver?: string | null;
-  expiresAt: string;
-  viewedAt?: string | null;
-  creatorId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  expiresAt: Date;
+  viewedAt: Date | null;
+  receiverEmail: string | null;
 }
+
+export type SecretExpirationOptions = "1h" | "1d" | "7d";
+
+export interface CreateSecretDto {
+  encryptedText: string;
+  encryptionIV: string;
+  timeTillExpiration: SecretExpirationOptions;
+  receiverEmail?: string;
+}
+
+export type CreateSecretResponse = {
+  message: string;
+  secret: Pick<
+    SecretBase,
+    | "id"
+    | "creatorId"
+    | "status"
+    | "createdAt"
+    | "updatedAt"
+    | "expiresAt"
+    | "viewedAt"
+    | "receiverEmail"
+  >;
+  shareUrl: string;
+};
+
+export type MySecretsReponse = {
+  userId: string;
+  ownedSecrets: Pick<
+    SecretBase,
+    "id" | "status" | "createdAt" | "expiresAt" | "viewedAt" | "receiverEmail"
+  >[];
+};
+
+export type ViewSecretResponse = Pick<
+  SecretBase,
+  | "id"
+  | "encryptedText"
+  | "encryptionIV"
+  | "receiverEmail"
+  | "status"
+  | "viewedAt"
+>;
+
+export type getSecretDetailsResponse = Pick<
+  SecretBase,
+  | "id"
+  | "receiverEmail"
+  | "creatorId"
+  | "status"
+  | "createdAt"
+  | "updatedAt"
+  | "expiresAt"
+  | "viewedAt"
+>;

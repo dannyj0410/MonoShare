@@ -1,6 +1,8 @@
 import argon2 from "argon2";
 import crypto from "crypto";
 import { AuthDto } from "../dtos/auth.dto";
+import { HTTP_BAD_REQUEST } from "../constants/http_status";
+import { AppError } from "../utils/AppError";
 
 export const AuthService = {
   async hashPassword(password: string) {
@@ -27,23 +29,23 @@ export const AuthService = {
 
   validateAuthPayload({ email, password, confirm }: AuthDto) {
     if (!email || !password || !confirm) {
-      return { success: false, message: "Email and password are required" };
+      throw new AppError("Email and password are required", HTTP_BAD_REQUEST);
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return { success: false, message: "Invalid email" };
+      throw new AppError("Invalid email", HTTP_BAD_REQUEST);
     }
 
     if (password !== confirm) {
-      return { success: false, message: "Passwords do not match" };
+      throw new AppError("Passwords do not match", HTTP_BAD_REQUEST);
     }
 
     if (password.length < 6) {
-      return {
-        success: false,
-        message: "Password must be at least 6 characters",
-      };
+      throw new AppError(
+        "Password must be at least 6 characters",
+        HTTP_BAD_REQUEST,
+      );
     }
 
     return { success: true };

@@ -11,8 +11,9 @@ if (!process.env.SESSION_SECRET) {
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { secretsRoute } from "./routers/secret.router";
+import { secretRouter } from "./routers/secret.router";
 import { authRouter } from "./routers/auth.router";
+import { globalErrorHandler } from "./middleware/error.middleware";
 
 const app = express();
 app.use(express.json());
@@ -28,6 +29,9 @@ app.use(
 
 // app.use(express.static("public"));
 app.use("/api/auth", authRouter);
+app.use("/api/secret", secretRouter);
+
+app.use(globalErrorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

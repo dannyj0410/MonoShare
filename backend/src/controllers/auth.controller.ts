@@ -1,9 +1,10 @@
 import asyncHandler from "express-async-handler";
+import argon2 from "argon2";
 import { Request, Response } from "express";
 import { prisma } from "../../prisma/prisma-client";
-import argon2 from "argon2";
 import { AuthDto, UserResponse } from "../dtos/auth.dto";
 import { AuthService } from "../services/auth.service";
+import { AppError } from "../utils/AppError";
 import {
   HTTP_BAD_REQUEST,
   HTTP_CONFLICT,
@@ -15,25 +16,20 @@ import {
 //* CREATE
 export const createUser = asyncHandler(
   async (req: Request, res: Response<UserResponse>) => {
-    const { email, password, confirm } = req.body as AuthDto;
+    const { email, password, confirm }: AuthDto = req.body;
 
-    const validation = AuthService.validateAuthPayload({
+    AuthService.validateAuthPayload({
       email,
       password,
       confirm,
     });
-    if (!validation.success) {
-      res.status(HTTP_BAD_REQUEST).json({ message: validation.message! });
-      return;
-    }
 
     const normalizedEmail = email.trim().toLowerCase();
     const userExists = await prisma.user.findUnique({
       where: { email: normalizedEmail },
     });
     if (userExists) {
-      res.status(HTTP_CONFLICT).send({ message: "User already registered!" });
-      return;
+      throw new AppError("User already registered", HTTP_CONFLICT);
     }
 
     // Transaction
@@ -58,10 +54,7 @@ export const createUser = asyncHandler(
     }); // can put this in a user.service.ts create which will receive email,passwordHash tokenhash and user.id. Maybe create userCreateDetails which will have those and send it as one object
 
     if (!user || !session) {
-      res
-        .status(HTTP_BAD_REQUEST)
-        .send({ message: "Error creating user or session" });
-      return;
+      throw new AppError("Error creating user or session", HTTP_BAD_REQUEST);
     }
 
     res
@@ -83,33 +76,22 @@ export const createUser = asyncHandler(
 //* SIGN IN
 export const signinUser = asyncHandler(
   async (req: Request, res: Response<UserResponse>) => {
-    const { email, password } = req.body as AuthDto;
+    const { email, password }: AuthDto = req.body;
 
     if (!email || !password) {
-      res
-        .status(HTTP_BAD_REQUEST)
-        .json({ message: "Email and password are required" });
-      return;
+      throw new AppError("Email and password are required", HTTP_BAD_REQUEST);
     }
 
     const normalizedEmail = email.trim().toLowerCase();
     const user = await prisma.user.findUnique({
       where: { email: normalizedEmail },
     });
+    const verifiedPassword = user
+      ? await argon2.verify(user.passwordHash, password)
+      : false;
 
-    if (!user) {
-      res
-        .status(HTTP_UNAUTHORIZED)
-        .send({ message: "Incorrect email or password" });
-      return;
-    }
-
-    const verified = await argon2.verify(user.passwordHash, password);
-    if (!verified) {
-      res
-        .status(HTTP_UNAUTHORIZED)
-        .send({ message: "Incorrect email or password" });
-      return;
+    if (!user || !verifiedPassword) {
+      throw new AppError("Incorrect email or password", HTTP_UNAUTHORIZED);
     }
 
     const token = AuthService.generateSessionToken();
@@ -132,7 +114,7 @@ export const signinUser = asyncHandler(
         expires: session.expiresAt,
         path: "/",
       })
-      .send({
+      .json({
         message: "Sign in successful",
         user: { email: user.email, id: user.id },
       });
@@ -145,7 +127,7 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
 
   await prisma.session.delete({ where: { tokenHash } });
   res.clearCookie("session");
-  res.status(HTTP_SUCCESS).send({ message: "Successfully logged out" });
+  res.status(HTTP_SUCCESS).json({ message: "Successfully logged out" });
   return;
 });
 
@@ -153,6 +135,10 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
 export const checkUser = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user!;
 
-  res.status(HTTP_SUCCESS).json({ user });
+  res
+    .status(HTTP_SUCCESS)
+    .json({
+      user: { id: user.id, email: user.email, createdAt: user.createdAt },
+    });
   return;
 });

@@ -13,6 +13,7 @@ enum SecretStatus {
   EXPIRED
 }
 
+// MongoDB automatically indexes id and prisma @id maps to it so no need to index
 model User {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   email        String    @unique
@@ -20,15 +21,14 @@ model User {
   createdAt    DateTime  @default(now())
   ownedSecrets Secret[]  @relation("UserSecrets")
   sessions     Session[]
-
-  @@index([id])
 }
 
 model Secret {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  textHash      String
+  encryptedText String
+  encryptionIV  String
   receiverEmail String?
-  status        SecretStatus
+  status        SecretStatus @default(ACTIVE)
   creatorId     String       @db.ObjectId
   creator       User         @relation("UserSecrets", fields: [creatorId], references: [id])
   createdAt     DateTime     @default(now())
@@ -36,6 +36,7 @@ model Secret {
   expiresAt     DateTime
   viewedAt      DateTime?
 
+  // @@index([expiresAt], map: "expiresAt_ttl") // MongoDB will auto-delete after this date
   @@index([creatorId])
   @@index([status])
 }
@@ -48,9 +49,10 @@ model Session {
   createdAt DateTime @default(now())
   expiresAt DateTime
 
+  // @@index([expiresAt], map: "expiresAt_ttl") // Cleans up old sessions automatically
   @@index([userId])
   @@index([expiresAt])
 }
 
-// creating secrets will be done by injecting userId using an auth middleware
 //npx prisma generate
+// npx prisma db push to sync to mongodb database
