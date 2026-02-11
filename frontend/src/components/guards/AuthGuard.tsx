@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { useAuthCheck } from "../../hooks/useAuthCheck";
 import { Navigate } from "react-router-dom";
+import { useAuthCheck } from "../../hooks/authHooks/useAuthCheck";
 
 const AuthGuard = ({
   mode,

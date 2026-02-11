@@ -3,12 +3,6 @@
 import { Link } from "react-router-dom";
 
 const CreateForm = () => {
-  // const [sendEmail, setSendEmail] = useState(false);
-
-  // const handleCheckboxChange = () => {
-  //   setSendEmail((prev) => !prev); // Toggle the state
-  // };
-
   return (
     <div className="flex flex-col items-center mb-70 w-140 noto-sans">
       <h1 className="text-3xl mb-6 arvo">Create Your Secret</h1>

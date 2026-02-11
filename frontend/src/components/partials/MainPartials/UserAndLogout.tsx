@@ -1,5 +1,5 @@
-import { useAuthCheck } from "../../../hooks/useAuthCheck";
-import { useLogout } from "../../../hooks/useLogout";
+import { useAuthCheck } from "../../../hooks/authHooks/useAuthCheck";
+import { useLogout } from "../../../hooks/authHooks/useLogout";
 
 const UserAndLogout = () => {
   const { user: cachedUser, isAuthenticated } = useAuthCheck();

@@ -14,6 +14,6 @@ router.post("/create", requireAuth, createSecret);
 router.get("/my-secrets", requireAuth, getMySecrets);
 router.get("/details/:secretid", requireAuth, getSecretDetails);
 router.get("/view/:secretid", viewSecret);
-router.get("/delete/:secretid", requireAuth, deleteSecret);
+router.delete("/delete/:secretid", requireAuth, deleteSecret);
 
 export { router as secretRouter };

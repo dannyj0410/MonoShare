@@ -8,6 +8,7 @@ const SecretDetails = () => {
 
   const [copyClicked, setCopyClicked] = useState(false);
   const [eraseConfirmation, setEraseConfirmation] = useState(false);
+
   return (
     <div className="flex flex-col w-fit md:min-w-180 mx-auto pt-40 p-5 max-w-19/20">
       <div className="flex items-start w-full ml-2 relative mb-5">

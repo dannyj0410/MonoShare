@@ -1,6 +1,6 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { register } from "../lib/auth";
+import { register } from "../../lib/auth";
 
 export const useRegister = () => {
   const queryClient = useQueryClient();

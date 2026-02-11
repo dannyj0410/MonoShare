@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useRegister } from "../../../hooks/useRegister";
 import BackButton from "../../partials/BackButton";
 import ErrorPopup from "../../partials/MainPartials/ErrorPopup";
 import {
@@ -9,6 +8,7 @@ import {
   validateEmail,
   validatePassword,
 } from "../../../utils/validators/auth.validator";
+import { useRegister } from "../../../hooks/authHooks/useRegister";
 
 const CreateAccount = () => {
   const [createFormData, setCreateFormData] = useState({
@@ -16,6 +16,7 @@ const CreateAccount = () => {
     password: "",
     confirm: "",
   });
+
   const [formErrors, setFormErrors] = useState<{
     email?: string;
     password?: string;

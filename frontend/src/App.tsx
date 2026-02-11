@@ -17,15 +17,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details/:id" element={<SecretDetails />} />
-        {/* <Route
+        <Route
           path="/mysecrets"
           element={
             <AuthGuard mode="protected">
               <MySecrets />
             </AuthGuard>
           }
-        /> */}
-        <Route path="/mysecrets" element={<MySecrets />} />
+        />
         <Route
           path="/sign-in"
           element={
