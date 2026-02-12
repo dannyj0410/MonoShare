@@ -7,5 +7,11 @@ export const useSecretDetails = (id: string) => {
     queryKey: ["secret", id],
     queryFn: () => getSecretDetails(id),
     enabled: !!id,
+    gcTime: 60_000, // Erases from cache
+    staleTime: 60_000,
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: true,
   });
 };

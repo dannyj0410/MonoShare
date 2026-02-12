@@ -6,7 +6,7 @@ export const computeSecretStatus = (secret: {
 }): ComputedStatus => {
   const now = new Date();
 
-  if (secret.expiresAt <= now) return "EXPIRED";
   if (secret.viewedAt) return "VIEWED";
+  if (secret.expiresAt <= now) return "EXPIRED";
   return "ACTIVE";
 };

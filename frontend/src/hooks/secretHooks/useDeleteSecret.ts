@@ -1,11 +1,15 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteSecret } from "../../lib/secret";
+import { useNavigate } from "react-router-dom";
 
-export const useDeleteSecret = () => {
+export const useDeleteSecret = (id: string) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation({
-    mutationFn: deleteSecret,
-    onSuccess: (data) => {
-      console.log(data);
+    mutationFn: () => deleteSecret(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["secret", id] });
+      navigate(`/`);
     },
   });
 };

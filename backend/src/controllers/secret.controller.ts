@@ -96,10 +96,10 @@ export const getMySecrets = asyncHandler(
     const secrets = userWithSecrets.ownedSecrets.map((secret) => {
       let computedStatus: ComputedStatus = "ACTIVE";
 
-      if (secret.expiresAt <= now) {
-        computedStatus = "EXPIRED";
-      } else if (secret.viewedAt) {
+      if (secret.viewedAt) {
         computedStatus = "VIEWED";
+      } else if (secret.expiresAt <= now) {
+        computedStatus = "EXPIRED";
       }
 
       return {

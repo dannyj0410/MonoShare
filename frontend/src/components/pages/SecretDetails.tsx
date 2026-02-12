@@ -1,49 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BackButton from "../partials/BackButton";
-import TimelineElement from "../partials/TimelineElement";
 import { useSecretDetails } from "../../hooks/secretHooks/useSecretDetails";
 import { useParams } from "react-router-dom";
-
-const formatDate = (isoStringDate: string) => {
-  const date = new Date(isoStringDate);
-
-  return date
-    .toLocaleString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    })
-    .toUpperCase();
-};
-
-// const calcTimeRemaining = (isoStringDate: string) => {
-//   const expiration = new Date(isoStringDate);
-//   const now = new Date();
-//   const msDiff = expiration.getTime() - now.getTime();
-
-//   const totalHours = Math.floor(msDiff / (1000 * 60 * 60));
-//   const days = Math.floor(totalHours / 24);
-//   const hours = totalHours % 24;
-
-//   if (days > 0) {
-//     return `${days} day${days > 1 ? "s" : ""} ${
-//       hours > 0 ? `${hours} hour${hours > 1 ? "s" : ""}` : ""
-//     }`.trim();
-//   }
-
-//   return `${hours} hour${hours > 1 ? "s" : ""}`;
-// };
+import Timeline from "../partials/Timeline";
+import SecretTextArea from "../partials/SecretTextArea";
 
 const SecretDetails = () => {
-  const secretURL =
-    "https://monoshare.com/secret/nuxdamed47motnw65snwdvwz93l8i7r";
   const { id } = useParams();
+  const secretURL = `https://monoshare.com/secret/${id}`;
+  const created = false; //get from router state
 
   const [copyClicked, setCopyClicked] = useState(false);
-  const [eraseConfirmation, setEraseConfirmation] = useState(false);
 
   const {
     data: secret,
@@ -52,42 +19,74 @@ const SecretDetails = () => {
     // isError
   } = useSecretDetails(id!);
 
-  useEffect(() => {
-    console.log(secret);
-  });
-
   return (
-    <div className="flex flex-col w-fit md:min-w-180 mx-auto pt-40 p-5 max-w-19/20">
+    <div className="flex flex-col w-fit md:min-w-2xl mx-auto pt-40 p-5 max-w-19/20">
       {isPending ? (
         <div>Loading...</div>
       ) : (
         <>
-          <div className="flex items-start w-full ml-2 relative mb-5">
+          <div className="flex items-center justify-between w-full relative mb-5">
             <BackButton />
-          </div>
-          <div className="flex items-center gap-1 pl-5">
-            <svg
-              stroke="#02a30f"
-              fill="none"
-              strokeWidth="0"
-              viewBox="0 0 24 24"
-              height="16px"
-              width="16px"
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 sm:h-6 sm:w-6"
+            <h1
+              className={`electrolize font-bold ${secret.status === "ACTIVE" ? "text-(--main-light-blue)" : secret.status === "VIEWED" ? "text-green-500" : "text-red-500"}`}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 13l4 4L19 7"
-              ></path>
-            </svg>
-            <p className="electrolize mb-0.5 sm:mb-0 text-sm sm:text-base text-[#02a30f] tracking-tight">
-              Your secret has been created successfully!
-            </p>
+              {secret.status}
+            </h1>
           </div>
-
+          {secret.receiverEmail && (
+            <div className="flex items-center gap-1 pl-5 mb-0.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#babbbd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                id="Share--Streamline-Lucide"
+                height="14px"
+                width="14px"
+                className="h-4 w-4 sm:h-5 sm:w-6"
+              >
+                <desc>Share Streamline Icon: https://streamlinehq.com</desc>
+                <path
+                  d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-8"
+                  stroke-width="2"
+                ></path>
+                <path d="m16 6 -4 -4 -4 4" stroke-width="2"></path>
+                <path d="m12 2 0 13" stroke-width="2"></path>
+              </svg>
+              <p className="electrolize mb-0.5 sm:mb-0 text-sm sm:text-base text-(--gray) tracking-tight">
+                Was sent to:{" "}
+                <span className="font-bold text-(--main-light-blue)">
+                  {secret.receiverEmail}
+                </span>
+              </p>
+            </div>
+          )}
+          {created && (
+            <div className="flex items-center gap-1 pl-5">
+              <svg
+                stroke="#02a30f"
+                fill="none"
+                strokeWidth="0"
+                viewBox="0 0 24 24"
+                height="16px"
+                width="16px"
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 sm:h-6 sm:w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+              <p className="electrolize mb-0.5 sm:mb-0 text-sm sm:text-base text-[#02a30f] tracking-tight">
+                Your secret has been created successfully!
+              </p>
+            </div>
+          )}
           <div
             className={`flex items-center justify-center rounded-md border-3 mb-2  ${
               copyClicked
@@ -174,96 +173,8 @@ const SecretDetails = () => {
               Share this link privately with the intended recipient.
             </p>
           </div>
-          <div className="flex flex-col">
-            <div className="flex electrolize px-5 pt-7 pb-1 text-xs sm:text-sm text-(--gray)">
-              <p>You will only see this once.</p>
-            </div>
-            <textarea
-              readOnly
-              name="secret-content"
-              className="bg-(--main-dark-blue-40) text-white/85 px-4 py-3 min-h-40 max-w-180 field-sizing-content rounded-md noto-sans resize-none border-2 border-white/5 outline-0"
-              defaultValue={"Your skype password is 123123!"}
-            ></textarea>
-            <div className="flex ml-auto gap-5">
-              {eraseConfirmation && (
-                <>
-                  <button
-                    onClick={() => setEraseConfirmation(false)}
-                    className="noto-sans w-25 py-2.5 rounded-md mt-5 bg-(--main-dark-blue-40) cursor-pointer hover:bg-(--main-dark-blue-70)"
-                  >
-                    Cancel
-                  </button>
-                  <button className="noto-sans w-25 py-2.5 rounded-md mt-5 bg-red-500 cursor-pointer">
-                    Confirm
-                  </button>
-                </>
-              )}
-              {!eraseConfirmation && (
-                <button
-                  onClick={() => setEraseConfirmation(true)}
-                  className="noto-sans w-25 py-2.5 rounded-md mt-5 bg-red-500 cursor-pointer"
-                >
-                  Erase
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Timeline */}
-          {/* Seperate into partials */}
-          <div className="flex flex-col gap-2 ml-5 my-20">
-            <div className="flex items-center gap-2 mb-2">
-              <svg
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                id="History--Streamline-Unicons"
-                height="16"
-                width="16"
-              >
-                <desc>History Streamline Icon: https://streamlinehq.com</desc>
-                <path
-                  d="M8 0.15999999999999998C5.9901333333333335 0.16573333333333332 4.0592 0.9431333333333334 2.6060666666666665 2.3316666666666666V0.944c0 -0.20793333333333333 -0.08259999999999999 -0.4073333333333333 -0.22959999999999997 -0.5544C2.2294 0.24259999999999998 2.03 0.15999999999999998 1.8220666666666665 0.15999999999999998s-0.4073333333333333 0.08259999999999999 -0.5543333333333333 0.22959999999999997c-0.14706666666666665 0.14706666666666665 -0.22966666666666663 0.3464666666666667 -0.22966666666666663 0.5544v3.5279999999999996c0 0.20793333333333333 0.08259999999999999 0.4073333333333333 0.22966666666666663 0.5544 0.147 0.147 0.34639999999999993 0.22959999999999997 0.5543333333333333 0.22959999999999997h3.5279999999999996c0.20793333333333333 0 0.4073333333333333 -0.08259999999999999 0.5544 -0.22959999999999997 0.147 -0.14706666666666665 0.22959999999999997 -0.3464666666666667 0.22959999999999997 -0.5544s-0.08259999999999999 -0.4073333333333333 -0.22959999999999997 -0.5544c-0.14706666666666665 -0.147 -0.3464666666666667 -0.22959999999999997 -0.5544 -0.22959999999999997H3.4684666666666666c1.0080666666666667 -1.0534 2.3516 -1.7227333333333332 3.799666666666666 -1.8928666666666667 1.4481333333333333 -0.17006666666666664 2.9102 0.1696 4.134933333333333 0.9607333333333333 1.2247333333333332 0.7910666666666667 2.135533333333333 1.9842 2.5759333333333334 3.3741333333333334 0.44039999999999996 1.3899333333333335 0.38273333333333337 2.889866666666667 -0.16299999999999998 4.241866666666667s-1.5453999999999999 2.471733333333333 -2.8272666666666666 3.1665333333333328c-1.2818 0.6948 -2.7656666666666667 0.9212666666666666 -4.1964 0.6405333333333333 -1.4307999999999998 -0.2808 -2.719 -1.0512 -3.6432666666666664 -2.1788C2.2248666666666663 10.872399999999999 1.7223333333333333 9.457999999999998 1.728 8c0 -0.20793333333333333 -0.08259999999999999 -0.4074 -0.22959999999999997 -0.5544 -0.14706666666666665 -0.147 -0.3464666666666667 -0.22959999999999997 -0.5544 -0.22959999999999997s-0.4073333333333333 0.08259999999999999 -0.5544 0.22959999999999997C0.24259999999999998 7.592599999999999 0.15999999999999998 7.792066666666667 0.15999999999999998 8c0 1.5505999999999998 0.4598 3.0664 1.3212666666666666 4.355666666666666 0.8614666666666666 1.2892666666666666 2.085933333333333 2.294133333333333 3.518466666666667 2.887533333333333 1.4325999999999999 0.5933999999999999 3.0089333333333332 0.7486666666666666 4.529733333333333 0.4462 1.5208 -0.3026 2.917733333333333 -1.0492666666666666 4.014266666666666 -2.1456666666666666 1.0964 -1.0965333333333334 1.8431333333333333 -2.4934666666666665 2.1456666666666666 -4.014266666666666 0.30246666666666666 -1.5208 0.1472 -3.097133333333333 -0.4462 -4.529733333333333 -0.5933999999999999 -1.4325333333333332 -1.5982666666666667 -2.657 -2.887533333333333 -3.518466666666667C11.066399999999998 0.6197999999999999 9.5506 0.15999999999999998 8 0.15999999999999998Zm0 4.704c-0.20793333333333333 0 -0.4074 0.08259999999999999 -0.5544 0.22959999999999997 -0.147 0.14706666666666665 -0.22959999999999997 0.3464666666666667 -0.22959999999999997 0.5544V8c0 0.20793333333333333 0.08259999999999999 0.4073333333333333 0.22959999999999997 0.5543333333333333s0.3464666666666667 0.22966666666666663 0.5544 0.22966666666666663h1.5679999999999998c0.20793333333333333 0 0.4073333333333333 -0.08266666666666667 0.5543333333333333 -0.22966666666666663s0.22966666666666663 -0.34639999999999993 0.22966666666666663 -0.5543333333333333c0 -0.20793333333333333 -0.08266666666666667 -0.4074 -0.22966666666666663 -0.5544s-0.34639999999999993 -0.22959999999999997 -0.5543333333333333 -0.22959999999999997h-0.7839999999999999V5.648c0 -0.20793333333333333 -0.08266666666666667 -0.4073333333333333 -0.22966666666666663 -0.5544 -0.147 -0.147 -0.34639999999999993 -0.22959999999999997 -0.5543333333333333 -0.22959999999999997Z"
-                  fill="#eee"
-                  strokeWidth="0.6667"
-                ></path>
-              </svg>
-              <h1 className="electrolize">Timeline</h1>
-            </div>
-            {/* NEW */}
-            {secret.status !== "EXPIRED" && (
-              <>
-                <TimelineElement
-                  status="created"
-                  time={formatDate(secret.createdAt)}
-                  // time="28/12/2025, 8:39 PM"
-                  faded
-                />
-                <TimelineElement
-                  status="expires"
-                  time="04/01/2026, 8:39 PM"
-                  dashed
-                  // faded
-                  extraInfo="6 days 12 hours"
-                />
-                {secret.status === "VIEWED" && (
-                  <TimelineElement
-                    status="viewed"
-                    time="30/12/2025, 4:12 PM"
-                    dashed
-                    extraInfo="Erased"
-                  />
-                )}
-                {secret.status === "EXPIRED" && (
-                  <TimelineElement
-                    status="expired"
-                    time="04/01/2026, 8:39 PM"
-                    dashed
-                  />
-                )}
-              </>
-            )}
-          </div>
+          <SecretTextArea status={secret.status} />
+          <Timeline secret={secret} />
         </>
       )}
     </div>

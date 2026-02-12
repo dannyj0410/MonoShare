@@ -158,7 +158,7 @@
   }
 
   .wave-animation {
-    animation: wave-infinite 3s linear infinite alternate-reverse;
+    animation: wave-infinite 5s linear infinite alternate;
   }
 
   .animate-shake {

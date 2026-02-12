@@ -8,12 +8,13 @@ import MySecrets from "./components/pages/MySecrets";
 import Header from "./components/partials/MainPartials/Header";
 import SignIn from "./components/pages/AuthPages/SignIn";
 import CreateAccount from "./components/pages/AuthPages/CreateAccount";
+import UserAndLogout from "./components/partials/MainPartials/UserAndLogout";
 
 function App() {
   return (
     <div className="app-container">
       <Header />
-
+      <UserAndLogout />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details/:id" element={<SecretDetails />} />

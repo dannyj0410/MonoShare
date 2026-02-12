@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 MonoShare.fig
-todo.txt
+todo.md
 
 # Editor directories and files
 .vscode/*

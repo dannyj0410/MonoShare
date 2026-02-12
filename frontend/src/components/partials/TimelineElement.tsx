@@ -1,4 +1,9 @@
-type TimelineStatus = "created" | "expires" | "expired" | "viewed";
+type TimelineStatus =
+  | "created"
+  | "expires"
+  | "wouldExpire"
+  | "expired"
+  | "viewed";
 
 const TIMELINE_CONFIG = {
   created: {
@@ -9,6 +14,12 @@ const TIMELINE_CONFIG = {
   },
   expires: {
     label: "Expires in:",
+    border: "border-(--main-light-blue)",
+    fill: "bg-blue-200/20",
+    glow: "",
+  },
+  wouldExpire: {
+    label: "Would expire in:",
     border: "border-(--main-light-blue)",
     fill: "bg-blue-200/20",
     glow: "",
@@ -31,35 +42,44 @@ const WAVE_CLIP_PATH =
   "polygon(100% 100%, 0% 100% , 0.00% 15.19%, 2.00% 14.74%, 4.00% 14.16%, 6.00% 13.46%, 8.00% 12.68%, 10.00% 11.83%, 12.00% 10.95%, 14.00% 10.08%, 16.00% 9.23%, 18.00% 8.44%, 20.00% 7.74%, 22.00% 7.15%, 24.00% 6.70%, 26.00% 6.40%, 28.00% 6.26%, 30.00% 6.28%, 32.00% 6.47%, 34.00% 6.82%, 36.00% 7.32%, 38.00% 7.94%, 40.00% 8.66%, 42.00% 9.47%, 44.00% 10.33%, 46.00% 11.22%, 48.00% 12.09%, 50.00% 12.92%, 52.00% 13.68%, 54.00% 14.34%, 56.00% 14.89%, 58.00% 15.29%, 60.00% 15.54%, 62.00% 15.62%, 64.00% 15.55%, 66.00% 15.30%, 68.00% 14.90%, 70.00% 14.37%, 72.00% 13.71%, 74.00% 12.95%, 76.00% 12.12%, 78.00% 11.25%, 80.00% 10.37%, 82.00% 9.50%, 84.00% 8.69%, 86.00% 7.96%, 88.00% 7.34%, 90.00% 6.84%, 92.00% 6.48%, 94.00% 6.29%, 96.00% 6.26%, 98.00% 6.39%, 100.00% 6.69%)";
 
 const TimelineElement = ({
-  status,
+  timelinePoint,
   time,
+  timePassedPercent,
   dashed,
   faded,
   extraInfo,
 }: {
-  status: TimelineStatus;
+  timelinePoint: TimelineStatus;
   time: string;
+  timePassedPercent?: string;
   dashed?: boolean;
   faded?: boolean;
   extraInfo?: string;
 }) => {
-  const cfg = TIMELINE_CONFIG[status];
-
+  const cfg = TIMELINE_CONFIG[timelinePoint];
   const dashedBorder =
-    status === "expires"
+    timelinePoint === "expires"
       ? "border-(--gray)"
-      : status === "expired"
+      : timelinePoint === "expired"
         ? "border-red-400/60"
-        : status === "viewed"
+        : timelinePoint === "viewed"
           ? "border-(--main-light-blue)"
           : "";
 
-  const fillHeight =
-    status === "expires"
-      ? "h-[30%]"
-      : status === "expired" || status === "viewed"
-        ? "h-full"
-        : "";
+  // const fillHeight =
+  //   status === "expires"
+  //     ? "h-[50%]"
+  //     : status === "expired" || status === "viewed"
+  //       ? "h-full"
+  //       : "";
+
+  const getFillHeight = () => {
+    if (timelinePoint === "expired" || timelinePoint === "viewed")
+      return "100%";
+    if (timelinePoint === "expires" || timelinePoint === "wouldExpire")
+      return `${Number(timePassedPercent) + 5}%`;
+    return "0%";
+  };
 
   return (
     <>
@@ -69,48 +89,66 @@ const TimelineElement = ({
         />
       )}
 
-      <div className={`flex items-center gap-4 ${faded && "opacity-70"}`}>
+      <div className={`flex items-center gap-4 ${faded && "opacity-60"}`}>
         <div
           className={`relative flex h-16 w-16 items-center justify-center rounded-3xl border-4 overflow-hidden
             ${cfg.border}
             ${cfg.glow}`}
         >
-          {status !== "created" && (
+          {timelinePoint !== "created" && (
             <div
-              className={`absolute bottom-0 w-20 flex justify-center items-center ${cfg.fill} ${fillHeight}
-                ${status === "expires" && !faded && "wave-animation"}`}
+              className={`absolute bottom-0 w-20 flex justify-center items-center ${cfg.fill}
+                ${
+                  (timelinePoint === "expires" ||
+                    timelinePoint === "wouldExpire") &&
+                  Number(timePassedPercent) < 99 &&
+                  "wave-animation"
+                }`}
               style={
-                status === "expires" && !faded
-                  ? { clipPath: WAVE_CLIP_PATH }
-                  : undefined
+                (timelinePoint === "expires" ||
+                  timelinePoint === "wouldExpire") &&
+                Number(timePassedPercent) < 99
+                  ? { clipPath: WAVE_CLIP_PATH, height: getFillHeight() }
+                  : { height: getFillHeight() }
               }
             />
           )}
 
-          <Icon status={status} />
+          <Icon status={timelinePoint} />
         </div>
 
         <div className="flex flex-col">
-          {status !== "viewed" && (
+          {timelinePoint !== "viewed" && (
             <h1
               className={`electrolize ${
-                status === "expired" && "text-red-500"
+                timelinePoint === "expired" && "text-red-500"
               }`}
             >
-              {cfg.label}{" "}
-              {extraInfo && <span className="text-green-500">{extraInfo}</span>}
+              {Number(timePassedPercent) < 100 || !timePassedPercent
+                ? `${cfg.label}`
+                : "Would have"}{" "}
+              {extraInfo && (
+                <span
+                  className={`${Number(timePassedPercent) < 99 || !timePassedPercent ? "text-(--main-light-blue)" : "text-red-400/80"}`}
+                >
+                  {Number(timePassedPercent) < 100 || !timePassedPercent
+                    ? `${extraInfo}`
+                    : "Expired"}
+                </span>
+              )}
             </h1>
           )}
 
-          {status === "viewed" && (
+          {timelinePoint === "viewed" && (
             <h1 className="electrolize">
-              Viewed and <span className="text-red-500">Erased</span>
+              <span className="text-green-500">Viewed</span> and{" "}
+              <span className="text-red-500">Erased</span>
             </h1>
           )}
 
           <p
             className={`${
-              status === "expired" ? "text-red-400/50" : "text-(--gray)"
+              timelinePoint === "expired" ? "text-red-400/50" : "text-(--gray)"
             }`}
           >
             {time}
@@ -142,7 +180,7 @@ const Icon = ({ status }: { status: string }) => {
       </svg>
     );
 
-  if (status === "expires")
+  if (status === "expires" || status === "wouldExpire")
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
