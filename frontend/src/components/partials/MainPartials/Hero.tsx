@@ -16,7 +16,7 @@ const Hero = () => {
           The safest choice for discrete information sharing.
         </p>
 
-        <button className="main-btn group relative overflow-hidden border-t-2 border-transparent duration-300 hover:scale-104 hover:border-t-2 hover:border-t-[rgba(255,255,255,0.3)]">
+        <button className="main-btn group relative overflow-hidden py-3 pl-12 px-10 rounded-4xl border-t-2 border-transparent duration-300 hover:scale-104 hover:border-t-2 hover:border-t-[rgba(255,255,255,0.3)]">
           <span className="electrolize font-bold tracking-wider">Launch</span>
           <svg
             stroke="currentColor"

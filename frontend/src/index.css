@@ -62,8 +62,8 @@
   }
 
   .main-btn {
-    @apply flex items-center text-(--white) [background-image:var(--main-button-gradient)] w-fit py-3 pl-12 px-10 rounded-4xl hover:cursor-pointer;
-    background-size: 150% 100%; /* make it bigger than the button */
+    @apply flex items-center text-(--white) [background-image:var(--main-button-gradient)] w-fit  hover:cursor-pointer;
+    background-size: 150% 100%;
     background-position: 0% 0%;
     animation: btn-bg-move-gradient 6s ease-in-out infinite reverse;
   }

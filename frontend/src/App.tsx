@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/details/:id" element={<SecretDetails />} />
         <Route
-          path="/mysecrets"
+          path="/my-secrets"
           element={
             <AuthGuard mode="protected">
               <MySecrets />
