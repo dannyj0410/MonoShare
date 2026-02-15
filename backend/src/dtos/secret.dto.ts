@@ -2,12 +2,13 @@ export interface SecretBase {
   id: string;
   encryptedText: string;
   encryptionIV: string;
-  creatorId?: string;
+  creatorId?: string | null;
   createdAt: Date;
   updatedAt: Date;
   expiresAt: Date;
   viewedAt: Date | null;
   receiverEmail: string | null;
+  shareUrl: string;
 }
 
 export type ComputedStatus = "ACTIVE" | "VIEWED" | "EXPIRED";
@@ -69,5 +70,6 @@ export type getSecretDetailsResponse = WithStatus<
     | "updatedAt"
     | "expiresAt"
     | "viewedAt"
+    | "shareUrl"
   >
 >;

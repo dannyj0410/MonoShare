@@ -28,7 +28,7 @@ export const AuthService = {
   },
 
   validateAuthPayload({ email, password, confirm }: AuthDto) {
-    if (!email || !password || !confirm) {
+    if (!email || !password) {
       throw new AppError("Email and password are required", HTTP_BAD_REQUEST);
     }
 
@@ -37,7 +37,7 @@ export const AuthService = {
       throw new AppError("Invalid email", HTTP_BAD_REQUEST);
     }
 
-    if (password !== confirm) {
+    if (confirm && password !== confirm) {
       throw new AppError("Passwords do not match", HTTP_BAD_REQUEST);
     }
 

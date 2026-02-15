@@ -46,7 +46,7 @@ export const createSecret = asyncHandler(
         encryptionIV,
         receiverEmail,
         expiresAt: expiresAt!,
-        creatorId: user ? user.id : "guest",
+        creatorId: user ? user.id : null,
       },
     });
 
@@ -134,16 +134,18 @@ export const getSecretDetails = asyncHandler(
     });
 
     if (!secret) {
-      throw new AppError("Secret doesn't exist", HTTP_NOT_FOUND);
+      throw new AppError("That secret does not exist", HTTP_NOT_FOUND);
     }
 
     if (secret.creatorId !== user.id) {
       throw new AppError("Unauthorized to view this secret", HTTP_UNAUTHORIZED);
     }
 
-    res
-      .status(HTTP_SUCCESS)
-      .json({ ...secret, status: computeSecretStatus(secret) });
+    res.status(HTTP_SUCCESS).json({
+      ...secret,
+      status: computeSecretStatus(secret),
+      shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.id}`,
+    });
   },
 );
 

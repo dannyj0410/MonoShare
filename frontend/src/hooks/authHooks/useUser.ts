@@ -5,8 +5,8 @@ export const useUser = () =>
   useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    retry: false, // 401 ≠ retry
-    staleTime: 5 * 60_000, // optional
+    retry: false,
+    staleTime: 5 * 60_000,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     refetchOnReconnect: false,

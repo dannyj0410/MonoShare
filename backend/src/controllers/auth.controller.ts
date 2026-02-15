@@ -29,10 +29,12 @@ export const createUser = asyncHandler(
       where: { email: normalizedEmail },
     });
     if (userExists) {
-      throw new AppError("User already registered", HTTP_CONFLICT);
+      throw new AppError(
+        "A user with that email already exists",
+        HTTP_CONFLICT,
+      );
     }
 
-    // Transaction
     const [user, session, token] = await prisma.$transaction(async (tx) => {
       const passwordHash = await AuthService.hashPassword(password);
       const user = await tx.user.create({
@@ -78,18 +80,18 @@ export const signinUser = asyncHandler(
   async (req: Request, res: Response<UserResponse>) => {
     const { email, password }: AuthDto = req.body;
 
-    if (!email || !password) {
-      throw new AppError("Email and password are required", HTTP_BAD_REQUEST);
-    }
+    AuthService.validateAuthPayload({
+      email,
+      password,
+    });
 
     const normalizedEmail = email.trim().toLowerCase();
     const user = await prisma.user.findUnique({
       where: { email: normalizedEmail },
     });
     const verifiedPassword = user
-      ? await argon2.verify(user.passwordHash, password)
+      ? await AuthService.verifyPassword(user.passwordHash, password)
       : false;
-
     if (!user || !verifiedPassword) {
       throw new AppError("Incorrect email or password", HTTP_UNAUTHORIZED);
     }
@@ -133,12 +135,14 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
 
 //* CHECK
 export const checkUser = asyncHandler(async (req: Request, res: Response) => {
-  const user = req.user!;
+  const user = req.user;
 
-  res
-    .status(HTTP_SUCCESS)
-    .json({
-      user: { id: user.id, email: user.email, createdAt: user.createdAt },
-    });
+  if (!user) {
+    throw new AppError("Unauthorized", HTTP_BAD_REQUEST);
+  }
+
+  res.status(HTTP_SUCCESS).json({
+    user: { id: user.id, email: user.email, createdAt: user.createdAt },
+  });
   return;
 });

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import BackButton from "../../partials/BackButton";
-import ErrorPopup from "../../partials/MainPartials/ErrorPopup";
 import {
   validateEmail,
   validatePassword,
@@ -21,16 +19,9 @@ const SignIn = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    mutate: signinMutate,
-    isPending: isSigningIn,
-    error,
-    isError,
-    reset,
-  } = useSignin();
+  const { mutate: signinMutate, isPending: isSigningIn } = useSignin();
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isError) reset();
     const { name, value } = e.target;
 
     setCreateFormData({ ...createFormData, [name]: value });
@@ -54,11 +45,6 @@ const SignIn = () => {
     }));
   };
 
-  const errorMessage =
-    isError && axios.isAxiosError(error) ? error.response?.data.message : null;
-
-  const showError = !!errorMessage;
-
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -78,11 +64,6 @@ const SignIn = () => {
 
   return (
     <div className="w-screen h-screen pt-45">
-      <ErrorPopup
-        message={errorMessage}
-        showError={showError}
-        resetError={reset}
-      />
       <div className="relative flex flex-col w-md h-fit rounded-xl m-auto py-8 px-8 z-10 bg-white/3 border-gray-400/20 border">
         <div className="absolute -top-15 left-0 opacity-70 hover:opacity-100">
           <BackButton />

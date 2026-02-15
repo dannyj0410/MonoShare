@@ -60,11 +60,13 @@ const TimelineElement = ({
   const dashedBorder =
     timelinePoint === "expires"
       ? "border-(--gray)"
-      : timelinePoint === "expired"
-        ? "border-red-400/60"
-        : timelinePoint === "viewed"
-          ? "border-(--main-light-blue)"
-          : "";
+      : timelinePoint === "wouldExpire"
+        ? "border-(--gray)"
+        : timelinePoint === "expired"
+          ? "border-red-400/60"
+          : timelinePoint === "viewed"
+            ? "border-(--main-light-blue)"
+            : "";
 
   // const fillHeight =
   //   status === "expires"

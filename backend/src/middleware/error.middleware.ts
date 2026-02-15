@@ -9,13 +9,18 @@ export const globalErrorHandler = (
 ) => {
   let statusCode = err.statusCode || 500;
   let message = err.message || "Internal Server Error";
-
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     // P2025 is not found
-    if (err.code === "P2025") {
+    if (
+      err.code === "P2025" ||
+      err.code === "P2023" ||
+      err.code === "P2022" ||
+      err.code === "P2021"
+    ) {
       statusCode = 404;
       message = "The requested record was not found.";
     }
+
     // P2002 means already exists
     if (err.code === "P2002") {
       statusCode = 409;

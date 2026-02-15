@@ -23,6 +23,3 @@ export const useCreateSecret = () => {
     },
   });
 };
-
-//useCreateSecret = (setErrorMessage) is passed showError from component and can set its state just like any other function and show an error message in the component
-// which will clear after a timer using a useEffect and dependency on the message
