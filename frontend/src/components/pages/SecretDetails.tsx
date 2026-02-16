@@ -99,7 +99,7 @@ const SecretDetails = () => {
           </div>
         )}
         {/* Secret Link */}
-        {secret.status === "ACTIVE" && (
+        {created && (
           <>
             <div
               className={`flex items-center justify-center rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${

@@ -34,7 +34,7 @@ const EraseButton = ({ status }: { status: string }) => {
           onClick={() => setEraseConfirmation(true)}
           className="noto-sans w-25 py-2.5 rounded-md mt-5 bg-red-500 cursor-pointer"
         >
-          {status !== "VIEWED" ? "Erase" : "Remove"}
+          {status === "Active" ? "Erase" : "Remove"}
         </button>
       )}
     </div>

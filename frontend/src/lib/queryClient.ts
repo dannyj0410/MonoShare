@@ -5,8 +5,6 @@ export const queryClient = new QueryClient({
     queries: {
       retry: false,
       refetchOnWindowFocus: false,
-
-      // 3. Handle global error logic (optional)
       throwOnError: true,
     },
   },

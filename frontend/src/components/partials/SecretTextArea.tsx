@@ -9,7 +9,7 @@ const SecretTextArea = ({
 }) => {
   const secretText = created
     ? "Your skype password is 123123!"
-    : status === "VIEWED"
+    : status !== "Active"
       ? "empty."
       : "*!kuSL%*Ad1#oL$*RtV!&*mlUaPl^HSV@!&*$DSAlpoQm.^&";
   return (
@@ -20,7 +20,9 @@ const SecretTextArea = ({
             ? "You will only see this once."
             : status === "VIEWED"
               ? "Your secret has been viewed and erased."
-              : "Your secret is fully encrypted."}
+              : status === "EXPIRED"
+                ? "Your secret has been erased and is no longer accessible."
+                : "Your secret is fully encrypted."}
         </p>
       </div>
       <textarea
@@ -31,13 +33,13 @@ const SecretTextArea = ({
     field-sizing-content rounded-md noto-sans resize-none border-2 
     border-white/5 outline-0
     ${
-      !created && status !== "VIEWED"
+      !created && status === "ACTIVE"
         ? "text-transparent shadow-none select-none pointer-events-none"
         : "text-(--white)"
     }
   `}
         style={
-          !created && status !== "VIEWED"
+          !created && status === "ACTIVE"
             ? { textShadow: "0 0 10px rgba(255,255,255,0.8)" }
             : {}
         }
