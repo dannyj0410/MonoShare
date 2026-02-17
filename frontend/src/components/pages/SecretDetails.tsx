@@ -51,8 +51,8 @@ const SecretDetails = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="#babbbd"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               id="Share--Streamline-Lucide"
               height="14px"
               width="14px"
@@ -61,10 +61,10 @@ const SecretDetails = () => {
               <desc>Share Streamline Icon: https://streamlinehq.com</desc>
               <path
                 d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-8"
-                stroke-width="2"
+                strokeWidth="2"
               ></path>
-              <path d="m16 6 -4 -4 -4 4" stroke-width="2"></path>
-              <path d="m12 2 0 13" stroke-width="2"></path>
+              <path d="m16 6 -4 -4 -4 4" strokeWidth="2"></path>
+              <path d="m12 2 0 13" strokeWidth="2"></path>
             </svg>
             <p className="electrolize mb-0.5 sm:mb-0 text-sm sm:text-base text-(--gray) tracking-tight">
               Was sent to:{" "}

@@ -1,22 +1,32 @@
 import { Link } from "react-router-dom";
 import { forwardRef, useState } from "react";
+import {
+  validateReceiverEmail,
+  validateSecretPassword,
+  validateSecretText,
+} from "../../utils/validators/secret.validator";
 
 const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
   ({ isAuthenticated }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const [secretFormData, setSecretFormData] = useState({
-      email: "",
+      receiverEmail: "",
       secret: "",
       password: "",
       expirationTime: "7d",
     });
 
+    const [secretFormErrors, setSecretFormErrors] = useState<{
+      receiverEmail?: boolean;
+      password?: boolean;
+      secret?: boolean;
+    }>({ receiverEmail: false, password: false, secret: false });
+
     const onChangeHandler = (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
       const { name, value } = e.target;
-
       setSecretFormData({ ...secretFormData, [name]: value });
     };
 
@@ -26,9 +36,48 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
       setSecretFormData({ ...secretFormData, expirationTime: e.target.value });
     };
 
+    const onBlurHandler = (
+      e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+      const { name, value } = e.target;
+      let error: boolean;
+
+      if (name === "receiverEmail") {
+        error = validateReceiverEmail(value);
+      }
+      if (name === "password") {
+        error = validateSecretPassword(value);
+      }
+      if (name === "secret") {
+        error = validateSecretText(value);
+      }
+
+      setSecretFormErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+    };
+
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log(secretFormData);
+
+      const emailError = validateReceiverEmail(secretFormData.receiverEmail);
+      const passwordError = validateSecretPassword(secretFormData.password);
+      const secretError = validateSecretText(secretFormData.secret);
+
+      if (emailError || secretError || passwordError) {
+        setSecretFormErrors({
+          receiverEmail: emailError,
+          password: passwordError,
+          secret: secretError,
+        });
+        console.log(
+          secretFormErrors.receiverEmail ||
+            secretFormErrors.password ||
+            secretFormErrors.secret,
+        );
+        return;
+      }
     };
 
     return (
@@ -40,8 +89,13 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
         <form onSubmit={onSubmit} className="flex flex-col gap-3">
           {/* Email */}
           {isAuthenticated && (
-            <div className="input-box pl-3 w-140 group">
-              <label htmlFor="email" className="checkbox">
+            <div
+              className={`pl-3 w-140 group ${secretFormErrors.receiverEmail ? "input-box-red" : "input-box"}`}
+            >
+              <label
+                htmlFor="receiverEmail"
+                className={`${secretFormErrors.receiverEmail ? "checkbox-red" : "checkbox"}`}
+              >
                 <svg
                   stroke="currentColor"
                   fill="none"
@@ -50,10 +104,10 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                   height="16px"
                   width="16px"
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`${!secretFormData.email && "opacity-0"}`}
+                  className={`${!secretFormData.receiverEmail && "opacity-0"}`}
                   onClick={() =>
-                    secretFormData.email &&
-                    setSecretFormData({ ...secretFormData, email: "" })
+                    secretFormData.receiverEmail &&
+                    setSecretFormData({ ...secretFormData, receiverEmail: "" })
                   }
                 >
                   <path
@@ -66,13 +120,14 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
               </label>
 
               <input
-                type="email"
-                name="email"
-                id="email"
+                type="text"
+                name="receiverEmail"
+                id="receiverEmail"
                 placeholder="Send to an email"
                 className="p-3 text-xs placeholder-(--white) focus:outline-0 w-full"
-                value={secretFormData.email}
+                value={secretFormData.receiverEmail}
                 onChange={onChangeHandler}
+                onBlur={onBlurHandler}
               />
             </div>
           )}
@@ -81,19 +136,22 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
           <textarea
             name="secret"
             id="secret"
-            className="hide-scrollbar resize-none noto-sans w-full h-45 p-5 input-box text-xs placeholder-(--white) focus:outline-0"
+            className={`hide-scrollbar resize-none noto-sans w-full h-45 p-5 text-xs placeholder-(--white) focus:outline-0 ${secretFormErrors.secret ? "input-box-red" : "input-box"}`}
             placeholder="Write your secret here"
             value={secretFormData.secret}
             onChange={onChangeHandler}
+            onBlur={onBlurHandler}
           ></textarea>
 
           {/* Password, Expiration Time, Create Button */}
           <div className="flex gap-4 w-140">
             {/* Password */}
-            <div className="input-box pl-3 pr-3 w-55 group">
+            <div
+              className={`input-box pl-3 pr-3 w-50 group ${secretFormErrors.password ? "input-box-red" : "input-box"}`}
+            >
               <label
                 htmlFor="password"
-                className="checkbox mr-3"
+                className={`mr-3 ${secretFormErrors.password ? "checkbox-red" : "checkbox"}`}
                 onClick={() =>
                   secretFormData.password &&
                   setSecretFormData({ ...secretFormData, password: "" })
@@ -107,7 +165,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                   height="16px"
                   width="16px"
                   xmlns="http://www.w3.org/2000/svg"
-                  className={` ${!secretFormData.password && "opacity-0"}`}
+                  className={`${!secretFormData.password && "opacity-0"}`}
                 >
                   <path
                     strokeLinecap="round"
@@ -123,9 +181,10 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                 name="password"
                 id="password"
                 placeholder="Require Password"
-                className="text-xs placeholder-(--white) pr-2 focus:outline-0"
+                className="text-xs placeholder-(--white) w-30 pr-2 focus:outline-0"
                 value={secretFormData.password}
                 onChange={onChangeHandler}
+                onBlur={onBlurHandler}
               />
               <div>
                 <svg
@@ -301,7 +360,9 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
 
             {/* Create Button */}
 
-            <button className="group relative overflow-hidden action-btn py-2.5 px-7 border-3 rounded-xl arvo">
+            <button
+              className={`relative overflow-hidden action-btn py-2.5 px-7 border-3 rounded-xl arvo ${secretFormErrors.receiverEmail || secretFormErrors.password || secretFormErrors.secret ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
+            >
               <span>Create</span>
               <div className="absolute inset-0 flex h-full w-full justify-center transform-[skew(-12deg)_translateX(-100%)] group-hover:duration-500 group-hover:transform-[skew(-30deg)_translateX(100%)]">
                 <div className="relative h-full w-8 bg-white/20"></div>
@@ -325,7 +386,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
           ) : (
             <Link
               to="/my-secrets"
-              className="flex items-center justify-center relative overflow-hidden py-6.5 w-55 bg-[#3F67E1] cursor-pointer rounded-sm duration-300 transition-colors hover:bg-[#1f4ad6] hover:outline-(--white) hover:outline-3"
+              className="flex items-center justify-center relative overflow-hidden py-6.5 w-50 bg-[#3F67E1] cursor-pointer rounded-sm duration-300 transition-colors hover:bg-[#1f4ad6] hover:outline-(--white) hover:outline-3"
             >
               <span className="electrolize font-bold tracking-wider ml-2.5">
                 View My Secrets
