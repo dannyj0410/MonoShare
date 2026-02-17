@@ -1,5 +1,6 @@
 export interface SecretBase {
   id: string;
+  slug: string;
   encryptedText: string;
   encryptionIV: string;
   creatorId?: string | null;
@@ -32,6 +33,7 @@ export type CreateSecretResponse = {
     Pick<
       SecretBase,
       | "id"
+      | "slug"
       | "creatorId"
       | "createdAt"
       | "updatedAt"
@@ -48,7 +50,7 @@ export type MySecretsReponse = {
   ownedSecrets: WithStatus<
     Pick<
       SecretBase,
-      "id" | "createdAt" | "expiresAt" | "viewedAt" | "receiverEmail"
+      "id" | "slug" | "createdAt" | "expiresAt" | "viewedAt" | "receiverEmail"
     >
   >[];
 };
@@ -56,7 +58,12 @@ export type MySecretsReponse = {
 export type ViewSecretResponse = WithStatus<
   Pick<
     SecretBase,
-    "id" | "encryptedText" | "encryptionIV" | "receiverEmail" | "viewedAt"
+    | "id"
+    | "slug"
+    | "encryptedText"
+    | "encryptionIV"
+    | "receiverEmail"
+    | "viewedAt"
   >
 >;
 
@@ -64,6 +71,7 @@ export type getSecretDetailsResponse = WithStatus<
   Pick<
     SecretBase,
     | "id"
+    | "slug"
     | "receiverEmail"
     | "creatorId"
     | "createdAt"

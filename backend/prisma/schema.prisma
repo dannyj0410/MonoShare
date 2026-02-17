@@ -19,6 +19,7 @@ model User {
 
 model Secret {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  slug          String    @unique
   encryptedText String
   encryptionIV  String
   receiverEmail String?

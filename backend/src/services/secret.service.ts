@@ -1,3 +1,4 @@
+import { customAlphabet } from "nanoid";
 import { ONE_DAY_MS, ONE_HOUR_MS, SEVEN_DAYS_MS } from "../constants/days_ms";
 import { HTTP_BAD_REQUEST } from "../constants/http_status";
 import { CreateSecretDto, SecretExpirationOptions } from "../dtos/secret.dto";
@@ -62,5 +63,12 @@ export const SecretService = {
       }
     }
     return { success: true };
+  },
+
+  generateSlug() {
+    const alphabet =
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const nanoid = customAlphabet(alphabet, 12);
+    return nanoid();
   },
 };

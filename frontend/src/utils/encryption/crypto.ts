@@ -1,23 +1,19 @@
-// utils/crypto.ts
-
-// 1. Generate a random key (used when creating the secret)
+//Key,encrypt,decrypt
 export async function generateKey(): Promise<CryptoKey> {
   return window.crypto.subtle.generateKey(
     {
       name: "AES-GCM",
-      length: 256,
+      length: 128,
     },
     true,
     ["encrypt", "decrypt"],
   );
 }
 
-// 2. Encrypt the data
 export async function encryptSecret(text: string, key: CryptoKey) {
   const encoder = new TextEncoder();
   const encodedText = encoder.encode(text);
 
-  // The IV (Initialization Vector) must be unique for every encryption
   const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
   const encryptedData = await window.crypto.subtle.encrypt(
@@ -29,14 +25,12 @@ export async function encryptSecret(text: string, key: CryptoKey) {
     encodedText,
   );
 
-  // Return base64 strings to easily store in DB and URL
   return {
-    ciphertext: arrayBufferToBase64(encryptedData),
-    iv: arrayBufferToBase64(iv),
+    encryptedText: arrayBufferToBase64(encryptedData),
+    encryptionIV: arrayBufferToBase64(iv),
   };
 }
 
-// 3. Decrypt the data
 export async function decryptSecret(
   ciphertextB64: string,
   ivB64: string,
@@ -62,11 +56,9 @@ export async function decryptSecret(
   }
 }
 
-// --- Helpers for Base64 conversion ---
-
+//helpers
 export async function exportKeyToString(key: CryptoKey): Promise<string> {
   const exported = await window.crypto.subtle.exportKey("jwk", key);
-  // We use the "k" parameter from the JWK as the URL-safe key string
   return exported.k || "";
 }
 
@@ -78,7 +70,7 @@ export async function importKeyFromString(
     {
       kty: "oct",
       k: keyString,
-      alg: "A256GCM",
+      alg: "A128GCM",
       ext: true,
     },
     { name: "AES-GCM" },

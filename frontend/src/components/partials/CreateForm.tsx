@@ -5,6 +5,11 @@ import {
   validateSecretPassword,
   validateSecretText,
 } from "../../utils/validators/secret.validator";
+import {
+  encryptSecret,
+  exportKeyToString,
+  generateKey,
+} from "../../utils/encryption/crypto";
 
 const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
   ({ isAuthenticated }, ref) => {
@@ -28,6 +33,8 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
     ) => {
       const { name, value } = e.target;
       setSecretFormData({ ...secretFormData, [name]: value });
+      // todo: implement debounce to actually validate
+      setSecretFormErrors((prev) => ({ ...prev, [name]: undefined }));
     };
 
     const onExpirationChangeHandler = (
@@ -58,7 +65,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
       }));
     };
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       const emailError = validateReceiverEmail(secretFormData.receiverEmail);
@@ -71,13 +78,16 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
           password: passwordError,
           secret: secretError,
         });
-        console.log(
-          secretFormErrors.receiverEmail ||
-            secretFormErrors.password ||
-            secretFormErrors.secret,
-        );
         return;
       }
+      //todo: implement crypto functions
+      const urlFragmentKey = await generateKey();
+      const { encryptedText, encryptionIV } = await encryptSecret(
+        secretFormData.secret,
+        urlFragmentKey,
+      );
+      const urlKeyAsString = await exportKeyToString(urlFragmentKey);
+      console.log(urlKeyAsString, encryptedText, encryptionIV);
     };
 
     return (

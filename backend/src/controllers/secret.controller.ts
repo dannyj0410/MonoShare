@@ -39,9 +39,11 @@ export const createSecret = asyncHandler(
     });
 
     const expiresAt = SecretService.setSecretExpirationDate(timeTillExpiration);
+    const slug = SecretService.generateSlug();
 
     const secret = await prisma.secret.create({
       data: {
+        slug,
         encryptedText,
         encryptionIV,
         receiverEmail,
@@ -54,6 +56,7 @@ export const createSecret = asyncHandler(
       message: "Secret created successfully",
       secret: {
         id: secret.id,
+        slug: secret.slug,
         creatorId: secret.creatorId,
         createdAt: secret.createdAt,
         updatedAt: secret.updatedAt,
@@ -62,7 +65,7 @@ export const createSecret = asyncHandler(
         receiverEmail: secret.receiverEmail,
         status: "ACTIVE",
       },
-      shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.id}`,
+      shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.slug}`,
     });
   },
 );
@@ -78,6 +81,7 @@ export const getMySecrets = asyncHandler(
         ownedSecrets: {
           select: {
             id: true,
+            slug: true,
             createdAt: true,
             expiresAt: true,
             viewedAt: true,
@@ -117,13 +121,14 @@ export const getMySecrets = asyncHandler(
 
 export const getSecretDetails = asyncHandler(
   async (req: Request, res: Response<getSecretDetailsResponse>) => {
-    const id = req.params.secretid;
+    const slug = req.params.secretid;
     const user = req.user!;
 
     const secret = await prisma.secret.findUnique({
-      where: { id },
+      where: { slug },
       select: {
         id: true,
+        slug: true,
         receiverEmail: true,
         creatorId: true,
         createdAt: true,
@@ -144,7 +149,7 @@ export const getSecretDetails = asyncHandler(
     res.status(HTTP_SUCCESS).json({
       ...secret,
       status: computeSecretStatus(secret),
-      shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.id}`,
+      shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.slug}`,
     });
   },
 );
@@ -152,11 +157,11 @@ export const getSecretDetails = asyncHandler(
 //Could have two routes for this, one for auth and one for non-auth users and the auth users one checks if youre the owner and warns you youre about to view your own secret. Or just do what you do in auth middleware here and check if auth-ed
 export const viewSecret = asyncHandler(
   async (req: Request, res: Response<ViewSecretResponse>) => {
-    const id = req.params.secretid;
+    const slug = req.params.secretid;
 
     const updatedSecret = await prisma.$transaction(async (tx) => {
       const originalSecret = await tx.secret.findUnique({
-        where: { id },
+        where: { slug },
       });
 
       if (!originalSecret) {
@@ -171,7 +176,7 @@ export const viewSecret = asyncHandler(
 
       if (status === "EXPIRED") {
         await tx.secret.update({
-          where: { id },
+          where: { slug },
           data: {
             encryptedText: "",
             encryptionIV: "",
@@ -185,7 +190,7 @@ export const viewSecret = asyncHandler(
       }
 
       const updatedSecret = await tx.secret.update({
-        where: { id },
+        where: { slug },
         data: {
           encryptedText: "",
           encryptionIV: "",
@@ -194,6 +199,7 @@ export const viewSecret = asyncHandler(
       });
       return {
         id: updatedSecret.id,
+        slug: updatedSecret.slug,
         encryptedText: originalSecret.encryptedText,
         encryptionIV: originalSecret.encryptionIV,
         receiverEmail: originalSecret.receiverEmail,
@@ -209,16 +215,16 @@ export const viewSecret = asyncHandler(
 export const deleteSecret = asyncHandler(
   async (req: Request, res: Response) => {
     const user = req.user!;
-    const id = req.params.secretid;
+    const slug = req.params.secretid;
 
-    if (!id) {
+    if (!slug) {
       throw new AppError("Secret ID is required", HTTP_BAD_REQUEST);
     }
 
-    await prisma.secret.delete({ where: { id, creatorId: user.id } });
+    await prisma.secret.delete({ where: { slug, creatorId: user.id } });
 
     res.status(HTTP_SUCCESS).json({
-      message: id + " Deleted successfully",
+      message: slug + " Deleted successfully",
     });
   },
 );

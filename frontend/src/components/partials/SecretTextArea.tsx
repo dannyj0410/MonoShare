@@ -9,11 +9,11 @@ const SecretTextArea = ({
 }) => {
   const secretText = created
     ? "Your skype password is 123123!"
-    : status !== "Active"
+    : status !== "ACTIVE"
       ? "empty."
       : "*!kuSL%*Ad1#oL$*RtV!&*mlUaPl^HSV@!&*$DSAlpoQm.^&";
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <div className="flex electrolize px-5 pt-7 pb-1 text-xs sm:text-sm text-(--gray)">
         <p>
           {created
