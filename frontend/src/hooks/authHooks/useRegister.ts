@@ -11,8 +11,6 @@ export const useRegister = () => {
     mutationFn: register,
 
     onSuccess: (data) => {
-      // redirect, toast, set auth state, etc
-      // queryClient.invalidateQueries({ queryKey: ["user"] }); //invalidates and refresh user, basically recalling useUser hook
       queryClient.setQueryData(["user"], data.user);
     },
 
@@ -28,7 +26,6 @@ export const useRegister = () => {
       }
 
       showError(message, { redirect: false, duration: 5000 });
-
       console.log("Error detected:", { message, statusCode });
     },
   });

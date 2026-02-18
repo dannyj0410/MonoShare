@@ -1,40 +1,52 @@
 import { useEffect, useState } from "react";
 import BackButton from "../partials/BackButton";
 import { useSecretDetails } from "../../hooks/secretHooks/useSecretDetails";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Timeline from "../partials/Timeline";
 import SecretTextArea from "../partials/SecretTextArea";
 
 const SecretDetails = () => {
   const { id } = useParams();
-  const created = true; //get from router state
-
+  const location = useLocation();
+  const created = location.state?.secret.created || false;
   const [copyClicked, setCopyClicked] = useState(false);
+  useEffect(() => {
+    return () => {
+      window.history.replaceState({}, document.title);
+    };
+  }, []);
 
   useEffect(() => {
     if (!copyClicked) return;
     const timer = setTimeout(() => {
       setCopyClicked(false);
-    }, 8000);
+    }, 6000);
 
     return () => clearTimeout(timer);
   }, [copyClicked]);
 
-  const { data: secret, isPending, isError } = useSecretDetails(id!);
+  const stateSecret = location.state?.secret;
+  const hasState = !!stateSecret;
+  const {
+    data: fetchedSecret,
+    isPending,
+    isError,
+  } = useSecretDetails(id!, { enabled: !hasState });
 
-  if (isError || !secret || isPending) {
+  const secret = stateSecret || fetchedSecret;
+
+  if (!hasState && (isError || !secret || isPending)) {
     return (
-      <div className="flex flex-col mx-auto pt-40 p-5 w-185 min-w-120 max-w-210">
+      <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210">
         <div className="flex items-center justify-center">
           <div className="text-(--gray) electrolize font-bold">Loading...</div>
         </div>
       </div>
     );
   }
-
   //todo: show gray boxes if no secret instead of loading.
   return (
-    <div className="flex flex-col mx-auto pt-40 p-5 w-185 min-w-120 max-w-210">
+    <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210">
       <>
         <div className="flex items-center justify-between w-full relative mb-5">
           <BackButton />
@@ -110,7 +122,7 @@ const SecretDetails = () => {
             >
               {/*//* SECRET URL */}
               <p className="arvo text-nowrap overflow-hidden text-sm sm:text-base text- w-full h-fit px-5 bg-transparent">
-                {secret.shareUrl}#xc3m6D1Wf43GAvq8zYlY6A
+                {secret.shareUrl}#{secret.key}
               </p>
               <div
                 onClick={() => {
@@ -191,7 +203,11 @@ const SecretDetails = () => {
             </div>
           </>
         )}
-        <SecretTextArea status={secret.status} />
+        <SecretTextArea
+          status={secret.status}
+          created={created}
+          text={secret.text}
+        />
         <Timeline secret={secret} />
       </>
     </div>

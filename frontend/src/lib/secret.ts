@@ -1,7 +1,11 @@
+import type { ICreateSecretResponse } from "../interfaces/secret.interface";
 import { axiosInstance } from "./axios";
 
 export const createSecret = async (payload: object) => {
-  const res = await axiosInstance.post("/secret/create", payload);
+  const res = await axiosInstance.post<ICreateSecretResponse>(
+    "/secret/create",
+    payload,
+  );
   return res.data;
 };
 

@@ -19,7 +19,6 @@ const Home = () => {
   return (
     <main className="flex flex-col items-center">
       {/* Add animations on load */}
-
       <SpotlightGlow />
       <Hero scroll={scrollToCreateForm} />
       <CreateForm

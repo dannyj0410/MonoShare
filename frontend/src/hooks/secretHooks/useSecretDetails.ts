@@ -3,14 +3,17 @@ import { getSecretDetails } from "../../lib/secret";
 import { useError } from "../useError";
 import { useEffect } from "react";
 import { isApiError } from "../../interfaces/error.interface";
+import { useLocation } from "react-router-dom";
 
-export const useSecretDetails = (id: string) => {
+export const useSecretDetails = (id: string, options = {}) => {
   const { showError } = useError();
+  const location = useLocation();
 
   //return useQuery<Secret, Error>
   const query = useQuery({
-    queryKey: ["secret", id],
+    queryKey: ["secret", id, location.key],
     queryFn: () => getSecretDetails(id),
+    ...options,
     enabled: !!id,
     gcTime: 60_000,
     staleTime: 60_000,

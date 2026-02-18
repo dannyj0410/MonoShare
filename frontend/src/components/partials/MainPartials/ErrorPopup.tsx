@@ -1,4 +1,4 @@
-const ErrorPopup3 = ({
+const ErrorPopup = ({
   message,
   isVisible,
   onClose,
@@ -13,7 +13,7 @@ const ErrorPopup3 = ({
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-5 pointer-events-none"
-      } z-50 animate-shake fixed electrolize text-md font-bold flex items-center bottom-0 right-0 mb-10 mr-20 px-3 py-3 rounded-lg border-red-400/30 border bg-red-400/15 cursor-pointer hover:opacity-70`}
+      } z-50 animate-shake fixed electrolize text-md font-bold flex items-center bottom-0 right-0 mb-10 mr-20 px-3 py-3 rounded-lg border-red-400/30 border backdrop-blur-xs bg-red-400/15 cursor-pointer hover:opacity-70`}
       onClick={onClose}
     >
       <svg
@@ -59,4 +59,4 @@ const ErrorPopup3 = ({
   );
 };
 
-export default ErrorPopup3;
+export default ErrorPopup;

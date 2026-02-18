@@ -1,25 +1,31 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { createSecret } from "../../lib/secret";
-import { useNavigate } from "react-router-dom";
+import { isApiError } from "../../interfaces/error.interface";
+import { useError } from "../useError";
 
 export const useCreateSecret = () => {
-  const navigate = useNavigate();
+  const { showError } = useError();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createSecret,
 
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mysecrets"] });
-      navigate(`/details/${data.id}`);
     },
 
     onError: (error) => {
-      const message = axios.isAxiosError(error)
-        ? error.response?.data.message
-        : "Something went wrong";
-      alert(message);
+      let message = "Registration Error";
+      let statusCode: number | undefined;
+
+      if (isApiError(error)) {
+        message = error.response?.data?.message || message;
+        statusCode = error.response?.status;
+      } else if (error instanceof Error) {
+        message = error.message;
+      }
+
+      showError(message, { redirect: false, duration: 5000 });
+      console.log("Error detected:", { message, statusCode });
     },
   });
 };

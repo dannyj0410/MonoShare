@@ -68,13 +68,6 @@ const TimelineElement = ({
             ? "border-(--main-light-blue)"
             : "";
 
-  // const fillHeight =
-  //   status === "expires"
-  //     ? "h-[50%]"
-  //     : status === "expired" || status === "viewed"
-  //       ? "h-full"
-  //       : "";
-
   const getFillHeight = () => {
     if (timelinePoint === "expired" || timelinePoint === "viewed")
       return "100%";
@@ -131,7 +124,7 @@ const TimelineElement = ({
                 : "Would have"}{" "}
               {extraInfo && (
                 <span
-                  className={`${Number(timePassedPercent) < 99 || !timePassedPercent ? "text-(--main-light-blue)" : "text-red-400/80"}`}
+                  className={`${Number(timePassedPercent) < 90 || !timePassedPercent ? "text-(--main-light-blue)" : "text-red-400/80"}`}
                 >
                   {Number(timePassedPercent) < 100 || !timePassedPercent
                     ? `${extraInfo}`

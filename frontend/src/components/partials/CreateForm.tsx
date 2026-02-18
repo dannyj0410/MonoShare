@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { forwardRef, useState } from "react";
 import {
   validateReceiverEmail,
@@ -10,16 +10,18 @@ import {
   exportKeyToString,
   generateKey,
 } from "../../utils/encryption/crypto";
+import { useCreateSecret } from "../../hooks/secretHooks/useCreateSecret";
 
 const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
   ({ isAuthenticated }, ref) => {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
     const [secretFormData, setSecretFormData] = useState({
       receiverEmail: "",
       secret: "",
       password: "",
-      expirationTime: "7d",
+      timeTillExpiration: "7d",
     });
 
     const [secretFormErrors, setSecretFormErrors] = useState<{
@@ -27,6 +29,9 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
       password?: boolean;
       secret?: boolean;
     }>({ receiverEmail: false, password: false, secret: false });
+
+    const { mutateAsync: createSecretMutateAsync, isPending: isCreating } =
+      useCreateSecret();
 
     const onChangeHandler = (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -40,7 +45,10 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
     const onExpirationChangeHandler = (
       e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-      setSecretFormData({ ...secretFormData, expirationTime: e.target.value });
+      setSecretFormData({
+        ...secretFormData,
+        timeTillExpiration: e.target.value,
+      });
     };
 
     const onBlurHandler = (
@@ -80,14 +88,33 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
         });
         return;
       }
-      //todo: implement crypto functions
+
       const urlFragmentKey = await generateKey();
       const { encryptedText, encryptionIV } = await encryptSecret(
         secretFormData.secret,
         urlFragmentKey,
       );
       const urlKeyAsString = await exportKeyToString(urlFragmentKey);
-      console.log(urlKeyAsString, encryptedText, encryptionIV);
+
+      const res = await createSecretMutateAsync({
+        encryptedText,
+        encryptionIV,
+        timeTillExpiration: secretFormData.timeTillExpiration,
+        receiverEmail: secretFormData.receiverEmail,
+        password: secretFormData.password,
+      });
+      //todo: make this data unaccessible after changing page
+      navigate(`/details/${res.secret.slug}`, {
+        state: {
+          secret: {
+            ...res.secret,
+            created: true,
+            key: urlKeyAsString,
+            text: secretFormData.secret,
+            shareUrl: res.shareUrl,
+          },
+        },
+      });
     };
 
     return (
@@ -269,7 +296,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                   name="expiration"
                   id="expire-7d"
                   value="7d"
-                  checked={secretFormData.expirationTime === "7d"}
+                  checked={secretFormData.timeTillExpiration === "7d"}
                   onChange={onExpirationChangeHandler}
                   className="absolute opacity-0 w-0 h-0"
                 />
@@ -282,7 +309,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                     height="16px"
                     width="16px"
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`group-focus-within:opacity-100 ${secretFormData.expirationTime === "7d" ? "opacity-100" : "opacity-0"}`}
+                    className={`group-focus-within:opacity-100 ${secretFormData.timeTillExpiration === "7d" ? "opacity-100" : "opacity-0"}`}
                   >
                     <path
                       strokeLinecap="round"
@@ -305,7 +332,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                   name="expiration"
                   id="expire-1d"
                   value="1d"
-                  checked={secretFormData.expirationTime === "1d"}
+                  checked={secretFormData.timeTillExpiration === "1d"}
                   onChange={onExpirationChangeHandler}
                   className="absolute opacity-0 w-0 h-0"
                 />
@@ -318,7 +345,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                     height="16px"
                     width="16px"
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`group-focus-within:opacity-100 ${secretFormData.expirationTime === "1d" ? "opacity-100" : "opacity-0"}`}
+                    className={`group-focus-within:opacity-100 ${secretFormData.timeTillExpiration === "1d" ? "opacity-100" : "opacity-0"}`}
                   >
                     <path
                       strokeLinecap="round"
@@ -341,7 +368,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                   name="expiration"
                   id="expire-1h"
                   value="1h"
-                  checked={secretFormData.expirationTime === "1h"}
+                  checked={secretFormData.timeTillExpiration === "1h"}
                   onChange={onExpirationChangeHandler}
                   className="absolute opacity-0 w-0 h-0"
                 />
@@ -354,7 +381,7 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
                     height="16px"
                     width="16px"
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`group-focus-within:opacity-100 ${secretFormData.expirationTime === "1h" ? "opacity-100" : "opacity-0"}`}
+                    className={`group-focus-within:opacity-100 ${secretFormData.timeTillExpiration === "1h" ? "opacity-100" : "opacity-0"}`}
                   >
                     <path
                       strokeLinecap="round"
@@ -369,11 +396,10 @@ const CreateForm = forwardRef<HTMLDivElement, { isAuthenticated: boolean }>(
             </div>
 
             {/* Create Button */}
-
             <button
-              className={`relative overflow-hidden action-btn py-2.5 px-7 border-3 rounded-xl arvo ${secretFormErrors.receiverEmail || secretFormErrors.password || secretFormErrors.secret ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
+              className={`relative overflow-hidden action-btn w-26 py-2.5  border-3 rounded-xl arvo ${secretFormErrors.receiverEmail || secretFormErrors.password || secretFormErrors.secret ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
             >
-              <span>Create</span>
+              <span>{!isCreating ? "Create" : "Creating"}</span>
               <div className="absolute inset-0 flex h-full w-full justify-center transform-[skew(-12deg)_translateX(-100%)] group-hover:duration-500 group-hover:transform-[skew(-30deg)_translateX(100%)]">
                 <div className="relative h-full w-8 bg-white/20"></div>
               </div>

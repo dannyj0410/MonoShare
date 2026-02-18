@@ -3,15 +3,18 @@ import EraseButton from "./EraseButton";
 const SecretTextArea = ({
   status,
   created,
+  text,
 }: {
   status: string;
   created?: boolean;
+  text?: string;
 }) => {
-  const secretText = created
-    ? "Your skype password is 123123!"
-    : status !== "ACTIVE"
-      ? "empty."
-      : "*!kuSL%*Ad1#oL$*RtV!&*mlUaPl^HSV@!&*$DSAlpoQm.^&";
+  const secretText =
+    created && text
+      ? text
+      : status !== "ACTIVE"
+        ? "empty."
+        : "*!kuSL%GYM*Ad1#oL$*RtV!&*ml|EXAMPLE|UaPl^HSV@!&*$DJSDWAlpoQm.%#QzX;P&^";
   return (
     <div className="flex flex-col w-full">
       <div className="flex electrolize px-5 pt-7 pb-1 text-xs sm:text-sm text-(--gray)">
@@ -22,14 +25,14 @@ const SecretTextArea = ({
               ? "Your secret has been viewed and erased."
               : status === "EXPIRED"
                 ? "Your secret has been erased and is no longer accessible."
-                : "Your secret is fully encrypted."}
+                : "Your secret is fully encrypted and password protected."}
         </p>
       </div>
       <textarea
         readOnly
         name="secret-content"
         className={`
-    bg-(--main-dark-blue-40) px-4 py-3 min-h-40 max-w-180 
+    bg-(--main-dark-blue-40) px-5 py-3 min-h-40 max-w-180 
     field-sizing-content rounded-md noto-sans resize-none border-2 
     border-white/5 outline-0
     ${

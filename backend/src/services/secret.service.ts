@@ -53,13 +53,19 @@ export const SecretService = {
     }
 
     if (!this.isValidExpiration(timeTillExpiration)) {
-      throw new AppError("Invalid expiration time", HTTP_BAD_REQUEST);
+      throw new AppError(
+        "Received incorrect expiration time option",
+        HTTP_BAD_REQUEST,
+      );
     }
 
     if (receiverEmail) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(receiverEmail)) {
-        throw new AppError("Invalid receiver email", HTTP_BAD_REQUEST);
+        throw new AppError(
+          "Please enter a valid recipient email",
+          HTTP_BAD_REQUEST,
+        );
       }
     }
     return { success: true };
