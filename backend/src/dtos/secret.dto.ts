@@ -78,6 +78,5 @@ export type getSecretDetailsResponse = WithStatus<
     | "updatedAt"
     | "expiresAt"
     | "viewedAt"
-    | "shareUrl"
   >
 >;

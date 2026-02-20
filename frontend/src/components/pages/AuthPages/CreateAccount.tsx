@@ -7,19 +7,18 @@ import {
   validatePassword,
 } from "../../../utils/validators/auth.validator";
 import { useRegister } from "../../../hooks/authHooks/useRegister";
+import type { ISignUpCredentials } from "../../../interfaces/auth.interface";
 
 const CreateAccount = () => {
-  const [createFormData, setCreateFormData] = useState({
+  const [createFormData, setCreateFormData] = useState<ISignUpCredentials>({
     email: "",
     password: "",
     confirm: "",
   });
 
-  const [formErrors, setFormErrors] = useState<{
-    email?: string;
-    password?: string;
-    confirm?: string;
-  }>({});
+  const [formErrors, setFormErrors] = useState<
+    Partial<Record<keyof ISignUpCredentials, string>>
+  >({});
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -34,31 +33,26 @@ const CreateAccount = () => {
   };
 
   const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const name = e.target.name as keyof ISignUpCredentials;
+    const value = e.target.value;
     let error: string | undefined;
+    let confirmError: string | undefined;
 
-    if (name === "email") {
-      error = validateEmail(value);
-    }
-    if (name === "password") {
-      error = validatePassword(value);
-
-      if (createFormData.confirm) {
-        const confirmError = validateConfirmPassword(
-          value,
-          createFormData.confirm,
-        );
-
+    switch (name) {
+      case "email":
+        error = validateEmail(value);
+        break;
+      case "password":
+        error = validatePassword(value);
+        confirmError = validateConfirmPassword(value, createFormData.confirm);
         setFormErrors((prev) => ({
           ...prev,
-          [name]: error,
           confirm: confirmError,
         }));
-        return;
-      }
-    }
-    if (name === "confirm") {
-      error = validateConfirmPassword(createFormData.password, value);
+        break;
+      case "confirm":
+        error = validateConfirmPassword(createFormData.password, value);
+        break;
     }
 
     setFormErrors((prev) => ({

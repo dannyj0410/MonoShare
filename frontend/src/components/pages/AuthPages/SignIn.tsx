@@ -6,30 +6,33 @@ import {
   validatePassword,
 } from "../../../utils/validators/auth.validator";
 import { useSignin } from "../../../hooks/authHooks/useSignin";
+import type { ISignInCredentials } from "../../../interfaces/auth.interface";
 
 const SignIn = () => {
-  const [createFormData, setCreateFormData] = useState({
+  const [createFormData, setCreateFormData] = useState<ISignInCredentials>({
     email: "",
     password: "",
   });
-  const [formErrors, setFormErrors] = useState<{
-    email?: string;
-    password?: string;
-  }>({});
+
+  const [formErrors, setFormErrors] = useState<
+    Partial<Record<keyof ISignInCredentials, string>>
+  >({});
 
   const [showPassword, setShowPassword] = useState(false);
 
   const { mutate: signinMutate, isPending: isSigningIn } = useSignin();
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const name = e.target.name as keyof ISignInCredentials;
+    const value = e.target.value;
 
     setCreateFormData({ ...createFormData, [name]: value });
     setFormErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
   const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const name = e.target.name as keyof ISignInCredentials;
+    const value = e.target.value;
     let error: string | undefined;
 
     if (name === "email") {

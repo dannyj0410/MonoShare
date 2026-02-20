@@ -1,5 +1,5 @@
 import Hero from "../partials/MainPartials/Hero";
-import CreateForm from "../partials/CreateForm";
+import CreateSecretForm from "../partials/CreateSecretForm";
 import Features from "../partials/Features";
 import SpotlightGlow from "../partials/MainPartials/SpotlightGlow";
 import { useRef } from "react";
@@ -21,7 +21,7 @@ const Home = () => {
       {/* Add animations on load */}
       <SpotlightGlow />
       <Hero scroll={scrollToCreateForm} />
-      <CreateForm
+      <CreateSecretForm
         isAuthenticated={isAuthenticated}
         key={isAuthenticated ? "auth" : "guest"}
         ref={createFormRef}

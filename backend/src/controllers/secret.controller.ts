@@ -149,12 +149,11 @@ export const getSecretDetails = asyncHandler(
     res.status(HTTP_SUCCESS).json({
       ...secret,
       status: computeSecretStatus(secret),
-      shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.slug}`,
     });
   },
 );
 
-//Could have two routes for this, one for auth and one for non-auth users and the auth users one checks if youre the owner and warns you youre about to view your own secret. Or just do what you do in auth middleware here and check if auth-ed
+// send creatorId aswell. On frontend check if creatorId = user.id and if it is show warning
 export const viewSecret = asyncHandler(
   async (req: Request, res: Response<ViewSecretResponse>) => {
     const slug = req.params.secretid;
@@ -168,13 +167,13 @@ export const viewSecret = asyncHandler(
         throw new AppError("Secret doesn't exist", HTTP_NOT_FOUND);
       }
 
-      const status = computeSecretStatus(originalSecret);
+      const originalStatus = computeSecretStatus(originalSecret);
 
-      if (!originalSecret || status === "VIEWED") {
+      if (!originalSecret || originalStatus === "VIEWED") {
         throw new AppError("Secret has already been viewed", HTTP_NOT_FOUND);
       }
 
-      if (status === "EXPIRED") {
+      if (originalStatus === "EXPIRED") {
         await tx.secret.update({
           where: { slug },
           data: {
@@ -197,6 +196,8 @@ export const viewSecret = asyncHandler(
           viewedAt: new Date(),
         },
       });
+
+      const status = computeSecretStatus(updatedSecret);
       return {
         id: updatedSecret.id,
         slug: updatedSecret.slug,

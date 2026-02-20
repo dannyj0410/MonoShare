@@ -3,7 +3,6 @@ export interface AuthDto {
   password: string;
   confirm?: string;
 }
-
 export interface AuthBase {
   id: string;
   email: string;
@@ -12,6 +11,7 @@ export interface AuthBase {
 }
 
 export type UserDto = Pick<AuthBase, "id" | "email">;
+//todo: change request dtos to classes so you can remove any other fields someone might have added
 export type UserResponse =
   | { message: string }
   | { message: string; user: UserDto };

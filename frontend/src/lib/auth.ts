@@ -1,18 +1,20 @@
 import {
   type IUserResponse,
   type IUserCheckResponse,
-  type IUserCredentials,
+  type ISignUpCredentials,
+  type ISignInCredentials,
 } from "../interfaces/auth.interface";
 import { axiosInstance } from "./axios";
 
-export const register = async (
-  payload: IUserCredentials,
-): Promise<IUserResponse> => {
-  const res = await axiosInstance.post("/auth/register", payload);
+export const register = async (payload: ISignUpCredentials) => {
+  const res = await axiosInstance.post<IUserResponse>(
+    "/auth/register",
+    payload,
+  );
   return res.data;
 };
 
-export const signin = async (payload: IUserCredentials) => {
+export const signin = async (payload: ISignInCredentials) => {
   const res = await axiosInstance.post<IUserResponse>("/auth/signin", payload);
   return res.data;
 };

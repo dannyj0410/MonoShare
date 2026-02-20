@@ -1,12 +1,16 @@
 export interface IUser {
   email: string;
   id: string;
-  confirm?: string;
+  createdAt?: string;
 }
 
-export interface IUserCredentials {
+export interface ISignInCredentials {
   email: string;
   password: string;
+}
+
+export interface ISignUpCredentials extends ISignInCredentials {
+  confirm: string;
 }
 
 export interface IUserCheckResponse {
@@ -15,5 +19,5 @@ export interface IUserCheckResponse {
 
 export interface IUserResponse {
   message: string;
-  user: IUserCheckResponse;
+  user: IUser;
 }
