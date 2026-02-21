@@ -15,7 +15,7 @@ export const createSecret = async (payload: object) => {
 };
 
 export const getMySecrets = async () => {
-  const res = await axiosInstance.get<IMySecretsResponse>("/secret/my-secret");
+  const res = await axiosInstance.get<IMySecretsResponse>("/secret/my-secrets");
   return res.data;
 };
 

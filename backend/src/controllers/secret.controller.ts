@@ -107,7 +107,10 @@ export const getMySecrets = asyncHandler(
       }
 
       return {
-        ...secret,
+        id: secret.id,
+        slug: secret.slug,
+        receiverEmail: secret.receiverEmail,
+        createdAt: secret.createdAt,
         status: computedStatus,
       };
     });

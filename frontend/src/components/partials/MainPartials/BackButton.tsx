@@ -1,8 +1,18 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BackButton = () => {
+  const navigation = useNavigate();
   return (
-    <Link to="/" className="group flex items-center noto-sans font-bold p-2">
+    <button
+      className="group flex items-center noto-sans font-bold p-2 cursor-pointer"
+      onClick={() => {
+        if (window.history.length > 1) {
+          navigation(-1);
+        } else {
+          navigation("/");
+        }
+      }}
+    >
       <svg
         stroke="currentColor"
         fill="currentColor"
@@ -18,7 +28,7 @@ const BackButton = () => {
       <p className="transition-transform duration-300 group-hover:-translate-x-1">
         Return
       </p>
-    </Link>
+    </button>
   );
 };
 

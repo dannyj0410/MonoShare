@@ -37,5 +37,8 @@ export interface IViewSecretResponse extends Omit<
 
 export interface IMySecretsResponse {
   userId: string;
-  ownedSecrets: Omit<ISecret, "creatorId" | "updatedAt">[];
+  ownedSecrets: Omit<
+    ISecret,
+    "creatorId" | "updatedAt" | "viewedAt" | "expiresAt"
+  >[];
 }

@@ -9,7 +9,8 @@ export const useDeleteSecret = (id: string) => {
     mutationFn: () => deleteSecret(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["secret", id] });
-      navigate(`/`);
+      queryClient.invalidateQueries({ queryKey: ["mysecrets"] });
+      navigate(-1);
     },
   });
 };

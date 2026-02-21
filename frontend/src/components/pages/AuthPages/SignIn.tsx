@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import BackButton from "../../partials/BackButton";
+import BackButton from "../../partials/MainPartials/BackButton";
 import {
   validateEmail,
   validatePassword,

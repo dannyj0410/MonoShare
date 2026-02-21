@@ -1,37 +1,45 @@
-// import MySecretsDeletePopup from "../partials/MySecretsPartials/MySecretsDeletePopup";
-import BackButton from "../partials/BackButton";
-import UserAndLogout from "../partials/MainPartials/UserAndLogout";
+import { useMySecrets } from "../../hooks/secretHooks/useMySecrets";
+import BackButton from "../partials/MainPartials/BackButton";
+import ConfirmationPopup from "../partials/MainPartials/ConfirmationPopup";
 import MySecretsEmptyList from "../partials/MySecretsPartials/MySecretsEmptyList";
 import MySecretsItem from "../partials/MySecretsPartials/MySecretsItem";
+import { useMemo, useState } from "react";
 
 const MySecrets = () => {
-  const details1 = {
-    status: "active",
-    id: "nuxda",
-    date: "17m ago",
-    recipientEmail: "j*@g****.com",
-    passwordProtected: true,
-  };
-  const details2 = {
-    status: "viewed",
-    id: "milgb",
-    date: "5d ago",
-  };
-  const details3 = {
-    status: "active",
-    id: "zbnum",
-    date: "1 month ago",
-    passwordProtected: true,
-  };
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedSecret, setSelectedSecret] = useState<string>("");
+  const { data: mySecrets, isPending } = useMySecrets();
+
+  const activeSecrets = useMemo(
+    () => mySecrets?.ownedSecrets.filter((s) => s.status === "ACTIVE") || [],
+    [mySecrets],
+  );
+  const viewedSecrets = useMemo(
+    () => mySecrets?.ownedSecrets.filter((s) => s.status === "VIEWED") || [],
+    [mySecrets],
+  );
+  const expiredSecrets = useMemo(
+    () => mySecrets?.ownedSecrets.filter((s) => s.status === "EXPIRED") || [],
+    [mySecrets],
+  );
+
+  if (!mySecrets || isPending) {
+    return <></>;
+  }
+
   return (
     <main className="min-h-screen w-screen pb-10 bg-[#01090f]">
-      <UserAndLogout />
-      {/* <MySecretsDeletePopup /> */}
+      <ConfirmationPopup
+        option="Erase"
+        secret={selectedSecret}
+        isOpen={isDeleting}
+        setOpen={setIsDeleting}
+      />
       <div className="flex flex-col justify-center items-center">
         <h1 className="mt-20 electrolize font-bold">My Secrets</h1>
 
-        {/* //*Active */}
-        <section className="relative flex flex-col min-w-201">
+        {/*//* Active */}
+        <section className="relative flex flex-col w-200">
           <div className="absolute -left-40 top-16.75 opacity-70 hover:opacity-100">
             <BackButton />
           </div>
@@ -55,18 +63,29 @@ const MySecrets = () => {
                 Active
               </h1>
             </div>
-            <p className="text-(--main-light-blue)">2</p>
+            <p className="text-(--main-light-blue)">{activeSecrets.length}</p>
           </div>
           {/* //*Active Secrets */}
           <ul>
-            <MySecretsItem details={details1} />
-            <MySecretsItem details={details3} />
-            {/* <MySecretsEmptyList type="Active" /> */}
+            {activeSecrets.length > 0 ? (
+              activeSecrets.map((secret) => {
+                return (
+                  <MySecretsItem
+                    key={secret.slug}
+                    secret={secret}
+                    setSelectedSecret={setSelectedSecret}
+                    setIsDeleting={setIsDeleting}
+                  />
+                );
+              })
+            ) : (
+              <MySecretsEmptyList type="Active" />
+            )}
           </ul>
         </section>
 
-        {/* //!Viewed */}
-        <section className="flex flex-col min-w-201">
+        {/*//// Viewed */}
+        <section className="flex flex-col w-200">
           <div className="flex items-center h-fit justify-between mt-10 mb-2 w-190">
             <div className="flex items-center gap-2">
               <svg
@@ -89,18 +108,28 @@ const MySecrets = () => {
                 Viewed
               </h1>
             </div>
-            <p className="text-green-500">1</p>
+            <p className="text-green-500">{viewedSecrets.length}</p>
           </div>
-          {/* //!Viewed Secrets */}
-          {/* BROOM/BRUSH ICON INSTEAD OF ERASER */}
           <ul>
-            <MySecretsItem details={details2} />
-            {/* <MySecretsEmptyList type="Viewed" /> */}
+            {viewedSecrets.length > 0 ? (
+              viewedSecrets.map((secret) => {
+                return (
+                  <MySecretsItem
+                    key={secret.slug}
+                    secret={secret}
+                    setSelectedSecret={setSelectedSecret}
+                    setIsDeleting={setIsDeleting}
+                  />
+                );
+              })
+            ) : (
+              <MySecretsEmptyList type="Viewed" />
+            )}
           </ul>
         </section>
 
-        {/* Expired */}
-        <section className="flex flex-col min-w-201">
+        {/*//! Expired */}
+        <section className="flex flex-col w-200">
           <div className="flex items-center h-fit justify-between mt-10 mb-2 w-190">
             <div className="flex items-center gap-2">
               <svg
@@ -130,12 +159,23 @@ const MySecrets = () => {
                 Expired
               </h1>
             </div>
-            <p className="text-red-500">0</p>
+            <p className="text-red-500">{expiredSecrets.length}</p>
           </div>
-          {/* Expired Secrets */}
           <ul>
-            {/* <MySecretsItem details={details3} /> */}
-            <MySecretsEmptyList type="Expired" />
+            {expiredSecrets.length > 0 ? (
+              expiredSecrets.map((secret) => {
+                return (
+                  <MySecretsItem
+                    key={secret.slug}
+                    secret={secret}
+                    setSelectedSecret={setSelectedSecret}
+                    setIsDeleting={setIsDeleting}
+                  />
+                );
+              })
+            ) : (
+              <MySecretsEmptyList type="Expired" />
+            )}
           </ul>
         </section>
       </div>

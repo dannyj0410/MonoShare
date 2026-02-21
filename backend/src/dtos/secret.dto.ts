@@ -48,10 +48,7 @@ export type CreateSecretResponse = {
 export type MySecretsReponse = {
   userId: string;
   ownedSecrets: WithStatus<
-    Pick<
-      SecretBase,
-      "id" | "slug" | "createdAt" | "expiresAt" | "viewedAt" | "receiverEmail"
-    >
+    Pick<SecretBase, "id" | "slug" | "createdAt" | "receiverEmail">
   >[];
 };
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BackButton from "../partials/BackButton";
+import BackButton from "../partials/MainPartials/BackButton";
 import { useSecretDetails } from "../../hooks/secretHooks/useSecretDetails";
 import { useLocation, useParams } from "react-router-dom";
 import Timeline from "../partials/Timeline";
@@ -56,19 +56,39 @@ const SecretDetails = () => {
             {secret.status}
           </h1>
         </div>
+        <div className="flex items-center gap-1 pl-5.5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="-0.5 -0.5 16 16"
+            fill="none"
+            id="Key-Line--Streamline-Majesticons"
+            height="20"
+            width="20"
+            className="stroke-(--gray)"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9.375 9.375a3.75 3.75 0 1 0 -3.5893750000000004 -2.6606249999999996L5.625 6.875l-3.566875 3.566875a0.625 0.625 0 0 0 -0.18312499999999998 0.44187499999999996V12.5a0.625 0.625 0 0 0 0.625 0.625h1.25a0.625 0.625 0 0 0 0.625 -0.625 0.625 0.625 0 0 1 0.625 -0.625 0.625 0.625 0 0 0 0.625 -0.625 0.625 0.625 0 0 1 0.625 -0.625h0.36624999999999996a0.625 0.625 0 0 0 0.44187499999999996 -0.18312499999999998L8.125 9.375l0.16062500000000002 -0.16062500000000002A3.7493749999999997 3.7493749999999997 0 0 0 9.375 9.375zm1.25 -3.75a1.25 1.25 0 0 0 -1.25 -1.25"
+              strokeWidth="1.5"
+            ></path>
+          </svg>
+          <p className="mb-0.5 text-sm text-(--white) font-bold electrolize tracking-widest">
+            {secret.slug.slice(0, 5).toLowerCase()}
+          </p>
+        </div>
         {secret.receiverEmail && (
           <div className="flex items-center gap-1 pl-5 mb-0.5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#babbbd"
               strokeLinecap="round"
               strokeLinejoin="round"
               id="Share--Streamline-Lucide"
               height="14px"
               width="14px"
-              className="h-4 w-4 sm:h-5 sm:w-6"
+              className="h-4 w-4 sm:h-5 sm:w-6 stroke-(--gray)"
             >
               <desc>Share Streamline Icon: https://streamlinehq.com</desc>
               <path
