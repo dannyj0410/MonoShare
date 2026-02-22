@@ -1,6 +1,8 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import { calcTimePastCreation } from "../../../utils/time/calcTimePastCreation";
+import type { UseMutateFunction } from "@tanstack/react-query";
+import type { DeleteSecretResponse } from "../../../interfaces/secret.interface";
 
 type MySecretsItemProps = {
   status: string;
@@ -13,10 +15,19 @@ const MySecretsItem = ({
   secret,
   setSelectedSecret,
   setIsDeleting,
+  deleteSecretMutate,
+  pendingDelete,
 }: {
   secret: MySecretsItemProps;
   setSelectedSecret: Dispatch<SetStateAction<string>>;
   setIsDeleting: Dispatch<SetStateAction<boolean>>;
+  deleteSecretMutate: UseMutateFunction<
+    DeleteSecretResponse,
+    Error,
+    void,
+    unknown
+  >;
+  pendingDelete: boolean;
 }) => {
   const [isCleaningUp, setIsCleaningUp] = useState(false);
 
@@ -28,8 +39,6 @@ const MySecretsItem = ({
 
     return () => clearTimeout(resetTimer);
   }, [isCleaningUp]);
-
-  //todo: deletes, you will need useDelete here for checkmark, so pass it through from parent to this component and to confirm popup as its actionfunction.
 
   return (
     <Link to={`/details/${secret.slug}`}>
@@ -166,7 +175,11 @@ const MySecretsItem = ({
             e.stopPropagation();
           }}
         >
-          {secret.status === "ACTIVE" ? (
+          {pendingDelete ? (
+            // spinner
+            "O"
+          ) : secret.status === "ACTIVE" ? (
+            // eraser
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -188,6 +201,7 @@ const MySecretsItem = ({
               ></path>
             </svg>
           ) : isCleaningUp ? (
+            // checkmark confirmation
             <svg
               stroke="currentColor"
               fill="none"
@@ -195,6 +209,10 @@ const MySecretsItem = ({
               height="20px"
               width="20px"
               xmlns="http://www.w3.org/2000/svg"
+              onClick={() => {
+                setSelectedSecret(secret.slug);
+                deleteSecretMutate();
+              }}
             >
               <path
                 strokeLinecap="round"
@@ -211,13 +229,17 @@ const MySecretsItem = ({
               />
             </svg>
           ) : (
+            // broom
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
               id="Broom-Fill--Streamline-Mingcute-Fill"
               height="20"
               width="20"
-              onClick={() => setIsCleaningUp(true)}
+              onClick={() => {
+                setIsCleaningUp(true);
+                setIsDeleting(false);
+              }}
             >
               <desc>Broom Fill Streamline Icon: https://streamlinehq.com</desc>
               <g fill="none" fillRule="evenodd">

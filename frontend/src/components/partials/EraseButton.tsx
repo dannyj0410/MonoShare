@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 const EraseButton = ({ status }: { status: string }) => {
   const [eraseConfirmation, setEraseConfirmation] = useState(false);
   const { id } = useParams();
-  const { mutate: deleteSecretMutate, isPending } = useDeleteSecret(id!);
+  const { mutate: deleteSecretMutate, isPending } = useDeleteSecret(id!, true);
 
   return (
     <div className="flex ml-auto gap-5">

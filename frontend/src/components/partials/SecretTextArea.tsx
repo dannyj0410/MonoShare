@@ -29,9 +29,12 @@ const SecretTextArea = ({
                 ? "Your secret has been erased and is no longer accessible."
                 : `Your secret is fully encrypted${passwordProtected ? " and" : "."}`}
           <span className="font-bold">
-            {passwordProtected && status === "ACTIVE" && " password protected"}
+            {passwordProtected &&
+              status === "ACTIVE" &&
+              !created &&
+              " password protected"}
           </span>
-          {passwordProtected && "."}
+          {passwordProtected && !created && "."}
         </p>
       </div>
       <textarea

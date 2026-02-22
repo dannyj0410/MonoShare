@@ -1,3 +1,4 @@
+import { useDeleteSecret } from "../../hooks/secretHooks/useDeleteSecret";
 import { useMySecrets } from "../../hooks/secretHooks/useMySecrets";
 import BackButton from "../partials/MainPartials/BackButton";
 import ConfirmationPopup from "../partials/MainPartials/ConfirmationPopup";
@@ -7,8 +8,10 @@ import { useMemo, useState } from "react";
 
 const MySecrets = () => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const [selectedSecret, setSelectedSecret] = useState<string>("");
-  const { data: mySecrets, isPending } = useMySecrets();
+  const [selectedSecretId, setSelectedSecretId] = useState<string>("");
+  const { data: mySecrets, isPending: pendingSecrets } = useMySecrets();
+  const { mutate: deleteSecretMutate, isPending: deletePending } =
+    useDeleteSecret(selectedSecretId);
 
   const activeSecrets = useMemo(
     () => mySecrets?.ownedSecrets.filter((s) => s.status === "ACTIVE") || [],
@@ -23,7 +26,7 @@ const MySecrets = () => {
     [mySecrets],
   );
 
-  if (!mySecrets || isPending) {
+  if (!mySecrets || pendingSecrets) {
     return <></>;
   }
 
@@ -31,19 +34,22 @@ const MySecrets = () => {
     <main className="min-h-screen w-screen pb-10 bg-[#01090f]">
       <ConfirmationPopup
         option="Erase"
-        secret={selectedSecret}
+        secret={selectedSecretId}
         isOpen={isDeleting}
         setOpen={setIsDeleting}
+        actionFunction={deleteSecretMutate}
+        actionPending={deletePending}
       />
-      <div className="flex flex-col justify-center items-center">
+      /
+      <div className="flex flex-col justify-center items-center gap-20">
         <h1 className="mt-20 electrolize font-bold">My Secrets</h1>
 
         {/*//* Active */}
         <section className="relative flex flex-col w-200">
-          <div className="absolute -left-40 top-16.75 opacity-70 hover:opacity-100">
+          <div className="absolute -left-40 -top-3.25 opacity-70 hover:opacity-100">
             <BackButton />
           </div>
-          <div className="flex items-center h-fit mt-20 justify-between mb-2 w-190">
+          <div className="flex items-center h-fit justify-between mb-2 w-3xl border-b-cyan-500/7 border-b pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]">
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,8 +79,10 @@ const MySecrets = () => {
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    setSelectedSecret={setSelectedSecret}
+                    setSelectedSecret={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
+                    deleteSecretMutate={deleteSecretMutate}
+                    pendingDelete={deletePending}
                   />
                 );
               })
@@ -86,7 +94,7 @@ const MySecrets = () => {
 
         {/*//// Viewed */}
         <section className="flex flex-col w-200">
-          <div className="flex items-center h-fit justify-between mt-10 mb-2 w-190">
+          <div className="flex items-center h-fit justify-between mb-2 w-3xl border-b-green-500/7 border-b pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]">
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -117,8 +125,10 @@ const MySecrets = () => {
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    setSelectedSecret={setSelectedSecret}
+                    setSelectedSecret={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
+                    deleteSecretMutate={deleteSecretMutate}
+                    pendingDelete={deletePending}
                   />
                 );
               })
@@ -130,7 +140,7 @@ const MySecrets = () => {
 
         {/*//! Expired */}
         <section className="flex flex-col w-200">
-          <div className="flex items-center h-fit justify-between mt-10 mb-2 w-190">
+          <div className="flex items-center h-fit justify-between mb-2 w-3xl border-b-red-500/7 border-b pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]">
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -168,8 +178,10 @@ const MySecrets = () => {
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    setSelectedSecret={setSelectedSecret}
+                    setSelectedSecret={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
+                    deleteSecretMutate={deleteSecretMutate}
+                    pendingDelete={deletePending}
                   />
                 );
               })

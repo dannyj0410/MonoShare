@@ -1,12 +1,15 @@
 export type SecretStatus = "ACTIVE" | "VIEWED" | "EXPIRED";
 export type ExpirationTimeOptions = "7d" | "1d" | "1h";
+export type DeleteSecretResponse = {
+  message: string;
+};
 
 export interface ISecret {
   id: string;
   slug: string;
   status: SecretStatus;
   receiverEmail: string | null;
-  passwordProtected: string | null;
+  passwordProtected: boolean;
   creatorId: string | null;
   createdAt: string;
   updatedAt: string;

@@ -1,4 +1,6 @@
+import type { UseMutateFunction } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
+import type { DeleteSecretResponse } from "../../../interfaces/secret.interface";
 
 type optionsType = "View" | "Erase";
 const options: Record<
@@ -35,11 +37,15 @@ const ConfirmationPopup = ({
   secret,
   isOpen,
   setOpen,
+  actionFunction,
+  actionPending,
 }: {
   option: optionsType;
   secret: string;
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  actionFunction: UseMutateFunction<DeleteSecretResponse, Error, void, unknown>;
+  actionPending: boolean;
 }) => {
   return (
     <div
@@ -77,8 +83,12 @@ const ConfirmationPopup = ({
           </button>
           <button
             className={`${options[option].bgClr} ${options[option].hvrBgClr} noto-sans rounded-lg py-2 px-15 cursor-pointer transition-colors duration-100`}
+            onClick={async () => {
+              await actionFunction();
+              setOpen(false);
+            }}
           >
-            {option}
+            {actionPending && option === "Erase" ? "Erasing" : option}
           </button>
         </div>
       </div>
