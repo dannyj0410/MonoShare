@@ -9,6 +9,7 @@ export interface SecretBase {
   expiresAt: Date;
   viewedAt: Date | null;
   receiverEmail: string | null;
+  passwordProtected: boolean;
   shareUrl: string;
 }
 
@@ -21,6 +22,7 @@ export interface CreateSecretDto {
   encryptionIV: string;
   timeTillExpiration: SecretExpirationOptions;
   receiverEmail?: string;
+  password?: string;
 }
 
 type WithStatus<T> = T & {
@@ -40,6 +42,7 @@ export type CreateSecretResponse = {
       | "expiresAt"
       | "viewedAt"
       | "receiverEmail"
+      | "passwordProtected"
     >
   >;
   shareUrl: string;
@@ -48,7 +51,10 @@ export type CreateSecretResponse = {
 export type MySecretsReponse = {
   userId: string;
   ownedSecrets: WithStatus<
-    Pick<SecretBase, "id" | "slug" | "createdAt" | "receiverEmail">
+    Pick<
+      SecretBase,
+      "id" | "slug" | "createdAt" | "receiverEmail" | "passwordProtected"
+    >
   >[];
 };
 
@@ -75,5 +81,6 @@ export type getSecretDetailsResponse = WithStatus<
     | "updatedAt"
     | "expiresAt"
     | "viewedAt"
+    | "passwordProtected"
   >
 >;

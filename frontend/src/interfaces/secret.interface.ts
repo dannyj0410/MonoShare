@@ -6,6 +6,7 @@ export interface ISecret {
   slug: string;
   status: SecretStatus;
   receiverEmail: string | null;
+  passwordProtected: string | null;
   creatorId: string | null;
   createdAt: string;
   updatedAt: string;

@@ -28,6 +28,7 @@ export const createSecret = asyncHandler(
       encryptionIV,
       timeTillExpiration,
       receiverEmail,
+      password,
     }: CreateSecretDto = req.body;
     const user = req.user;
 
@@ -36,8 +37,10 @@ export const createSecret = asyncHandler(
       encryptionIV,
       timeTillExpiration,
       receiverEmail,
+      password,
     });
 
+    const passwordHash = await SecretService.hashPassword(password);
     const expiresAt = SecretService.setSecretExpirationDate(timeTillExpiration);
     const slug = SecretService.generateSlug();
 
@@ -46,11 +49,14 @@ export const createSecret = asyncHandler(
         slug,
         encryptedText,
         encryptionIV,
-        receiverEmail,
+        receiverEmail: receiverEmail ? receiverEmail : null,
+        passwordHash,
         expiresAt: expiresAt!,
         creatorId: user ? user.id : null,
       },
     });
+
+    const passwordProtected = !!secret.passwordHash;
 
     res.status(HTTP_CREATED).json({
       message: "Secret created successfully",
@@ -63,6 +69,7 @@ export const createSecret = asyncHandler(
         expiresAt: secret.expiresAt,
         viewedAt: secret.viewedAt,
         receiverEmail: secret.receiverEmail,
+        passwordProtected,
         status: "ACTIVE",
       },
       shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.slug}`,
@@ -86,6 +93,7 @@ export const getMySecrets = asyncHandler(
             expiresAt: true,
             viewedAt: true,
             receiverEmail: true,
+            passwordHash: true,
           },
         },
       },
@@ -112,6 +120,7 @@ export const getMySecrets = asyncHandler(
         receiverEmail: secret.receiverEmail,
         createdAt: secret.createdAt,
         status: computedStatus,
+        passwordProtected: !!secret.passwordHash,
       };
     });
 
@@ -138,6 +147,7 @@ export const getSecretDetails = asyncHandler(
         updatedAt: true,
         expiresAt: true,
         viewedAt: true,
+        passwordHash: true,
       },
     });
 
@@ -149,9 +159,12 @@ export const getSecretDetails = asyncHandler(
       throw new AppError("Unauthorized to view this secret", HTTP_UNAUTHORIZED);
     }
 
+    const { passwordHash, ...secretToReturn } = secret;
+
     res.status(HTTP_SUCCESS).json({
-      ...secret,
+      ...secretToReturn,
       status: computeSecretStatus(secret),
+      passwordProtected: !!secret.passwordHash,
     });
   },
 );
@@ -160,6 +173,7 @@ export const getSecretDetails = asyncHandler(
 export const viewSecret = asyncHandler(
   async (req: Request, res: Response<ViewSecretResponse>) => {
     const slug = req.params.secretid;
+    // get password from body, if invalid compare throw apperror and redirect on frontend
 
     const updatedSecret = await prisma.$transaction(async (tx) => {
       const originalSecret = await tx.secret.findUnique({

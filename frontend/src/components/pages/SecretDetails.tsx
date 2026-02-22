@@ -227,6 +227,7 @@ const SecretDetails = () => {
           status={secret.status}
           created={created}
           text={secret.text}
+          passwordProtected={secret.passwordProtected}
         />
         <Timeline secret={secret} />
       </>

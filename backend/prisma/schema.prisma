@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// MongoDB automatically indexes id and prisma @id maps to it so no need to index
 model User {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   email        String    @unique
@@ -23,6 +22,7 @@ model Secret {
   encryptedText String
   encryptionIV  String
   receiverEmail String?
+  passwordHash  String?
   creatorId     String?   @db.ObjectId
   creator       User?     @relation("UserSecrets", fields: [creatorId], references: [id])
   createdAt     DateTime  @default(now())
@@ -30,7 +30,7 @@ model Secret {
   expiresAt     DateTime
   viewedAt      DateTime?
 
-  // @@index([expiresAt], map: "expiresAt_ttl") // MongoDB will auto-delete after this date
+  // @@index([expiresAt], map: "expiresAt_ttl") // MongoDB will auto delete after this date
   @@index([creatorId])
 }
 

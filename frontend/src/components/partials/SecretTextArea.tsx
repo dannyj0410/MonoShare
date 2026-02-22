@@ -4,10 +4,12 @@ const SecretTextArea = ({
   status,
   created,
   text,
+  passwordProtected,
 }: {
   status: string;
   created?: boolean;
   text?: string;
+  passwordProtected: boolean;
 }) => {
   const secretText =
     created && text
@@ -25,7 +27,11 @@ const SecretTextArea = ({
               ? "Your secret has been viewed and erased."
               : status === "EXPIRED"
                 ? "Your secret has been erased and is no longer accessible."
-                : "Your secret is fully encrypted and password protected."}
+                : `Your secret is fully encrypted${passwordProtected ? " and" : "."}`}
+          <span className="font-bold">
+            {passwordProtected && status === "ACTIVE" && " password protected"}
+          </span>
+          {passwordProtected && "."}
         </p>
       </div>
       <textarea

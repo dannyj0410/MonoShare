@@ -1,3 +1,4 @@
+import argon2 from "argon2";
 import { customAlphabet } from "nanoid";
 import { ONE_DAY_MS, ONE_HOUR_MS, SEVEN_DAYS_MS } from "../constants/days_ms";
 import { HTTP_BAD_REQUEST } from "../constants/http_status";
@@ -25,6 +26,7 @@ export const SecretService = {
     encryptionIV,
     timeTillExpiration,
     receiverEmail,
+    password,
   }: CreateSecretDto) {
     if (!encryptedText) {
       throw new AppError("Secret text field cannot be empty", HTTP_BAD_REQUEST);
@@ -68,7 +70,26 @@ export const SecretService = {
         );
       }
     }
+
+    if (password) {
+      if (password.length < 3) {
+        throw new AppError(
+          "Password must be atleast 3 characters long.",
+          HTTP_BAD_REQUEST,
+        );
+      }
+    }
     return { success: true };
+  },
+
+  async hashPassword(password: string | undefined) {
+    if (!password) return null;
+    const passwordHash = await argon2.hash(password);
+    return passwordHash;
+  },
+
+  async verifyPassword(hash: string, password: string): Promise<boolean> {
+    return argon2.verify(hash, password);
   },
 
   generateSlug() {
