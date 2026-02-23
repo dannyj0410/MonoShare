@@ -2,6 +2,7 @@ import type {
   ICreateSecretResponse,
   IMySecretsResponse,
   ISecret,
+  ISecretMetadata,
   IViewSecretResponse,
 } from "../interfaces/secret.interface";
 import { axiosInstance } from "./axios";
@@ -21,6 +22,13 @@ export const getMySecrets = async () => {
 
 export const getSecretDetails = async (id: string) => {
   const res = await axiosInstance.get<ISecret>(`/secret/details/${id}`);
+  return res.data;
+};
+
+export const getSecretMetadata = async (id: string) => {
+  const res = await axiosInstance.get<ISecretMetadata>(
+    `/secret/metadata/${id}`,
+  );
   return res.data;
 };
 

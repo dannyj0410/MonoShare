@@ -9,6 +9,7 @@ import Header from "./components/partials/MainPartials/Header";
 import SignIn from "./components/pages/AuthPages/SignIn";
 import CreateAccount from "./components/pages/AuthPages/CreateAccount";
 import UserAndLogout from "./components/partials/MainPartials/UserAndLogout";
+import ViewSecret from "./components/pages/ViewSecret";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details/:id" element={<SecretDetails />} />
+        <Route path="/secret/:id" element={<ViewSecret />} />
         <Route
           path="/my-secrets"
           element={

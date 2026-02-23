@@ -30,6 +30,10 @@ export interface ICreateSecretResponse {
   secret: ISecret;
 }
 
+export interface ISecretMetadata {
+  passwordProtected: boolean;
+}
+
 export interface IViewSecretResponse extends Omit<
   ISecret,
   "updatedAt" | "expiresAt"

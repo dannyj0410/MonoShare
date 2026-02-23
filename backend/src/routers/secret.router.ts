@@ -4,6 +4,7 @@ import {
   deleteSecret,
   getMySecrets,
   getSecretDetails,
+  getSecretMetadata,
   viewSecret,
 } from "../controllers/secret.controller";
 import { requireAuth } from "../middleware/auth.middleware";
@@ -14,6 +15,7 @@ const router = Router();
 router.post("/create", userCheck, createSecret);
 router.get("/my-secrets", requireAuth, getMySecrets);
 router.get("/details/:secretid", requireAuth, getSecretDetails);
+router.get("/metadata/:secretid", getSecretMetadata);
 router.get("/view/:secretid", viewSecret);
 router.delete("/delete/:secretid", requireAuth, deleteSecret);
 

@@ -58,6 +58,8 @@ export type MySecretsReponse = {
   >[];
 };
 
+export type getSecretMetadataResponse = Pick<SecretBase, "passwordProtected">;
+
 export type ViewSecretResponse = WithStatus<
   Pick<
     SecretBase,
@@ -67,6 +69,7 @@ export type ViewSecretResponse = WithStatus<
     | "encryptionIV"
     | "receiverEmail"
     | "viewedAt"
+    | "creatorId"
   >
 >;
 

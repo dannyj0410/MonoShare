@@ -1,18 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { viewSecret } from "../../lib/secret";
-import { useLocation } from "react-router-dom";
+import { getSecretMetadata } from "../../lib/secret";
 import { useError } from "../useError";
 import { useEffect } from "react";
 import { isApiError } from "../../interfaces/error.interface";
 
-// signal is to abort if user navigates away before the secret is fetched
-export const useViewSecret = (id: string) => {
+export const useSecretMetadata = (id: string) => {
   const { showError } = useError();
-  const location = useLocation();
-  const urlHash = location.hash;
+
   const query = useQuery({
-    queryKey: ["secret", id, urlHash],
-    queryFn: ({ signal }) => viewSecret(id, signal),
+    queryKey: ["secret-metadata", id],
+    queryFn: () => getSecretMetadata(id),
     gcTime: 0,
     staleTime: 0,
     retry: false,
@@ -26,7 +23,7 @@ export const useViewSecret = (id: string) => {
     if (query.isError && query.error) {
       const error = query.error;
 
-      let message = "Failed to load secret";
+      let message = "Failed to load metadata";
       let statusCode: number | undefined;
 
       if (isApiError(error)) {

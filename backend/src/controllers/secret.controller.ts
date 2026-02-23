@@ -6,6 +6,7 @@ import {
   CreateSecretDto,
   CreateSecretResponse,
   getSecretDetailsResponse,
+  getSecretMetadataResponse,
   MySecretsReponse,
   ViewSecretResponse,
 } from "../dtos/secret.dto";
@@ -169,6 +170,47 @@ export const getSecretDetails = asyncHandler(
   },
 );
 
+export const getSecretMetadata = asyncHandler(
+  async (req: Request, res: Response<getSecretMetadataResponse>) => {
+    const slug = req.params.secretid;
+
+    const secret = await prisma.secret.findUnique({
+      where: { slug },
+      select: {
+        passwordHash: true,
+        expiresAt: true,
+        viewedAt: true,
+      },
+    });
+
+    if (!secret) {
+      throw new AppError("Secret doesn't exist", HTTP_NOT_FOUND);
+    }
+
+    const status = computeSecretStatus(secret);
+    if (status === "VIEWED") {
+      throw new AppError("Secret has already been viewed", HTTP_GONE);
+    }
+    if (status === "EXPIRED") {
+      await prisma.secret.update({
+        where: { slug },
+        data: {
+          encryptedText: "",
+          encryptionIV: "",
+        },
+      });
+      throw new AppError(
+        "This secret has expired and is no longer available",
+        HTTP_GONE,
+      );
+    }
+
+    res.status(HTTP_SUCCESS).json({
+      passwordProtected: !!secret.passwordHash, // Boolean: true if hash exists
+    });
+  },
+);
+
 // send creatorId aswell. On frontend check if creatorId = user.id and if it is show warning
 export const viewSecret = asyncHandler(
   async (req: Request, res: Response<ViewSecretResponse>) => {
@@ -187,7 +229,7 @@ export const viewSecret = asyncHandler(
       const originalStatus = computeSecretStatus(originalSecret);
 
       if (!originalSecret || originalStatus === "VIEWED") {
-        throw new AppError("Secret has already been viewed", HTTP_NOT_FOUND);
+        throw new AppError("Secret has already been viewed", HTTP_GONE);
       }
 
       if (originalStatus === "EXPIRED") {
@@ -222,6 +264,7 @@ export const viewSecret = asyncHandler(
         encryptionIV: originalSecret.encryptionIV,
         receiverEmail: originalSecret.receiverEmail,
         viewedAt: updatedSecret.viewedAt,
+        creatorId: updatedSecret.creatorId,
         status,
       };
     });
