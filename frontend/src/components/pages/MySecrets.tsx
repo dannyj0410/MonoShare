@@ -40,7 +40,7 @@ const MySecrets = () => {
         actionFunction={deleteSecretMutate}
         actionPending={deletePending}
       />
-      /
+
       <div className="flex flex-col justify-center items-center gap-20">
         <h1 className="mt-20 electrolize font-bold">My Secrets</h1>
 

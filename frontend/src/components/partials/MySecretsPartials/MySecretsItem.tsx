@@ -45,11 +45,11 @@ const MySecretsItem = ({
       <li
         className={`mx-6 py-2 px-4 h-fit grid grid-cols-[240px_240px_180px_20px] items-center gap-4 rounded-sm cursor-pointer  ${
           secret.status === "ACTIVE"
-            ? "hover:bg-blue-200/10"
+            ? "hover:bg-blue-200/10 border-t-2 border-white/0 hover:border-white/5"
             : secret.status === "VIEWED"
-              ? "hover:bg-green-200/10"
+              ? "hover:bg-green-200/10 border-t-2 border-white/0 hover:border-white/5"
               : secret.status === "EXPIRED"
-                ? "hover:bg-red-400/10"
+                ? "hover:bg-red-400/10 border-t-2 border-white/0 hover:border-white/5"
                 : ""
         }`}
       >
