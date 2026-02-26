@@ -3,38 +3,43 @@ import EraseButton from "./EraseButton";
 const SecretTextArea = ({
   status,
   created,
+  viewing,
   text,
   passwordProtected,
 }: {
   status: string;
   created?: boolean;
+  viewing?: boolean;
   text?: string;
   passwordProtected: boolean;
 }) => {
   const secretText =
-    created && text
+    created || text
       ? text
       : status !== "ACTIVE"
         ? "empty."
-        : "*!kuSL%GYM*Ad1#oL$*RtV!&*ml|EXAMPLE|UaPl^HSV@!&*$DJSDWAlpoQm.%#QzX;P&^";
+        : "*!kuSL%GYM*Ad1WAl#oL$*RtV#!&*ml|EXAMPLE|UaPl^HSV@!&*$DJSDpoQm.%QzX;P&^";
+
   return (
     <div className="flex flex-col w-full">
-      <div className="flex electrolize px-5 pt-7 pb-1 text-xs sm:text-sm text-(--gray)">
+      <div className="flex electrolize px-5 mt-2 pb-1 text-xs sm:text-sm text-(--gray)">
         <p>
           {created
             ? "You will only see this once."
-            : status === "VIEWED"
-              ? "Your secret has been viewed and erased."
-              : status === "EXPIRED"
-                ? "Your secret has been erased and is no longer accessible."
-                : `Your secret is fully encrypted${passwordProtected ? " and" : "."}`}
+            : viewing
+              ? "This secret has now been erased. You will not be able to view it again."
+              : status === "VIEWED"
+                ? "Your secret has been viewed and erased."
+                : status === "EXPIRED"
+                  ? "Your secret has been erased and is no longer accessible."
+                  : `Your secret is fully encrypted${passwordProtected ? " and" : "."}`}
           <span className="font-bold">
             {passwordProtected &&
               status === "ACTIVE" &&
               !created &&
               " password protected"}
           </span>
-          {passwordProtected && !created && "."}
+          {passwordProtected && !created && status !== "VIEWED" && "."}
         </p>
       </div>
       <textarea
@@ -55,10 +60,10 @@ const SecretTextArea = ({
             ? { textShadow: "0 0 10px rgba(255,255,255,0.8)" }
             : {}
         }
-        defaultValue={secretText}
+        value={secretText}
       ></textarea>
 
-      <EraseButton status={status} />
+      {!viewing && <EraseButton status={status} />}
     </div>
   );
 };

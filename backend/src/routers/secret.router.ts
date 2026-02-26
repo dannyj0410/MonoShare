@@ -15,8 +15,8 @@ const router = Router();
 router.post("/create", userCheck, createSecret);
 router.get("/my-secrets", requireAuth, getMySecrets);
 router.get("/details/:secretid", requireAuth, getSecretDetails);
-router.get("/metadata/:secretid", getSecretMetadata);
-router.get("/view/:secretid", viewSecret);
+router.get("/metadata/:secretid", userCheck, getSecretMetadata);
+router.post("/view/:secretid", viewSecret);
 router.delete("/delete/:secretid", requireAuth, deleteSecret);
 
 export { router as secretRouter };

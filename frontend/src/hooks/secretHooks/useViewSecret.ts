@@ -6,13 +6,18 @@ import { useEffect } from "react";
 import { isApiError } from "../../interfaces/error.interface";
 
 // signal is to abort if user navigates away before the secret is fetched
-export const useViewSecret = (id: string) => {
+export const useViewSecret = (
+  id: string,
+  password: string | null,
+  options = {},
+) => {
   const { showError } = useError();
   const location = useLocation();
   const urlHash = location.hash;
   const query = useQuery({
     queryKey: ["secret", id, urlHash],
-    queryFn: ({ signal }) => viewSecret(id, signal),
+    queryFn: ({ signal }) => viewSecret(id, password, signal),
+    ...options,
     gcTime: 0,
     staleTime: 0,
     retry: false,

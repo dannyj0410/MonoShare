@@ -10,7 +10,9 @@ export const requireAuth = async (
   const token = req.cookies.session;
 
   if (!token) {
-    return res.status(401).json({ message: "Not authenticated" });
+    return res
+      .status(401)
+      .json({ message: "You are unauthenticated. Please sign in." });
   }
 
   const tokenHash = AuthService.hashSessionToken(token);

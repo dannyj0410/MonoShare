@@ -5,8 +5,8 @@ import {
   ComputedStatus,
   CreateSecretDto,
   CreateSecretResponse,
-  getSecretDetailsResponse,
-  getSecretMetadataResponse,
+  GetSecretDetailsResponse,
+  GetSecretMetadataResponse,
   MySecretsReponse,
   ViewSecretResponse,
 } from "../dtos/secret.dto";
@@ -133,7 +133,7 @@ export const getMySecrets = asyncHandler(
 );
 
 export const getSecretDetails = asyncHandler(
-  async (req: Request, res: Response<getSecretDetailsResponse>) => {
+  async (req: Request, res: Response<GetSecretDetailsResponse>) => {
     const slug = req.params.secretid;
     const user = req.user!;
 
@@ -171,7 +171,8 @@ export const getSecretDetails = asyncHandler(
 );
 
 export const getSecretMetadata = asyncHandler(
-  async (req: Request, res: Response<getSecretMetadataResponse>) => {
+  async (req: Request, res: Response<GetSecretMetadataResponse>) => {
+    const user = req.user;
     const slug = req.params.secretid;
 
     const secret = await prisma.secret.findUnique({
@@ -180,6 +181,7 @@ export const getSecretMetadata = asyncHandler(
         passwordHash: true,
         expiresAt: true,
         viewedAt: true,
+        creatorId: true,
       },
     });
 
@@ -188,9 +190,12 @@ export const getSecretMetadata = asyncHandler(
     }
 
     const status = computeSecretStatus(secret);
+    const isOwner = user ? user.id === secret.creatorId : false;
+
     if (status === "VIEWED") {
       throw new AppError("Secret has already been viewed", HTTP_GONE);
     }
+
     if (status === "EXPIRED") {
       await prisma.secret.update({
         where: { slug },
@@ -206,16 +211,16 @@ export const getSecretMetadata = asyncHandler(
     }
 
     res.status(HTTP_SUCCESS).json({
-      passwordProtected: !!secret.passwordHash, // Boolean: true if hash exists
+      passwordProtected: !!secret.passwordHash,
+      isOwner,
     });
   },
 );
 
-// send creatorId aswell. On frontend check if creatorId = user.id and if it is show warning
 export const viewSecret = asyncHandler(
   async (req: Request, res: Response<ViewSecretResponse>) => {
     const slug = req.params.secretid;
-    // get password from body, if invalid compare throw apperror and redirect on frontend
+    const { password } = req.body;
 
     const updatedSecret = await prisma.$transaction(async (tx) => {
       const originalSecret = await tx.secret.findUnique({
@@ -247,6 +252,17 @@ export const viewSecret = asyncHandler(
         );
       }
 
+      if (originalSecret.passwordHash) {
+        const verified = await SecretService.verifyPassword(
+          originalSecret.passwordHash,
+          password,
+        );
+        console.log(password);
+        if (!verified) {
+          throw new AppError("Incorrect password", HTTP_BAD_REQUEST);
+        }
+      }
+
       const updatedSecret = await tx.secret.update({
         where: { slug },
         data: {
@@ -275,14 +291,27 @@ export const viewSecret = asyncHandler(
 
 export const deleteSecret = asyncHandler(
   async (req: Request, res: Response) => {
-    const user = req.user!;
+    const user = req.user;
     const slug = req.params.secretid;
 
     if (!slug) {
       throw new AppError("Secret ID is required", HTTP_BAD_REQUEST);
     }
 
-    await prisma.secret.delete({ where: { slug, creatorId: user.id } });
+    if (!user) {
+      throw new AppError("You are unauthenticated!", HTTP_UNAUTHORIZED);
+    }
+
+    const secret = await prisma.secret.delete({
+      where: { slug, creatorId: user.id },
+    });
+
+    if (!secret) {
+      throw new AppError(
+        "Secret does not exist or you are unauthorized!",
+        HTTP_BAD_REQUEST,
+      );
+    }
 
     res.status(HTTP_SUCCESS).json({
       message: slug + " Deleted successfully",

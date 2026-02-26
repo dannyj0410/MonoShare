@@ -46,7 +46,7 @@ const MySecrets = () => {
 
         {/*//* Active */}
         <section className="relative flex flex-col w-200">
-          <div className="absolute -left-40 -top-3.25 opacity-70 hover:opacity-100">
+          <div className="absolute -left-40 -top-3 opacity-70 hover:opacity-100">
             <BackButton />
           </div>
           <div className="flex items-center h-fit justify-between mb-2 w-3xl border-b-cyan-500/7 border-b pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]">

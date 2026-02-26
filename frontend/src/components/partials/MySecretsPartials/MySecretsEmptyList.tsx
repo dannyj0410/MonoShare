@@ -30,7 +30,7 @@ const MySecretsEmptyList = ({ type }: { type: string }) => {
 
   return (
     <li
-      className={`mx-6 py-2 px-4 h-fit flex items-center gap-4 rounded-sm border-t-2 border-white/5 ${values.bg}`}
+      className={`mx-6 py-2 mt-1 px-4 h-fit flex items-center gap-4 rounded-sm border-t-2 border-t-white/5 ${values.bg}`}
     >
       <svg
         viewBox="0 0 24 24"

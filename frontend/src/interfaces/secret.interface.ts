@@ -32,6 +32,7 @@ export interface ICreateSecretResponse {
 
 export interface ISecretMetadata {
   passwordProtected: boolean;
+  isOwner: boolean;
 }
 
 export interface IViewSecretResponse extends Omit<

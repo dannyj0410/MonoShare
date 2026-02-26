@@ -10,7 +10,7 @@ const Features = () => {
       <div>
         <ul className="flex">
           {/* Security first */}
-          <li className="features-card group transition-all duration-300 ease-in-out">
+          <li className="features-card group transition-all duration-300 ease-in-out cursor-default">
             <div className="icon-box">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

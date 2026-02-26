@@ -58,7 +58,9 @@ export type MySecretsReponse = {
   >[];
 };
 
-export type getSecretMetadataResponse = Pick<SecretBase, "passwordProtected">;
+export type GetSecretMetadataResponse = {
+  isOwner: boolean;
+} & Pick<SecretBase, "passwordProtected">;
 
 export type ViewSecretResponse = WithStatus<
   Pick<
@@ -73,7 +75,7 @@ export type ViewSecretResponse = WithStatus<
   >
 >;
 
-export type getSecretDetailsResponse = WithStatus<
+export type GetSecretDetailsResponse = WithStatus<
   Pick<
     SecretBase,
     | "id"

@@ -132,7 +132,7 @@ const SecretDetails = () => {
         )}
         {/* Secret Link */}
         {created && (
-          <>
+          <div className="mb-5 flex flex-col">
             <div
               className={`flex items-center justify-center rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
                 copyClicked
@@ -221,7 +221,7 @@ const SecretDetails = () => {
                 Share this link privately with the intended recipient.
               </p>
             </div>
-          </>
+          </div>
         )}
         <SecretTextArea
           status={secret.status}

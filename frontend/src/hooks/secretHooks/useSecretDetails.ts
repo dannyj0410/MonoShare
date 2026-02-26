@@ -14,7 +14,7 @@ export const useSecretDetails = (id: string, options = {}) => {
     ...options,
     enabled: !!id,
     gcTime: 60_000,
-    staleTime: 60_000,
+    staleTime: 0,
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

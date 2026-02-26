@@ -7,6 +7,7 @@ import type {
 } from "../interfaces/secret.interface";
 import { axiosInstance } from "./axios";
 
+//todo: payload interface
 export const createSecret = async (payload: object) => {
   const res = await axiosInstance.post<ICreateSecretResponse>(
     "/secret/create",
@@ -32,9 +33,14 @@ export const getSecretMetadata = async (id: string) => {
   return res.data;
 };
 
-export const viewSecret = async (id: string, signal: AbortSignal) => {
-  const res = await axiosInstance.get<IViewSecretResponse>(
+export const viewSecret = async (
+  id: string,
+  password: string | null,
+  signal: AbortSignal,
+) => {
+  const res = await axiosInstance.post<IViewSecretResponse>(
     `/secret/view/${id}`,
+    { password },
     { signal },
   );
   return res.data;
