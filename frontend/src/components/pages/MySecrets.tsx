@@ -1,5 +1,7 @@
 import { useDeleteSecret } from "../../hooks/secretHooks/useDeleteSecret";
 import { useMySecrets } from "../../hooks/secretHooks/useMySecrets";
+import BoxSkeleton from "../loaders/BoxSkeleton";
+import Spinner from "../loaders/Spinner";
 import BackButton from "../partials/MainPartials/BackButton";
 import ConfirmationPopup from "../partials/MainPartials/ConfirmationPopup";
 import MySecretsEmptyList from "../partials/MySecretsPartials/MySecretsEmptyList";
@@ -25,10 +27,6 @@ const MySecrets = () => {
     () => mySecrets?.ownedSecrets.filter((s) => s.status === "EXPIRED") || [],
     [mySecrets],
   );
-
-  if (!mySecrets || pendingSecrets) {
-    return <></>;
-  }
 
   return (
     <main className="min-h-screen w-screen pb-10 bg-[#01090f]">
@@ -69,17 +67,34 @@ const MySecrets = () => {
                 Active
               </h1>
             </div>
-            <p className="text-(--main-light-blue)">{activeSecrets.length}</p>
+            <p className="text-(--main-light-blue)">
+              {!activeSecrets ? (
+                <Spinner
+                  size="size-4"
+                  thickness="border-3"
+                  clr="text-(--main-light-blue)"
+                />
+              ) : (
+                activeSecrets.length
+              )}
+            </p>
           </div>
           {/* //*Active Secrets */}
           <ul>
-            {activeSecrets.length > 0 ? (
+            {pendingSecrets ? (
+              <BoxSkeleton
+                className="w-auto h-10 mr-7 border-t-2 border-[#76c4ff20]"
+                colour="#76c4ff20"
+                highlightColour="#76c4ff20"
+              />
+            ) : activeSecrets.length > 0 ? (
               activeSecrets.map((secret) => {
                 return (
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    setSelectedSecret={setSelectedSecretId}
+                    selectedSecretId={selectedSecretId}
+                    setSelectedSecretId={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
                     deleteSecretMutate={deleteSecretMutate}
                     pendingDelete={deletePending}
@@ -116,16 +131,33 @@ const MySecrets = () => {
                 Viewed
               </h1>
             </div>
-            <p className="text-green-500">{viewedSecrets.length}</p>
+            <p className="text-green-500">
+              {!viewedSecrets ? (
+                <Spinner
+                  size="size-4"
+                  thickness="border-3"
+                  clr="text-green-500"
+                />
+              ) : (
+                viewedSecrets.length
+              )}
+            </p>
           </div>
           <ul>
-            {viewedSecrets.length > 0 ? (
+            {pendingSecrets ? (
+              <BoxSkeleton
+                className="w-auto h-10 mr-7 border-t-2 border-[#22c55e20]"
+                colour="#22c55e20"
+                highlightColour="#22c55e20"
+              />
+            ) : viewedSecrets.length > 0 ? (
               viewedSecrets.map((secret) => {
                 return (
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    setSelectedSecret={setSelectedSecretId}
+                    selectedSecretId={selectedSecretId}
+                    setSelectedSecretId={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
                     deleteSecretMutate={deleteSecretMutate}
                     pendingDelete={deletePending}
@@ -169,16 +201,33 @@ const MySecrets = () => {
                 Expired
               </h1>
             </div>
-            <p className="text-red-500">{expiredSecrets.length}</p>
+            <p className="text-red-500">
+              {!expiredSecrets ? (
+                <Spinner
+                  size="size-4"
+                  thickness="border-3"
+                  clr="text-red-500"
+                />
+              ) : (
+                expiredSecrets.length
+              )}
+            </p>
           </div>
           <ul>
-            {expiredSecrets.length > 0 ? (
+            {pendingSecrets ? (
+              <BoxSkeleton
+                className="w-auto h-10 mr-7 border-t-2 border-[#fb2c3620]"
+                colour="#fb2c3620"
+                highlightColour="#fb2c3610"
+              />
+            ) : expiredSecrets.length > 0 ? (
               expiredSecrets.map((secret) => {
                 return (
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    setSelectedSecret={setSelectedSecretId}
+                    selectedSecretId={selectedSecretId}
+                    setSelectedSecretId={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
                     deleteSecretMutate={deleteSecretMutate}
                     pendingDelete={deletePending}

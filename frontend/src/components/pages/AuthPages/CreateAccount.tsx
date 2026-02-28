@@ -8,6 +8,7 @@ import {
 } from "../../../utils/validators/auth.validator";
 import { useRegister } from "../../../hooks/authHooks/useRegister";
 import type { ISignUpCredentials } from "../../../interfaces/auth.interface";
+import Spinner from "../../loaders/Spinner";
 
 const CreateAccount = () => {
   const [createFormData, setCreateFormData] = useState<ISignUpCredentials>({
@@ -192,7 +193,7 @@ const CreateAccount = () => {
                 height="20"
                 width="20"
                 className={`cursor-pointer ${
-                  showPassword ? "hidden" : "visible"
+                  showPassword ? "visible" : "hidden"
                 }`}
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -217,7 +218,7 @@ const CreateAccount = () => {
                 height="20"
                 width="20"
                 className={`cursor-pointer ${
-                  showPassword ? "visible" : "hidden"
+                  showPassword ? "hidden" : "visible"
                 }`}
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -292,7 +293,7 @@ const CreateAccount = () => {
                 height="20"
                 width="20"
                 className={`cursor-pointer ${
-                  showConfirmPassword ? "hidden" : "visible"
+                  showConfirmPassword ? "visible" : "hidden"
                 }`}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
@@ -317,7 +318,7 @@ const CreateAccount = () => {
                 height="20"
                 width="20"
                 className={`cursor-pointer ${
-                  showConfirmPassword ? "visible" : "hidden"
+                  showConfirmPassword ? "hidden" : "visible"
                 }`}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
@@ -345,9 +346,13 @@ const CreateAccount = () => {
             </div>
           </div>
           <button
-            className={`${formErrors.email || formErrors.password || formErrors.confirm ? "bg-red-400/70 text-white/80" : "bg-(--white) text-black"} mt-2 noto-sans w-full py-3 text-sm font-medium cursor-pointer rounded-lg transition-colors duration-300 ease-in-out`}
+            className={`${formErrors.email || formErrors.password || formErrors.confirm ? "bg-red-400/70 text-white/80" : "bg-(--white) text-black"} flex items-center justify-center mt-2 noto-sans w-full h-10.5 text-sm font-medium cursor-pointer rounded-lg transition-colors duration-300 ease-in-out`}
           >
-            {isRegistering ? "Authenticating..." : "Create Account"}
+            {isRegistering ? (
+              <Spinner size="size-4.5" thickness="border-2" clr="text-black" />
+            ) : (
+              "Create Account"
+            )}
           </button>
         </form>
         <div className="m-auto mt-5">

@@ -4,12 +4,12 @@ import { useError } from "../useError";
 import { useEffect } from "react";
 import { isApiError } from "../../interfaces/error.interface";
 
-export const useSecretMetadata = (id: string) => {
+export const useSecretMetadata = (id: string, hasHash: boolean) => {
   const { showError } = useError();
 
   const query = useQuery({
     queryKey: ["secret-metadata", id],
-    queryFn: () => getSecretMetadata(id),
+    queryFn: () => getSecretMetadata(id, hasHash),
     gcTime: 0,
     staleTime: 0,
     retry: false,

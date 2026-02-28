@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { calcTimePastCreation } from "../../../utils/time/calcTimePastCreation";
 import type { UseMutateFunction } from "@tanstack/react-query";
 import type { DeleteSecretResponse } from "../../../interfaces/secret.interface";
+import Spinner from "../../loaders/Spinner";
 
 type MySecretsItemProps = {
   status: string;
@@ -13,13 +14,15 @@ type MySecretsItemProps = {
 };
 const MySecretsItem = ({
   secret,
-  setSelectedSecret,
+  selectedSecretId,
+  setSelectedSecretId,
   setIsDeleting,
   deleteSecretMutate,
   pendingDelete,
 }: {
   secret: MySecretsItemProps;
-  setSelectedSecret: Dispatch<SetStateAction<string>>;
+  selectedSecretId: string;
+  setSelectedSecretId: Dispatch<SetStateAction<string>>;
   setIsDeleting: Dispatch<SetStateAction<boolean>>;
   deleteSecretMutate: UseMutateFunction<
     DeleteSecretResponse,
@@ -175,9 +178,9 @@ const MySecretsItem = ({
             e.stopPropagation();
           }}
         >
-          {pendingDelete ? (
+          {pendingDelete && secret.slug === selectedSecretId ? (
             // spinner
-            "O"
+            <Spinner size="size-4" thickness="border-3" />
           ) : secret.status === "ACTIVE" ? (
             // eraser
             <svg
@@ -188,7 +191,7 @@ const MySecretsItem = ({
               width="16"
               className="group justify-end cursor-pointer hover:fill-(--main-light-blue)"
               onClick={() => {
-                setSelectedSecret(secret.slug);
+                setSelectedSecretId(secret.slug);
                 setIsDeleting(true);
               }}
             >
@@ -210,7 +213,7 @@ const MySecretsItem = ({
               width="20px"
               xmlns="http://www.w3.org/2000/svg"
               onClick={() => {
-                setSelectedSecret(secret.slug);
+                setSelectedSecretId(secret.slug);
                 deleteSecretMutate();
               }}
             >

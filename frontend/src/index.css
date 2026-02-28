@@ -8,13 +8,15 @@
   --electrolize: "Electrolize", sans-serif;
   --arvo: "Arvo", serif;
   --bg: #111111;
-  --white: #eef2f6;
   /* apply this white to everything that should have it */
+  --white: #eef2f6;
   --gray: #babbbd;
   --main-light-blue: #76c4ff;
   --main-dark-blue: rgb(51, 78, 98);
   --main-dark-blue-40: rgba(51, 78, 98, 0.4);
   --main-dark-blue-70: rgba(51, 78, 98, 0.7);
+  --skltn-box-clr-default: rgb(55 65 81);
+  --skltn-box-highlight-clr-default: rgba(77, 91, 110, 0.9);
 
   --main-button-gradient: linear-gradient(to right, #7696ff, #1f4ad6);
   --button-gradient: linear-gradient(
@@ -23,6 +25,8 @@
     #0a314e,
     rgba(10, 49, 78, 0.5)
   );
+
+  --animate-skeleton: skeleton-shimmer 1.5s ease-in-out infinite;
 }
 
 @layer base {
@@ -32,6 +36,23 @@
     font-family: var(--arvo);
     overflow: scroll;
     overflow-x: hidden;
+  }
+}
+
+.loader {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(farthest-side, var(--main-light-blue) 94%, #0000) top/4px
+      4px no-repeat,
+    conic-gradient(#0000 30%, var(--main-light-blue));
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 4px), #000 0);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 4px), #000 0);
+  animation: l13 1s infinite linear;
+}
+@keyframes l13 {
+  100% {
+    transform: rotate(1turn);
   }
 }
 
@@ -171,6 +192,45 @@
 
   .animate-shake {
     animation: shake 0.35s ease-in-out;
+  }
+
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background-color: var(--skltn-box-clr, var(--skltn-box-clr-default));
+  }
+
+  .skeleton::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--skltn-box-highlight-clr, var(--skltn-box-highlight-clr-default)) 50%,
+      transparent 100%
+    );
+    animation: var(--animate-skeleton);
+    filter: blur(6px);
+  }
+
+  @keyframes skeleton-shimmer {
+    0% {
+      transform: translateX(-150%);
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 1;
+    }
+    60% {
+      transform: translateX(150%);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateX(150%);
+      opacity: 0.8;
+    }
   }
 
   @keyframes wave-infinite {

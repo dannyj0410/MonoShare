@@ -9,6 +9,7 @@ import {
   decryptSecret,
   importKeyFromString,
 } from "../../utils/encryption/crypto";
+import SecretSkeleton from "../partials/SecretSkeleton";
 
 const ViewSecret = () => {
   const { id } = useParams();
@@ -16,7 +17,10 @@ const ViewSecret = () => {
   const [viewUnconfirmed, setViewUnconfirmed] = useState(true);
   const [password, setPassword] = useState("");
   const [secretText, setSecretText] = useState("...");
-  const { data: metadata, isPending: metadataPending } = useSecretMetadata(id!);
+  const { data: metadata, isPending: metadataPending } = useSecretMetadata(
+    id!,
+    !!hash,
+  );
   const { data: secret, isLoading: secretLoading } = useViewSecret(
     id!,
     password,
@@ -49,8 +53,8 @@ const ViewSecret = () => {
     };
     handleDecryption();
   }, [secret, hash]);
-  if (metadataPending || secretLoading) {
-    return <p>Loading Secret...</p>;
+  if ((metadataPending || secretLoading) && !secret) {
+    return <SecretSkeleton view />;
   }
 
   return (

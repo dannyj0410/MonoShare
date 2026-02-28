@@ -15,6 +15,7 @@ import type {
   ExpirationTimeOptions,
   ICreateSecretRequest,
 } from "../../interfaces/secret.interface";
+import Spinner from "../loaders/Spinner";
 
 const EXPIRATION_OPTIONS: ExpirationTimeOptions[] = ["7d", "1d", "1h"];
 
@@ -239,7 +240,7 @@ const CreateSecretForm = forwardRef<
                 height="16"
                 width="16"
                 className={`cursor-pointer ${
-                  showPassword ? "hidden" : "visible"
+                  showPassword ? "visible" : "hidden"
                 }`}
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -265,7 +266,7 @@ const CreateSecretForm = forwardRef<
                 height="16"
                 width="16"
                 className={`cursor-pointer ${
-                  showPassword ? "visible" : "hidden"
+                  showPassword ? "hidden" : "visible"
                 }`}
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -334,9 +335,14 @@ const CreateSecretForm = forwardRef<
 
           {/* Create Button */}
           <button
-            className={`relative overflow-hidden action-btn w-26 py-2.5  border-3 rounded-xl arvo ${secretFormErrors.receiverEmail || secretFormErrors.password || secretFormErrors.secret ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
+            disabled={isCreating}
+            className={`relative overflow-hidden action-btn w-26 h-12.5 border-3 rounded-xl arvo ${secretFormErrors.receiverEmail || secretFormErrors.password || secretFormErrors.secret ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
           >
-            <span>{!isCreating ? "Create" : "Creating"}</span>
+            {!isCreating ? (
+              <span>Create</span>
+            ) : (
+              <Spinner size="size-5" thickness="border-3" />
+            )}
             <div className="absolute inset-0 flex h-full w-full justify-center transform-[skew(-12deg)_translateX(-100%)] group-hover:duration-500 group-hover:transform-[skew(-30deg)_translateX(100%)]">
               <div className="relative h-full w-8 bg-white/20"></div>
             </div>

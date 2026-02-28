@@ -2,6 +2,7 @@ import type { UseMutateFunction } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
 import type { DeleteSecretResponse } from "../../../interfaces/secret.interface";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../loaders/Spinner";
 
 type optionsType = "View" | "Erase";
 const options: Record<
@@ -134,19 +135,25 @@ const ConfirmationPopup = ({
               Cancel
             </button>
             <button
-              className={`${options[option].bgClr} ${options[option].hvrBgClr} noto-sans rounded-lg py-2 px-15 cursor-pointer transition-colors duration-100`}
+              className={`${options[option].bgClr} ${options[option].hvrBgClr} flex items-center  justify-center noto-sans rounded-lg h-9.5 w-39 cursor-pointer transition-colors duration-100`}
               onClick={
                 actionFunction
                   ? async () => {
                       await actionFunction();
                       setOpen(false);
                     }
-                  : () => {
-                      if (showPasswordField && password) setOpen(false);
-                    }
+                  : showPasswordField
+                    ? () => {
+                        if (showPasswordField && password) setOpen(false);
+                      }
+                    : () => setOpen(false)
               }
             >
-              {actionPending && option === "Erase" ? "Erasing" : option}
+              {actionPending && option === "Erase" ? (
+                <Spinner size="size-4" thickness="border-2" />
+              ) : (
+                option
+              )}
             </button>
           </div>
         </div>

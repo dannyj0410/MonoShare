@@ -174,6 +174,11 @@ export const getSecretMetadata = asyncHandler(
   async (req: Request, res: Response<GetSecretMetadataResponse>) => {
     const user = req.user;
     const slug = req.params.secretid;
+    const hasHash = req.params.hasHash;
+
+    if (!hasHash) {
+      throw new AppError("Incorrect secret link", HTTP_UNAUTHORIZED);
+    }
 
     const secret = await prisma.secret.findUnique({
       where: { slug },
@@ -257,7 +262,7 @@ export const viewSecret = asyncHandler(
           originalSecret.passwordHash,
           password,
         );
-        console.log(password);
+
         if (!verified) {
           throw new AppError("Incorrect password", HTTP_BAD_REQUEST);
         }

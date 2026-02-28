@@ -26,9 +26,10 @@ export const getSecretDetails = async (id: string) => {
   return res.data;
 };
 
-export const getSecretMetadata = async (id: string) => {
+export const getSecretMetadata = async (id: string, hasHash: boolean) => {
   const res = await axiosInstance.get<ISecretMetadata>(
     `/secret/metadata/${id}`,
+    { params: { hasHash } },
   );
   return res.data;
 };
