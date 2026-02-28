@@ -25,7 +25,7 @@ const EraseButton = ({ status }: { status: string }) => {
             {!isPending ? (
               "Confirm"
             ) : (
-              <Spinner size="size-5.5" thickness="border-3" />
+              <Spinner size="size-5" thickness="border-3" />
             )}
           </button>
         </>

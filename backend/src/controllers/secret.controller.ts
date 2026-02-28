@@ -174,8 +174,7 @@ export const getSecretMetadata = asyncHandler(
   async (req: Request, res: Response<GetSecretMetadataResponse>) => {
     const user = req.user;
     const slug = req.params.secretid;
-    const hasHash = req.params.hasHash;
-
+    const hasHash = req.query.hasHash === "true";
     if (!hasHash) {
       throw new AppError("Incorrect secret link", HTTP_UNAUTHORIZED);
     }
