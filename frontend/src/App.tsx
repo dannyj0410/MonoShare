@@ -18,14 +18,7 @@ function App() {
       <UserAndLogout />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/details/:id"
-          element={
-            <AuthGuard mode="protected">
-              <SecretDetails />
-            </AuthGuard>
-          }
-        />
+        <Route path="/details/:id" element={<SecretDetails />} />
         <Route path="/secret/:id" element={<ViewSecret />} />
         <Route
           path="/my-secrets"

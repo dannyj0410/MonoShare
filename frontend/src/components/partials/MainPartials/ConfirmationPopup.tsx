@@ -26,7 +26,7 @@ const options: Record<
   },
   View: {
     action: "view",
-    details: "Doing this you will erase the secret.",
+    details: "By doing this you will erase the secret.",
     txtClr: "text-(--main-light-blue)",
     bgClr: "bg-(--main-light-blue)",
     hvrBgClr: "hover:bg-(--main-dark-blue)",

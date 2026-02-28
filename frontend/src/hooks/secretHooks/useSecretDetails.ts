@@ -7,12 +7,10 @@ import { isApiError } from "../../interfaces/error.interface";
 export const useSecretDetails = (id: string, options = {}) => {
   const { showError } = useError();
 
-  //return useQuery<Secret, Error>
   const query = useQuery({
     queryKey: ["secret", id],
     queryFn: () => getSecretDetails(id),
     ...options,
-    enabled: !!id,
     gcTime: 60_000,
     staleTime: 0,
     retry: false,

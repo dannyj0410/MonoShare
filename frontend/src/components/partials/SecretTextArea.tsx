@@ -6,12 +6,14 @@ const SecretTextArea = ({
   viewing,
   text,
   passwordProtected,
+  guestSecret,
 }: {
   status: string;
   created?: boolean;
   viewing?: boolean;
   text?: string;
   passwordProtected: boolean;
+  guestSecret: boolean;
 }) => {
   const secretText =
     created || text
@@ -42,6 +44,7 @@ const SecretTextArea = ({
           {passwordProtected && !created && status !== "VIEWED" && "."}
         </p>
       </div>
+
       <textarea
         readOnly
         name="secret-content"
@@ -63,7 +66,15 @@ const SecretTextArea = ({
         value={secretText}
       ></textarea>
 
-      {!viewing && <EraseButton status={status} />}
+      {guestSecret && !viewing && (
+        <p className="text-red-400 text-base electrolize mr-5 mt-2 ml-auto">
+          This secret will erase itself{" "}
+          <span className="underline underline-offset-2">after expiration</span>
+          .
+        </p>
+      )}
+
+      {!viewing && !guestSecret && <EraseButton status={status} />}
     </div>
   );
 };

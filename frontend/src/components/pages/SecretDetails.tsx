@@ -28,13 +28,14 @@ const SecretDetails = () => {
 
   const stateSecret = location.state?.secret;
   const hasState = !!stateSecret;
+
   const { data: fetchedSecret, isPending } = useSecretDetails(id!, {
     enabled: !hasState,
   });
 
   const secret = stateSecret || fetchedSecret;
 
-  if (!hasState && (!secret || isPending)) {
+  if (!secret && isPending) {
     return <SecretSkeleton />;
   }
 
@@ -220,8 +221,9 @@ const SecretDetails = () => {
         created={created}
         text={secret.text}
         passwordProtected={secret.passwordProtected}
+        guestSecret={!secret.creatorId}
       />
-      <Timeline secret={secret} />
+      {secret.creatorId && <Timeline secret={secret} />}
     </div>
   );
 };

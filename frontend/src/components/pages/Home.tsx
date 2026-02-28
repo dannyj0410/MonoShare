@@ -9,13 +9,13 @@ const Home = () => {
   const { isAuthenticated } = useAuthCheck();
   const createFormRef = useRef<HTMLDivElement>(null);
 
-  // 3. Define the scroll function
   const scrollToCreateForm = () => {
     createFormRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "center",
     });
   };
+
   return (
     <main className="flex flex-col items-center">
       {/* Add animations on load */}
