@@ -53,7 +53,7 @@ const ConfirmationPopup = ({
   actionFunction?: UseMutateFunction<
     DeleteSecretResponse,
     Error,
-    void,
+    string,
     unknown
   >;
   actionPending?: boolean;
@@ -139,7 +139,7 @@ const ConfirmationPopup = ({
               onClick={
                 actionFunction
                   ? async () => {
-                      await actionFunction();
+                      await actionFunction(secret);
                       setOpen(false);
                     }
                   : showPasswordField

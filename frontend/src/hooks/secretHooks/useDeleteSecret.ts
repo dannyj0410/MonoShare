@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useError } from "../useError";
 import { isApiError } from "../../interfaces/error.interface";
 
-export const useDeleteSecret = (id: string, navBack?: boolean) => {
+export const useDeleteSecret = (navBack?: boolean) => {
   const { showError } = useError();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: () => deleteSecret(id),
-    onSuccess: () => {
+    mutationFn: (id: string) => deleteSecret(id),
+    onSuccess: (_, id) => {
       queryClient.invalidateQueries({ queryKey: ["secret", id] });
       queryClient.invalidateQueries({ queryKey: ["mysecrets"] });
       if (navBack) navigate(-1);

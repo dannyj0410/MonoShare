@@ -13,7 +13,7 @@ const MySecrets = () => {
   const [selectedSecretId, setSelectedSecretId] = useState<string>("");
   const { data: mySecrets, isPending: pendingSecrets } = useMySecrets();
   const { mutate: deleteSecretMutate, isPending: deletePending } =
-    useDeleteSecret(selectedSecretId);
+    useDeleteSecret();
 
   const activeSecrets = useMemo(
     () => mySecrets?.ownedSecrets.filter((s) => s.status === "ACTIVE") || [],
@@ -93,7 +93,7 @@ const MySecrets = () => {
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    selectedSecretId={selectedSecretId}
+                    isSelected={selectedSecretId === secret.slug}
                     setSelectedSecretId={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
                     deleteSecretMutate={deleteSecretMutate}
@@ -156,7 +156,7 @@ const MySecrets = () => {
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    selectedSecretId={selectedSecretId}
+                    isSelected={selectedSecretId === secret.slug}
                     setSelectedSecretId={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
                     deleteSecretMutate={deleteSecretMutate}
@@ -226,7 +226,7 @@ const MySecrets = () => {
                   <MySecretsItem
                     key={secret.slug}
                     secret={secret}
-                    selectedSecretId={selectedSecretId}
+                    isSelected={selectedSecretId === secret.slug}
                     setSelectedSecretId={setSelectedSecretId}
                     setIsDeleting={setIsDeleting}
                     deleteSecretMutate={deleteSecretMutate}

@@ -1,4 +1,10 @@
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import {
+  memo,
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { Link } from "react-router-dom";
 import { calcTimePastCreation } from "../../../utils/time/calcTimePastCreation";
 import type { UseMutateFunction } from "@tanstack/react-query";
@@ -13,26 +19,27 @@ type MySecretsItemProps = {
   passwordProtected?: boolean;
   createdAt: string;
 };
-const MySecretsItem = ({
+
+const MySecretsItem = memo(function MySecretsItem({
   secret,
-  selectedSecretId,
+  isSelected,
   setSelectedSecretId,
   setIsDeleting,
   deleteSecretMutate,
   pendingDelete,
 }: {
   secret: MySecretsItemProps;
-  selectedSecretId: string;
+  isSelected: boolean;
   setSelectedSecretId: Dispatch<SetStateAction<string>>;
   setIsDeleting: Dispatch<SetStateAction<boolean>>;
   deleteSecretMutate: UseMutateFunction<
     DeleteSecretResponse,
     Error,
-    void,
+    string,
     unknown
   >;
   pendingDelete: boolean;
-}) => {
+}) {
   const [isCleaningUp, setIsCleaningUp] = useState(false);
 
   useEffect(() => {
@@ -181,7 +188,7 @@ const MySecretsItem = ({
             e.stopPropagation();
           }}
         >
-          {pendingDelete && secret.slug === selectedSecretId ? (
+          {pendingDelete && isSelected ? (
             // spinner
             <Spinner size="size-4" thickness="border-3" />
           ) : secret.status === "ACTIVE" ? (
@@ -217,7 +224,7 @@ const MySecretsItem = ({
               xmlns="http://www.w3.org/2000/svg"
               onClick={() => {
                 setSelectedSecretId(secret.slug);
-                deleteSecretMutate();
+                deleteSecretMutate(secret.slug);
               }}
             >
               <path
@@ -272,6 +279,6 @@ const MySecretsItem = ({
       </li>
     </Link>
   );
-};
+});
 
 export default MySecretsItem;
