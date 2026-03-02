@@ -19,7 +19,7 @@ const AuthCTA = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
           className="flex items-center justify-center relative overflow-hidden py-6.5 w-50 bg-[#3F67E1] cursor-pointer rounded-sm duration-300 transition-colors hover:bg-[#1f4ad6] hover:outline-(--white) hover:outline-3"
         >
           <span className="electrolize font-bold tracking-wider ml-2.5">
-            View My Secrets
+            My Secrets
           </span>
           <svg
             stroke="currentColor"
@@ -61,7 +61,7 @@ const AuthCTA = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
             <div className="bg-[#010203a9] z-10 absolute rounded-sm w-full h-full top-0 left-0" />
             <button className="flex items-center justify-center relative overflow-hidden py-3.5 w-40 bg-[#3f67e17a] cursor-pointer rounded-sm">
               <span className="electrolize font-bold tracking-wider ml-2.5">
-                View Secrets
+                My Secrets
               </span>
               <svg
                 stroke="currentColor"

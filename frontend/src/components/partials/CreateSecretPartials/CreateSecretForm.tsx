@@ -3,7 +3,7 @@ import { forwardRef, useState } from "react";
 import { useCreateSecret } from "../../../hooks/secretHooks/useCreateSecret";
 import Spinner from "../../loaders/Spinner";
 import ReceiverEmailInputField from "./ReceiverEmailInput";
-import CreateSecretPasswordField from "./CreateSecretPasswordField";
+import SecretPasswordField from "./SecretPasswordField";
 import ExpirationSelector from "./ExpirationSelector";
 import AuthCTA from "./AuthCTA";
 
@@ -161,7 +161,7 @@ const CreateSecretForm = forwardRef<
         {/* Password, Expiration Time, Create Button */}
         <div className="flex gap-4 w-140">
           {/* Password */}
-          <CreateSecretPasswordField
+          <SecretPasswordField
             password={secretFormData.password}
             error={secretFormErrors.password}
             onChange={onChangeHandler}

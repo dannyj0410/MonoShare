@@ -13,7 +13,7 @@ const SecretTextArea = ({
   viewing?: boolean;
   text?: string;
   passwordProtected: boolean;
-  guestSecret: boolean;
+  guestSecret?: boolean;
 }) => {
   const secretText =
     created || text

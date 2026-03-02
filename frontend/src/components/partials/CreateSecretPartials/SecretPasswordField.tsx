@@ -8,7 +8,7 @@ interface SecretPasswordFieldProps {
   onClear: () => void;
 }
 
-const CreateSecretPasswordField = ({
+const SecretPasswordField = ({
   password,
   error,
   onChange,
@@ -113,4 +113,4 @@ const CreateSecretPasswordField = ({
   );
 };
 
-export default CreateSecretPasswordField;
+export default SecretPasswordField;

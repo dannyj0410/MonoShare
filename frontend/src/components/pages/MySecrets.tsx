@@ -83,7 +83,7 @@ const MySecrets = () => {
           <ul>
             {pendingSecrets ? (
               <BoxSkeleton
-                className="w-auto h-10 mr-7 border-t-2 border-[#76c4ff20]"
+                className="w-auto h-10 mr-7 mt-1 border-t-2 border-[#76c4ff20]"
                 colour="#76c4ff20"
                 highlightColour="#76c4ff20"
               />
@@ -146,7 +146,7 @@ const MySecrets = () => {
           <ul>
             {pendingSecrets ? (
               <BoxSkeleton
-                className="w-auto h-10 mr-7 border-t-2 border-[#22c55e20]"
+                className="w-auto h-10 mr-7 mt-1 border-t-2 border-[#22c55e20]"
                 colour="#22c55e20"
                 highlightColour="#22c55e20"
               />
@@ -216,7 +216,7 @@ const MySecrets = () => {
           <ul>
             {pendingSecrets ? (
               <BoxSkeleton
-                className="w-auto h-10 mr-7 border-t-2 border-[#fb2c3620]"
+                className="w-auto h-10 mr-7 mt-1 border-t-2 border-[#fb2c3620]"
                 colour="#fb2c3620"
                 highlightColour="#fb2c3610"
               />
