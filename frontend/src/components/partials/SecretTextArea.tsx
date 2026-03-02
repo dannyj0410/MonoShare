@@ -20,10 +20,10 @@ const SecretTextArea = ({
       ? text
       : status !== "ACTIVE"
         ? "empty."
-        : "*!kuSL%GYM*Ad1WAl#oL$*RtV#!&*ml|EXAMPLE|UaPl^HSV@!&*$DJSDpoQm.%QzX;P&^";
+        : "*!kuSL%GYM*Ad1WAl#o$*RtV#!&*ml|EXAMPLE|UaPl^HSV@!&*$DJpoQm.%QzX;P&^";
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-0 min-w-full">
       <div className="flex electrolize px-5 mt-2 pb-1 text-xs sm:text-sm text-(--gray)">
         <p>
           {created
@@ -48,16 +48,15 @@ const SecretTextArea = ({
       <textarea
         readOnly
         name="secret-content"
-        className={`
-    bg-(--main-dark-blue-40) px-5 py-3 min-h-40 max-w-180 
-    field-sizing-content rounded-md noto-sans resize-none border-2 
-    border-white/5 outline-0
-    ${
-      !created && status === "ACTIVE"
-        ? "text-transparent shadow-none select-none pointer-events-none"
-        : "text-(--white)"
-    }
-  `}
+        className={`text-wrap bg-(--main-dark-blue-40) px-5 py-3 min-h-40
+            field-sizing-content rounded-md noto-sans resize-none border-2 
+            border-white/5 outline-0
+            ${
+              !created && status === "ACTIVE"
+                ? "text-transparent shadow-none select-none pointer-events-none"
+                : "text-(--white)"
+            }
+          `}
         style={
           !created && status === "ACTIVE"
             ? { textShadow: "0 0 10px rgba(255,255,255,0.8)" }

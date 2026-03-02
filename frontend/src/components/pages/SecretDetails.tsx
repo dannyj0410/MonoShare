@@ -40,7 +40,7 @@ const SecretDetails = () => {
   }
 
   return (
-    <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210">
+    <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200">
       <div className="flex items-center justify-between w-full relative mb-5">
         <BackButton />
         <h1
@@ -125,16 +125,16 @@ const SecretDetails = () => {
       )}
       {/* Secret Link */}
       {created && (
-        <div className="mb-5 flex flex-col">
+        <div className="mb-5 flex flex-col w-full">
           <div
-            className={`flex items-center justify-center rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
+            className={`flex w-max min-w-180 max-w-200 items-center justify-center rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
               copyClicked
                 ? "border-green-500 bg-green-500/15"
                 : "border-(--main-dark-blue-40) bg-blue-300/5"
             } h-fit`}
           >
             {/*//* SECRET URL */}
-            <p className="arvo text-nowrap overflow-hidden text-sm sm:text-base text- w-full h-fit px-5 bg-transparent">
+            <p className="arvo w-full text-nowrap overflow-hidden text-sm sm:text-base h-fit px-5 bg-transparent">
               {secret.shareUrl}#{secret.key}
             </p>
             <div
