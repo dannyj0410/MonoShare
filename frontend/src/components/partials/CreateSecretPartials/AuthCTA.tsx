@@ -1,0 +1,146 @@
+import { Link } from "react-router-dom";
+
+const AuthCTA = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+  return (
+    <div className="flex items-center justify-between w-140 my-10">
+      {!isAuthenticated ? (
+        <Link
+          to="/sign-in"
+          className="group relative overflow-hidden action-btn text-xl h-20 w-65 border-4 rounded-xl arvo"
+        >
+          <span>Sign in</span>
+          <div className="absolute inset-0 flex h-full w-full justify-center transform-[skew(-5deg)_translateX(-100%)] group-hover:duration-600 group-hover:transform-[skew(-30deg)_translateX(100%)]">
+            <div className="relative h-full w-15 bg-white/20"></div>
+          </div>
+        </Link>
+      ) : (
+        <Link
+          to="/my-secrets"
+          className="flex items-center justify-center relative overflow-hidden py-6.5 w-50 bg-[#3F67E1] cursor-pointer rounded-sm duration-300 transition-colors hover:bg-[#1f4ad6] hover:outline-(--white) hover:outline-3"
+        >
+          <span className="electrolize font-bold tracking-wider ml-2.5">
+            View My Secrets
+          </span>
+          <svg
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="3"
+            viewBox="0 0 24 24"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </Link>
+      )}
+
+      {!isAuthenticated && (
+        <Link to="/create-account">
+          <div className="flex items-center justify-between p-3 relative h-20 w-65">
+            <div className="z-11 absolute rounded-sm w-full h-full top-2 left-2">
+              <div className="flex gap-1">
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  strokeWidth="0"
+                  viewBox="0 0 448 512"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path>
+                </svg>
+                <p className="electrolize text-xs font-bold">
+                  Account required!
+                </p>
+              </div>
+            </div>
+            <div className="bg-[#010203a9] z-10 absolute rounded-sm w-full h-full top-0 left-0" />
+            <button className="flex items-center justify-center relative overflow-hidden py-3.5 w-40 bg-[#3f67e17a] cursor-pointer rounded-sm">
+              <span className="electrolize font-bold tracking-wider ml-2.5">
+                View Secrets
+              </span>
+              <svg
+                stroke="currentColor"
+                fill="none"
+                strokeWidth="3"
+                viewBox="0 0 24 24"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+            <div className="flex flex-col opacity-85">
+              <div className="flex items-center">
+                <svg
+                  stroke="#02a30f"
+                  fill="none"
+                  strokeWidth="0"
+                  viewBox="0 0 24 24"
+                  height="15px"
+                  width="15px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+                <p className="electrolize text-xs">timeline</p>
+              </div>
+              <div className="flex items-center">
+                <svg
+                  stroke="#02a30f"
+                  fill="none"
+                  strokeWidth="0"
+                  viewBox="0 0 24 24"
+                  height="15px"
+                  width="15px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+                <p className="electrolize text-xs">details</p>
+              </div>
+              <div className="flex items-center">
+                <svg
+                  stroke="#02a30f"
+                  fill="none"
+                  strokeWidth="0"
+                  viewBox="0 0 24 24"
+                  height="15px"
+                  width="15px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+                <p className="electrolize text-xs">erase</p>
+              </div>
+            </div>
+          </div>
+        </Link>
+      )}
+    </div>
+  );
+};
+
+export default AuthCTA;

@@ -1,5 +1,5 @@
 import Hero from "../partials/MainPartials/Hero";
-import CreateSecretForm from "../partials/CreateSecretForm";
+import CreateSecretForm from "../partials/CreateSecretPartials/CreateSecretForm";
 import Features from "../partials/Features";
 import SpotlightGlow from "../partials/MainPartials/SpotlightGlow";
 import { useRef } from "react";

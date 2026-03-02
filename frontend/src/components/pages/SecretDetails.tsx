@@ -139,7 +139,9 @@ const SecretDetails = () => {
             </p>
             <div
               onClick={() => {
-                navigator.clipboard.writeText(secret.shareUrl);
+                navigator.clipboard.writeText(
+                  `${secret.shareUrl}#${secret.key}`,
+                );
                 setCopyClicked(true);
               }}
               className={`group cursor-pointer h-12 w-15 border-3 border-hidden flex items-center justify-center rounded-r-[3px]  transition-all duration-600 ease-in-out ${

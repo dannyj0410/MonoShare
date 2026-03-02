@@ -4,6 +4,7 @@ import { calcTimePastCreation } from "../../../utils/time/calcTimePastCreation";
 import type { UseMutateFunction } from "@tanstack/react-query";
 import type { DeleteSecretResponse } from "../../../interfaces/secret.interface";
 import Spinner from "../../loaders/Spinner";
+import { emailShortener } from "../../../utils/email.shortener";
 
 type MySecretsItemProps = {
   status: string;
@@ -46,7 +47,7 @@ const MySecretsItem = ({
   return (
     <Link to={`/details/${secret.slug}`}>
       <li
-        className={`mx-6 py-2 px-4 h-fit grid grid-cols-[240px_240px_180px_20px] items-center gap-4 rounded-sm cursor-pointer  ${
+        className={`mx-6 py-2 px-4 h-fit grid grid-cols-[230px_220px_210px_20px] items-center gap-4 rounded-sm cursor-pointer  ${
           secret.status === "ACTIVE"
             ? "hover:bg-blue-200/10 border-t-2 border-white/0 hover:border-white/5"
             : secret.status === "VIEWED"
@@ -166,7 +167,9 @@ const MySecretsItem = ({
                   strokeWidth="0.6667"
                 ></path>
               </svg>
-              <p className="text-sm noto-sans">{secret.receiverEmail}</p>
+              <p className="text-sm noto-sans">
+                {emailShortener(secret.receiverEmail)}
+              </p>
             </>
           )}
         </div>
