@@ -11,6 +11,11 @@ import type { UseMutateFunction } from "@tanstack/react-query";
 import type { DeleteSecretResponse } from "../../../interfaces/secret.interface";
 import Spinner from "../../loaders/Spinner";
 import { emailShortener } from "../../../utils/email.shortener";
+import ActiveItemIcon from "../../icons/ActiveItemIcon";
+import ViewedItemIcon from "../../icons/ViewedItemIcon";
+import ExpiredItemIcon from "../../icons/ExpiredItemIcon";
+import ShieldIcon from "../../icons/ShieldIcon";
+import MailIcon from "../../icons/MailIcon";
 
 type MySecretsItemProps = {
   status: string;
@@ -42,6 +47,8 @@ const MySecretsItem = memo(function MySecretsItem({
 }) {
   const [isCleaningUp, setIsCleaningUp] = useState(false);
 
+  const timePassed = calcTimePastCreation(secret.createdAt);
+
   useEffect(() => {
     if (!isCleaningUp) return;
     const resetTimer = setTimeout(() => {
@@ -67,86 +74,22 @@ const MySecretsItem = memo(function MySecretsItem({
         {/* id + time */}
         <div className="flex items-center gap-2">
           {secret.status === "ACTIVE" ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#76c4ff"
-              className="bi bi-three-dots"
-              viewBox="0 0 16 16"
-              id="Three-Dots--Streamline-Bootstrap"
-              height="16"
-              width="16"
-            >
-              <desc>Three Dots Streamline Icon: https://streamlinehq.com</desc>
-              <path
-                d="M3 9.5a1.5 1.5 0 1 1 0 -3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0 -3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0 -3 1.5 1.5 0 0 1 0 3"
-                strokeWidth="1"
-              ></path>
-            </svg>
+            <ActiveItemIcon />
           ) : secret.status === "VIEWED" ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              id="Sync-Saved-Locally-Fill--Streamline-Rounded-Fill-Material"
-              height="14"
-              width="14"
-            >
-              <desc>
-                Sync Saved Locally Fill Streamline Icon:
-                https://streamlinehq.com
-              </desc>
-              <path
-                fill="#02a30f"
-                d="m10.925 11.575 -1.6 -1.6c-0.15 -0.15 -0.325 -0.22085 -0.525 -0.2125 -0.2 0.00835 -0.375 0.0875 -0.525 0.2375 -0.15 0.15 -0.225 0.325 -0.225 0.525s0.075 0.375 0.225 0.525l2.125 2.125c0.15 0.15 0.325 0.225 0.525 0.225s0.375 -0.075 0.525 -0.225l4.55 -4.25c0 -0.18335 -0.01665 -0.37085 -0.05 -0.5625 -0.03335 -0.19165 -0.11665 -0.35415 -0.25 -0.4875 -0.15 -0.15 -0.32915 -0.225 -0.5375 -0.225 -0.20835 0 -0.3875 0.075 -0.5375 0.225l-3.7 3.7ZM1 21v-1.5h21.25c0.21665 0 0.39585 0.07085 0.5375 0.2125S23 20.03335 23 20.25c0 0.21665 -0.07085 0.39585 -0.2125 0.5375S22.46665 21 22.25 21H1Zm2.5 -3c-0.4 0 -0.75 -0.15 -1.05 -0.45 -0.3 -0.3 -0.45 -0.65 -0.45 -1.05V4.5c0 -0.4 0.15 -0.75 0.45 -1.05C2.75 3.15 3.1 3 3.5 3h17c0.4 0 0.75 0.15 1.05 0.45 0.3 0.3 0.45 0.65 0.45 1.05v12c0 0.4 -0.15 0.75 -0.45 1.05 -0.3 0.3 -0.65 0.45 -1.05 0.45H3.5Z"
-                strokeWidth="0.5"
-              ></path>
-            </svg>
-          ) : secret.status === "EXPIRED" ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              id="Remove-Bold--Streamline-Ultimate"
-              height="10"
-              width="10"
-              className="z-20"
-            >
-              <desc>Remove Bold Streamline Icon: https://streamlinehq.com</desc>
-              <path
-                d="M22.66 5.58a1.5 1.5 0 0 0 0 -2.12l-2.12 -2.12a1.49 1.49 0 0 0 -2.12 0l-6.24 6.24a0.27 0.27 0 0 1 -0.36 0L5.58 1.34a1.49 1.49 0 0 0 -2.12 0L1.34 3.46a1.5 1.5 0 0 0 0 2.12l6.24 6.24a0.25 0.25 0 0 1 0 0.36l-6.24 6.24a1.5 1.5 0 0 0 0 2.12l2.12 2.12a1.49 1.49 0 0 0 2.12 0l6.24 -6.24a0.27 0.27 0 0 1 0.36 0l6.24 6.24a1.47 1.47 0 0 0 1.06 0.44 1.45 1.45 0 0 0 1.06 -0.44l2.12 -2.12a1.5 1.5 0 0 0 0 -2.12l-6.24 -6.24a0.25 0.25 0 0 1 0 -0.36Z"
-                fill="#fb2c36"
-                strokeWidth="1"
-              ></path>
-            </svg>
+            <ViewedItemIcon />
           ) : (
-            ""
+            <ExpiredItemIcon />
           )}
           <p className="text-sm text-(--white)">
             {secret.slug.slice(0, 5).toLowerCase()}
           </p>
-          <p className="text-sm text-(--gray) electrolize">
-            {calcTimePastCreation(secret.createdAt)}
-          </p>
+          <p className="text-sm text-(--gray) electrolize">{timePassed}</p>
         </div>
         {/* password protected */}
         <div className="flex items-center gap-1 justify-start">
           {secret.passwordProtected && (
             <>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                height="18"
-                width="18"
-              >
-                <g id="Shield">
-                  <path
-                    id="Union"
-                    fill="#76c4ff"
-                    d="M11.7236 2.03903c0.2106 -0.06056 0.4361 -0.05039 0.6416 0.03028l7 2.75 0.1377 0.0664c0.3044 0.17705 0.4971 0.5046 0.4971 0.86426V11.25c-0.0001 4.903 -3.0925 9.1031 -7.6719 10.6943 -0.2125 0.0739 -0.4437 0.0739 -0.6562 0C7.09253 20.3531 4.00006 16.153 4 11.25V5.74997l0.01172 -0.15234c0.05354 -0.34795 0.28838 -0.64683 0.62305 -0.77832l7.00003 -2.75zM6 6.43064V11.25c0.00006 3.9099 2.38495 7.2836 6 8.6846 3.615 -1.401 5.9999 -4.7747 6 -8.6846V6.43064l-6 -2.35743z"
-                    strokeWidth="1"
-                  ></path>
-                </g>
-              </svg>
+              <ShieldIcon />
               <p className="text-sm electrolize text-(--gray) mt-0.5">
                 Password Protected
               </p>
@@ -157,23 +100,7 @@ const MySecretsItem = memo(function MySecretsItem({
         <div className="flex items-center gap-1">
           {secret.receiverEmail && (
             <>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="none"
-                id="Mail--Streamline-Majesticons"
-                height="16"
-                width="16"
-              >
-                <desc>Mail Streamline Icon: https://streamlinehq.com</desc>
-                <path
-                  fill="#eee"
-                  fillRule="evenodd"
-                  d="M3.333333333333333 13.333333333333332a2 2 0 0 1 -2 -2V4.666666666666666a2 2 0 0 1 2 -2h9.333333333333332a2 2 0 0 1 2 2v6.666666666666666a2 2 0 0 1 -2 2H3.333333333333333zM5.083333333333333 5.48a0.6666666666666666 0.6666666666666666 0 1 0 -0.8333333333333333 1.04l2.5 2.0006666666666666a2 2 0 0 0 2.5 0l2.5 -2a0.6666666666666666 0.6666666666666666 0 1 0 -0.8333333333333333 -1.0413333333333332l-2.5 2a0.6666666666666666 0.6666666666666666 0 0 1 -0.8333333333333333 0l-2.5 -2z"
-                  clipRule="evenodd"
-                  strokeWidth="0.6667"
-                ></path>
-              </svg>
+              <MailIcon />
               <p className="text-sm noto-sans">
                 {emailShortener(secret.receiverEmail)}
               </p>
@@ -207,7 +134,7 @@ const MySecretsItem = memo(function MySecretsItem({
             >
               <desc>Eraser Streamline Icon: https://streamlinehq.com</desc>
               <path
-                d="M7.980608333333333 1.7362222222222221 0.741775 8.975055555555555c-0.7757 0.7757 -0.7757 2.0323333333333333 0 2.8080333333333334l2.482238888888889 2.482238888888889c0.3723361111111111 0.3723361111111111 0.8780944444444444 0.580225 1.4055694444444442 0.580225h10.217519444444443c0.5491972222222222 0 0.9928972222222222 -0.4437 0.9928972222222222 -0.9928972222222222s-0.4437 -0.9928944444444444 -0.9928972222222222 -0.9928944444444444H10.996530555555553L15.05188888888889 8.807502777777778c0.7757 -0.7757 0.7757 -2.0323333333333333 0 -2.8080333333333334L10.791744444444443 1.7362222222222221c-0.7757 -0.7757 -2.0323333333333333 -0.7757 -2.8080333333333334 0Zm0.2078861111111111 11.126641666666666H4.626480555555555l-2.482238888888889 -2.4822416666666665 3.869191666666666 -3.869191666666666 4.263247222222222 4.263247222222222 -2.088186111111111 2.088186111111111Z"
+                d="M7.98 1.736L0.74 8.975c-.776.776-.776 2.032 0 2.808l2.482 2.482c.373.373.878.58 1.406.58h10.217c.55 0 .993-.444.993-.993s-.444-.993-.993-.993h-3.85l4.055-4.056c.776-.776.776-2.032 0-2.808L10.792 1.736c-.776-.776-2.032-.776-2.808 0Zm.208 11.127H4.626l-2.482-2.482 3.87-3.87 4.263 4.263-2.088 2.088Z"
                 fill="#eee"
                 strokeWidth="0.0278"
                 className="group-hover:fill-(--main-light-blue)"

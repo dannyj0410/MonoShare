@@ -50,7 +50,7 @@ export const createSecret = asyncHandler(
         slug,
         encryptedText,
         encryptionIV,
-        receiverEmail: receiverEmail ? receiverEmail : null,
+        receiverEmail: receiverEmail && user ? receiverEmail : null,
         passwordHash,
         expiresAt: expiresAt!,
         creatorId: user ? user.id : null,

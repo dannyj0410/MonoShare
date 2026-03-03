@@ -1,0 +1,23 @@
+import { memo } from "react";
+
+const ExpiredItemIcon = memo(function ExpiredItemIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      id="Remove-Bold--Streamline-Ultimate"
+      height="10"
+      width="10"
+      className="z-20"
+    >
+      <desc>Remove Bold Streamline Icon: https://streamlinehq.com</desc>
+      <path
+        d="M22.66 5.58a1.5 1.5 0 0 0 0 -2.12l-2.12 -2.12a1.49 1.49 0 0 0 -2.12 0l-6.24 6.24a0.27 0.27 0 0 1 -0.36 0L5.58 1.34a1.49 1.49 0 0 0 -2.12 0L1.34 3.46a1.5 1.5 0 0 0 0 2.12l6.24 6.24a0.25 0.25 0 0 1 0 0.36l-6.24 6.24a1.5 1.5 0 0 0 0 2.12l2.12 2.12a1.49 1.49 0 0 0 2.12 0l6.24 -6.24a0.27 0.27 0 0 1 0.36 0l6.24 6.24a1.47 1.47 0 0 0 1.06 0.44 1.45 1.45 0 0 0 1.06 -0.44l2.12 -2.12a1.5 1.5 0 0 0 0 -2.12l-6.24 -6.24a0.25 0.25 0 0 1 0 -0.36Z"
+        fill="#fb2c36"
+        strokeWidth="1"
+      ></path>
+    </svg>
+  );
+});
+
+export default ExpiredItemIcon;

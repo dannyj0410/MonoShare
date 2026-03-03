@@ -23,7 +23,6 @@ export const useSecretDetails = (id: string, options = {}) => {
   useEffect(() => {
     if (query.isError && query.error) {
       const error = query.error;
-
       let message = "Failed to load secret details";
       let statusCode: number | undefined;
 

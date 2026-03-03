@@ -34,9 +34,12 @@ const SecretDetails = () => {
   });
 
   const secret = stateSecret || fetchedSecret;
-
   if (!secret && isPending) {
     return <SecretSkeleton />;
+  }
+
+  if (!secret) {
+    return null;
   }
 
   return (

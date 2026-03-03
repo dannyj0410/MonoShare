@@ -5,7 +5,7 @@ import { useError } from "../useError";
 
 export const useAuthCheck = () => {
   const { showError } = useError();
-  const { data: user, isLoading, isError, error } = useUser();
+  const { data: user, isFetching, isError, error } = useUser();
 
   useEffect(() => {
     if (isError && error) {
@@ -31,7 +31,7 @@ export const useAuthCheck = () => {
 
   return {
     user,
-    isLoading,
+    isFetching,
     isAuthenticated: !!user && !isError,
   };
 };

@@ -141,6 +141,12 @@ export const checkUser = asyncHandler(async (req: Request, res: Response) => {
     throw new AppError("Unauthorized", HTTP_BAD_REQUEST);
   }
 
+  res.set({
+    "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    Pragma: "no-cache",
+    Expires: "0",
+  });
+
   res.status(HTTP_SUCCESS).json({
     user: { id: user.id, email: user.email, createdAt: user.createdAt },
   });

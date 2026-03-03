@@ -79,7 +79,7 @@ export const ErrorContext = createContext<ErrorContextType | undefined>(
 //     <div
 //       className={`${
 //         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5 pointer-events-none"
-//       } z-50 fixed electrolize text-md font-bold flex items-center bottom-0 right-0 mb-10 mr-20 px-3 py-3 rounded-lg border backdrop-blur-xs transition-all duration-300 cursor-pointer hover:opacity-70 ${theme.border} ${theme.bg}`}
+//       } z-50 fixed electrolize text-base font-bold flex items-center bottom-0 right-0 mb-10 mr-20 px-3 py-3 rounded-lg border backdrop-blur-xs transition-all duration-300 cursor-pointer hover:opacity-70 ${theme.border} ${theme.bg}`}
 //       onClick={onClose}
 //     >
 //       {/* Icon Switcher */}
