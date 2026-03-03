@@ -6,7 +6,7 @@ export const useUser = () =>
     queryKey: ["user"],
     queryFn: getUser,
     retry: false,
-    staleTime: 5 * 60_000,
+    staleTime: 0,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     refetchOnReconnect: false,

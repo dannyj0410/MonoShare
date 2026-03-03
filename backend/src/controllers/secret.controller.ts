@@ -80,7 +80,14 @@ export const createSecret = asyncHandler(
 
 export const getMySecrets = asyncHandler(
   async (req: Request, res: Response<MySecretsReponse>) => {
-    const user = req.user!;
+    const user = req.user;
+
+    if (!user) {
+      throw new AppError(
+        "You are unauthenticated. Please sign in.",
+        HTTP_UNAUTHORIZED,
+      );
+    }
 
     const userWithSecrets = await prisma.user.findUnique({
       where: { id: user.id },
