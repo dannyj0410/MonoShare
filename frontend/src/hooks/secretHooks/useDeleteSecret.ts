@@ -8,7 +8,6 @@ export const useDeleteSecret = (navBack: boolean = false) => {
   const { showError } = useError();
   const queryClient = useQueryClient();
 
-  console.log(navBack);
   const returnPage = useReturnPage(undefined, navBack);
 
   return useMutation({

@@ -11,6 +11,7 @@ export async function generateKey(): Promise<CryptoKey> {
 }
 
 export async function encryptSecret(text: string, key: CryptoKey) {
+  if (!text) return { encryptedText: "", encryptionIV: "" };
   const encoder = new TextEncoder();
   const encodedText = encoder.encode(text);
 

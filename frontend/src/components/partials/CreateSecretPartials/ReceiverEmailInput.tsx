@@ -2,7 +2,6 @@ interface ReceiverEmailInputProps {
   receiverEmail: string;
   error?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   onClear: () => void;
 }
 
@@ -10,12 +9,11 @@ const ReceiverEmailInputField = ({
   receiverEmail,
   error,
   onChange,
-  onBlur,
   onClear,
 }: ReceiverEmailInputProps) => {
   return (
     <div
-      className={`pl-3 w-140 group ${error ? "input-box-red" : "input-box"}`}
+      className={`pl-3 w-140 group ${error ? "input-box-red" : "input-box"} ${!receiverEmail && "cursor-pointer opacity-60 focus-within:opacity-100 hover:opacity-100"}`}
     >
       <label
         htmlFor="receiverEmail"
@@ -29,8 +27,8 @@ const ReceiverEmailInputField = ({
           height="16px"
           width="16px"
           xmlns="http://www.w3.org/2000/svg"
-          className={`${!receiverEmail && "opacity-0"}`}
-          onClick={() => receiverEmail && onClear()}
+          className={`${(error || error === undefined || !receiverEmail) && "opacity-0"}`}
+          onClick={() => !!error && receiverEmail && onClear()}
         >
           <path
             strokeLinecap="round"
@@ -45,11 +43,10 @@ const ReceiverEmailInputField = ({
         type="text"
         name="receiverEmail"
         id="receiverEmail"
-        placeholder="Send to an email"
-        className="p-3 text-xs placeholder-(--white) focus:outline-0 w-full"
+        placeholder="Send to an email?"
+        className={`p-3 text-xs placeholder-(--white) focus:outline-0 w-full ${!receiverEmail && "focus:cursor-auto hover:cursor-pointer"}`}
         value={receiverEmail}
         onChange={onChange}
-        onBlur={onBlur}
       />
     </div>
   );

@@ -11,8 +11,8 @@ export const useMySecrets = () => {
     queryKey: ["mysecrets"],
     queryFn: getMySecrets,
     retry: false,
-    staleTime: 120_000,
-    gcTime: 0,
+    staleTime: 0,
+    gcTime: 60_000,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     refetchOnReconnect: false,
@@ -34,7 +34,6 @@ export const useMySecrets = () => {
       console.log("Error detected:", { message, statusCode });
 
       if (statusCode === 404 || statusCode === 401 || statusCode === 500) {
-        queryClient.setQueryData(["user"], null);
         showError(message, { redirect: true, duration: 5000 });
       } else {
         showError(message, { redirect: true, duration: 4000 });

@@ -22,6 +22,8 @@ import type {
   ExpirationTimeOptions,
   ICreateSecretRequest,
 } from "../../../interfaces/secret.interface";
+import { useDebounce } from "../../../hooks/useDebounce";
+import { validateEmail } from "../../../utils/validators/auth.validator";
 
 const CreateSecretForm = forwardRef<
   HTMLDivElement,
@@ -29,6 +31,7 @@ const CreateSecretForm = forwardRef<
 >(({ isAuthenticated }, ref) => {
   const navigate = useNavigate();
 
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [secretFormData, setSecretFormData] = useState<ICreateSecretRequest>({
     receiverEmail: "",
     secret: "",
@@ -36,22 +39,48 @@ const CreateSecretForm = forwardRef<
     timeTillExpiration: "7d",
   });
 
-  const [secretFormErrors, setSecretFormErrors] = useState<{
-    receiverEmail?: boolean;
-    password?: boolean;
-    secret?: boolean;
-  }>({ receiverEmail: false, password: false, secret: false });
-
   const { mutateAsync: createSecretMutateAsync, isPending: isCreating } =
     useCreateSecret();
+
+  const debouncedEmail = useDebounce(secretFormData.receiverEmail, 300);
+  const debouncedSecret = useDebounce(secretFormData.secret, 300);
+  const debouncedPassword = useDebounce(secretFormData.password, 300);
+
+  const emailError =
+    debouncedEmail.length > 0
+      ? validateReceiverEmail(debouncedEmail)
+      : undefined;
+
+  const secretError =
+    hasSubmitted || debouncedSecret.length > 0
+      ? validateSecretText(debouncedSecret)
+      : undefined;
+
+  const passwordError =
+    debouncedPassword.length > 0
+      ? validateSecretPassword(debouncedPassword)
+      : undefined;
+
+  const showEmailError = debouncedEmail.length > 0 ? emailError : undefined;
+
+  const showSecretError =
+    hasSubmitted || debouncedSecret.length > 0 ? secretError : undefined;
+
+  const showPasswordError =
+    hasSubmitted || debouncedPassword.length > 0 ? passwordError : undefined;
+
+  const formHasErrors =
+    (secretFormData.receiverEmail &&
+      validateEmail(secretFormData.receiverEmail)) ||
+    (secretFormData.password &&
+      validateSecretPassword(secretFormData.password)) ||
+    validateSecretText(secretFormData.secret);
 
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setSecretFormData({ ...secretFormData, [name]: value });
-    // todo: implement debounce to actually validate
-    setSecretFormErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
   const onExpirationChangeHandler = (
@@ -63,42 +92,15 @@ const CreateSecretForm = forwardRef<
     });
   };
 
-  const onBlurHandler = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const name = e.target.name as keyof ICreateSecretRequest;
-    const value = e.target.value;
-    let error: boolean;
-
-    if (name === "receiverEmail") {
-      error = validateReceiverEmail(value);
-    }
-    if (name === "password") {
-      error = validateSecretPassword(value);
-    }
-    if (name === "secret") {
-      error = validateSecretText(value);
-    }
-
-    setSecretFormErrors((prev) => ({
-      ...prev,
-      [name]: error,
-    }));
-  };
-
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setHasSubmitted(true);
 
-    const emailError = validateReceiverEmail(secretFormData.receiverEmail);
-    const passwordError = validateSecretPassword(secretFormData.password);
-    const secretError = validateSecretText(secretFormData.secret);
+    const emailErr = validateReceiverEmail(secretFormData.receiverEmail);
+    const passwordErr = validateSecretPassword(secretFormData.password);
+    const secretErr = validateSecretText(secretFormData.secret);
 
-    if (emailError || secretError || passwordError) {
-      setSecretFormErrors({
-        receiverEmail: emailError,
-        password: passwordError,
-        secret: secretError,
-      });
+    if (emailErr || secretErr || passwordErr) {
       return;
     }
 
@@ -116,7 +118,7 @@ const CreateSecretForm = forwardRef<
       receiverEmail: secretFormData.receiverEmail,
       password: secretFormData.password,
     });
-    //todo: make this data inaccessible after changing page
+
     navigate(`/details/${res.secret.slug}`, {
       state: {
         secret: {
@@ -138,9 +140,8 @@ const CreateSecretForm = forwardRef<
         {isAuthenticated && (
           <ReceiverEmailInputField
             receiverEmail={secretFormData.receiverEmail}
-            error={secretFormErrors.receiverEmail}
+            error={showEmailError}
             onChange={onChangeHandler}
-            onBlur={onBlurHandler}
             onClear={() =>
               setSecretFormData({ ...secretFormData, receiverEmail: "" })
             }
@@ -151,11 +152,10 @@ const CreateSecretForm = forwardRef<
         <textarea
           name="secret"
           id="secret"
-          className={`hide-scrollbar resize-none noto-sans w-full h-45 p-5 text-xs placeholder-(--white) focus:outline-0 ${secretFormErrors.secret ? "input-box-red" : "input-box"}`}
-          placeholder="Write your secret here"
+          className={`hide-scrollbar resize-none noto-sans w-full h-45 p-5 text-xs placeholder-(--white) focus:outline-0 ${showSecretError ? "input-box-red" : "input-box"}`}
+          placeholder="Write your secret here..."
           value={secretFormData.secret}
           onChange={onChangeHandler}
-          onBlur={onBlurHandler}
         />
 
         {/* Password, Expiration Time, Create Button */}
@@ -163,9 +163,8 @@ const CreateSecretForm = forwardRef<
           {/* Password */}
           <SecretPasswordField
             password={secretFormData.password}
-            error={secretFormErrors.password}
+            error={showPasswordError}
             onChange={onChangeHandler}
-            onBlur={onBlurHandler}
             onClear={() =>
               setSecretFormData({ ...secretFormData, password: "" })
             }
@@ -180,7 +179,7 @@ const CreateSecretForm = forwardRef<
           {/* Create Button */}
           <button
             disabled={isCreating}
-            className={`relative overflow-hidden action-btn w-26 h-12.5 border-3 rounded-xl arvo ${secretFormErrors.receiverEmail || secretFormErrors.password || secretFormErrors.secret ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
+            className={`relative overflow-hidden action-btn w-26 h-12.5 border-3 rounded-xl arvo ${formHasErrors && hasSubmitted ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
           >
             {!isCreating ? (
               <span>Create</span>

@@ -4,7 +4,6 @@ interface SecretPasswordFieldProps {
   password: string;
   error?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   onClear: () => void;
 }
 
@@ -12,16 +11,15 @@ const SecretPasswordField = ({
   password,
   error,
   onChange,
-  onBlur,
   onClear,
 }: SecretPasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div
-      className={`pl-3 pr-3 w-50 group ${
+      className={`pl-3 pr-3 w-50 flex items-center group ${
         error ? "input-box-red" : "input-box"
-      }`}
+      } ${!password && "opacity-60 focus-within:opacity-100 hover:opacity-100 transition-all duration-300 cursor-pointer"}`}
     >
       <label
         htmlFor="password"
@@ -36,7 +34,7 @@ const SecretPasswordField = ({
           height="16px"
           width="16px"
           xmlns="http://www.w3.org/2000/svg"
-          className={`${!password && "opacity-0"}`}
+          className={`${(!password || error || error === undefined) && "opacity-0"}`}
         >
           <path
             strokeLinecap="round"
@@ -51,11 +49,10 @@ const SecretPasswordField = ({
         type={showPassword ? "text" : "password"}
         name="password"
         id="password"
-        placeholder="Require Password"
-        className="text-xs placeholder-(--white) w-30 pr-2 focus:outline-0"
+        placeholder="Require Password?"
+        className={`text-xs placeholder-(--white) w-30 pr-2 h-full focus:outline-0 ${!password && "focus:cursor-auto hover:cursor-pointer"}`}
         value={password}
         onChange={onChange}
-        onBlur={onBlur}
       />
 
       <div className="flex items-center">
