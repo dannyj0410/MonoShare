@@ -53,7 +53,7 @@ export const createUser = asyncHandler(
       });
 
       return [user, session, token];
-    }); // can put this in a user.service.ts create which will receive email,passwordHash tokenhash and user.id. Maybe create userCreateDetails which will have those and send it as one object
+    }); // can put this in a user.service.ts
 
     if (!user || !session) {
       throw new AppError("Error creating user or session", HTTP_BAD_REQUEST);
@@ -64,7 +64,7 @@ export const createUser = asyncHandler(
       .cookie("session", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        sameSite: "strict",
         expires: session.expiresAt,
         path: "/",
       })
@@ -112,7 +112,7 @@ export const signinUser = asyncHandler(
       .cookie("session", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        sameSite: "strict",
         expires: session.expiresAt,
         path: "/",
       })
@@ -128,12 +128,17 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   const tokenHash = req.session!.tokenHash;
 
   await prisma.session.delete({ where: { tokenHash } });
-  res.clearCookie("session");
+  res.clearCookie("session", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+  });
   res.status(HTTP_SUCCESS).json({ message: "Successfully logged out" });
   return;
 });
 
-//* CHECK
+//* USER CHECK
 export const checkUser = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
 

@@ -30,7 +30,6 @@ model Secret {
   expiresAt     DateTime
   viewedAt      DateTime?
 
-  // @@index([expiresAt], map: "expiresAt_ttl") // MongoDB will auto delete after this date
   @@index([creatorId])
 }
 
@@ -42,9 +41,8 @@ model Session {
   createdAt DateTime @default(now())
   expiresAt DateTime
 
-  // @@index([expiresAt], map: "expiresAt_ttl") // Cleans up old sessions automatically
-  @@index([userId])
   @@index([expiresAt])
+  @@index([userId])
 }
 
 //npx prisma generate
