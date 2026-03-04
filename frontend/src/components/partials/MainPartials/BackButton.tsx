@@ -1,17 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import useReturnPage from "../../../hooks/useReturnPage";
 
 const BackButton = () => {
-  const navigation = useNavigate();
+  const returnPage = useReturnPage();
   return (
     <button
       className="group flex items-center noto-sans font-bold p-2 cursor-pointer"
-      onClick={() => {
-        if (window.history.length > 1) {
-          navigation(-1);
-        } else {
-          navigation("/");
-        }
-      }}
+      onClick={returnPage}
     >
       <svg
         stroke="currentColor"

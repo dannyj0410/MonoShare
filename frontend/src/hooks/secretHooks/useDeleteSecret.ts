@@ -1,20 +1,22 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteSecret } from "../../lib/secret";
-import { useNavigate } from "react-router-dom";
 import { useError } from "../useError";
 import { isApiError } from "../../interfaces/error.interface";
+import useReturnPage from "../useReturnPage";
 
-export const useDeleteSecret = (navBack?: boolean) => {
+export const useDeleteSecret = (navBack: boolean = false) => {
   const { showError } = useError();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+
+  console.log(navBack);
+  const returnPage = useReturnPage(undefined, navBack);
 
   return useMutation({
     mutationFn: (id: string) => deleteSecret(id),
     onSuccess: (_, id) => {
       queryClient.invalidateQueries({ queryKey: ["secret", id] });
       queryClient.invalidateQueries({ queryKey: ["mysecrets"] });
-      if (navBack) navigate(-1);
+      returnPage();
     },
     onError: (error) => {
       let message = "Registration Error";

@@ -6,7 +6,7 @@ import Spinner from "../loaders/Spinner";
 const EraseButton = ({ status }: { status: string }) => {
   const [eraseConfirmation, setEraseConfirmation] = useState(false);
   const { id } = useParams();
-  const { mutate: deleteSecretMutate, isPending } = useDeleteSecret(id!, true);
+  const { mutate: deleteSecretMutate, isPending } = useDeleteSecret(true);
 
   return (
     <div className="flex ml-auto gap-5">
@@ -20,7 +20,7 @@ const EraseButton = ({ status }: { status: string }) => {
           </button>
           <button
             className={`flex items-center justify-center noto-sans w-25 h-11 rounded-md mt-5 ${isPending ? "bg-red-950 text-(--gray)" : "bg-red-500 text-(--white)"} cursor-pointer`}
-            onClick={() => deleteSecretMutate()}
+            onClick={() => deleteSecretMutate(id!)}
           >
             {!isPending ? (
               "Confirm"
