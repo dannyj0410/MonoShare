@@ -9,8 +9,8 @@ const AuthGuard = ({
   mode: "guest" | "protected";
   children: ReactNode;
 }) => {
-  const { isAuthenticated, isLoading } = useAuthCheck();
-  if (isLoading) return null; //change to loader
+  const { isAuthenticated, isFetching } = useAuthCheck();
+  if (isFetching) return null;
 
   if (mode === "protected" && !isAuthenticated) {
     return <Navigate to="/sign-in" replace />;
@@ -18,7 +18,7 @@ const AuthGuard = ({
 
   if (mode === "guest" && isAuthenticated) {
     return (
-      <Navigate to="/" replace state={{ reason: "already-authenticated" }} /> //read location.state.reason with useeffect on homepage
+      <Navigate to="/" replace state={{ reason: "already-authenticated" }} />
     );
   }
 

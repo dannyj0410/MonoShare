@@ -31,6 +31,7 @@ export const createSecret = asyncHandler(
       receiverEmail,
       password,
     }: CreateSecretDto = req.body;
+
     const user = req.user;
 
     SecretService.validateSecretPayload({

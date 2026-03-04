@@ -17,6 +17,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       queryClient.cancelQueries({ queryKey: ["user"] });
+      queryClient.setQueryData(["user"], null);
     }
 
     return Promise.reject(error);
