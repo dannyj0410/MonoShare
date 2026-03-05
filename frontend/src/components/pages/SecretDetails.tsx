@@ -11,11 +11,12 @@ const SecretDetails = () => {
   const location = useLocation();
   const created = location.state?.secret.created || false;
   const [copyClicked, setCopyClicked] = useState(false);
+
   useEffect(() => {
-    return () => {
+    if (location.state) {
       window.history.replaceState({}, document.title);
-    };
-  }, []);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     if (!copyClicked) return;
