@@ -1,4 +1,4 @@
-import type { ExpirationTimeOptions } from "../../interfaces/secret.interface";
+import type { ExpirationTimeOptions } from "../../../interfaces/secret.interface";
 
 const EXPIRATION_OPTIONS: ExpirationTimeOptions[] = ["7d", "1d", "1h"];
 

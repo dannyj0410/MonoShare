@@ -12,18 +12,14 @@ import {
   validateSecretPassword,
   validateSecretText,
 } from "../../../utils/validators/secret.validator";
-import {
-  encryptSecret,
-  exportKeyToString,
-  generateKey,
-} from "../../../utils/encryption/crypto";
 
 import type {
   ExpirationTimeOptions,
-  ICreateSecretRequest,
+  ICreateSecretFormData,
 } from "../../../interfaces/secret.interface";
 import { useDebounce } from "../../../hooks/useDebounce";
 import { validateEmail } from "../../../utils/validators/auth.validator";
+import { createEncryptedSecret } from "../../../services/createSecret";
 
 const CreateSecretForm = forwardRef<
   HTMLDivElement,
@@ -32,7 +28,7 @@ const CreateSecretForm = forwardRef<
   const navigate = useNavigate();
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [secretFormData, setSecretFormData] = useState<ICreateSecretRequest>({
+  const [secretFormData, setSecretFormData] = useState<ICreateSecretFormData>({
     receiverEmail: "",
     secret: "",
     password: "",
@@ -42,9 +38,9 @@ const CreateSecretForm = forwardRef<
   const { mutateAsync: createSecretMutateAsync, isPending: isCreating } =
     useCreateSecret();
 
-  const debouncedEmail = useDebounce(secretFormData.receiverEmail, 300);
-  const debouncedSecret = useDebounce(secretFormData.secret, 300);
-  const debouncedPassword = useDebounce(secretFormData.password, 300);
+  const debouncedEmail = useDebounce(secretFormData.receiverEmail, 200);
+  const debouncedSecret = useDebounce(secretFormData.secret, 200);
+  const debouncedPassword = useDebounce(secretFormData.password, 200);
 
   const emailError =
     debouncedEmail.length > 0
@@ -60,14 +56,6 @@ const CreateSecretForm = forwardRef<
     debouncedPassword.length > 0
       ? validateSecretPassword(debouncedPassword)
       : undefined;
-
-  const showEmailError = debouncedEmail.length > 0 ? emailError : undefined;
-
-  const showSecretError =
-    hasSubmitted || debouncedSecret.length > 0 ? secretError : undefined;
-
-  const showPasswordError =
-    hasSubmitted || debouncedPassword.length > 0 ? passwordError : undefined;
 
   const formHasErrors =
     (secretFormData.receiverEmail &&
@@ -104,29 +92,15 @@ const CreateSecretForm = forwardRef<
       return;
     }
 
-    const urlFragmentKey = await generateKey();
-    const { encryptedText, encryptionIV } = await encryptSecret(
-      secretFormData.secret,
-      urlFragmentKey,
+    const secretResponse = await createEncryptedSecret(
+      secretFormData,
+      createSecretMutateAsync,
     );
-    const urlKeyAsString = await exportKeyToString(urlFragmentKey);
 
-    const res = await createSecretMutateAsync({
-      encryptedText,
-      encryptionIV,
-      timeTillExpiration: secretFormData.timeTillExpiration,
-      receiverEmail: secretFormData.receiverEmail,
-      password: secretFormData.password,
-    });
-
-    navigate(`/details/${res.secret.slug}`, {
+    navigate(`/details/${secretResponse.slug}`, {
       state: {
         secret: {
-          ...res.secret,
-          created: true,
-          key: urlKeyAsString,
-          text: secretFormData.secret,
-          shareUrl: res.shareUrl,
+          ...secretResponse,
         },
       },
     });
@@ -140,7 +114,7 @@ const CreateSecretForm = forwardRef<
         {isAuthenticated && (
           <ReceiverEmailInputField
             receiverEmail={secretFormData.receiverEmail}
-            error={showEmailError}
+            error={emailError}
             onChange={onChangeHandler}
             onClear={() =>
               setSecretFormData({ ...secretFormData, receiverEmail: "" })
@@ -152,7 +126,7 @@ const CreateSecretForm = forwardRef<
         <textarea
           name="secret"
           id="secret"
-          className={`hide-scrollbar resize-none noto-sans w-full h-45 p-5 text-xs placeholder-(--white) focus:outline-0 ${showSecretError ? "input-box-red" : "input-box"}`}
+          className={`hide-scrollbar resize-none noto-sans w-full h-45 p-5 text-xs placeholder-(--white) focus:outline-0 ${secretError ? "input-box-red" : "input-box"}`}
           placeholder="Write your secret here..."
           value={secretFormData.secret}
           onChange={onChangeHandler}
@@ -163,7 +137,7 @@ const CreateSecretForm = forwardRef<
           {/* Password */}
           <SecretPasswordField
             password={secretFormData.password}
-            error={showPasswordError}
+            error={passwordError}
             onChange={onChangeHandler}
             onClear={() =>
               setSecretFormData({ ...secretFormData, password: "" })

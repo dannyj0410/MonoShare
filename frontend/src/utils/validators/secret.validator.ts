@@ -7,12 +7,16 @@ export const validateReceiverEmail = (email: string): boolean => {
 };
 
 export const validateSecretPassword = (password: string): boolean => {
-  if (!password) return false;
-  if (password.length < 3) return true;
+  const hasSpaces = /\s/.test(password);
+
+  if (hasSpaces || !password || password.length < 3) {
+    return true;
+  }
+
   return false;
 };
 
 export const validateSecretText = (secret: string): boolean => {
-  if (secret.length < 3) return true;
+  if (secret.trim().length < 3) return true;
   return false;
 };

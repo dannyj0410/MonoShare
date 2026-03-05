@@ -17,9 +17,24 @@ export interface ISecret {
   viewedAt: string | null;
 }
 
-export interface ICreateSecretRequest {
+export interface IHydratedSecret extends ISecret {
+  text: string;
+  key: string;
+  shareUrl: string;
+  created: boolean;
+}
+
+export interface ICreateSecretFormData {
   receiverEmail: string;
   secret: string;
+  password: string;
+  timeTillExpiration: ExpirationTimeOptions;
+}
+
+export interface ICreateSecretRequest {
+  receiverEmail: string;
+  encryptedText: string;
+  encryptionIV: string;
   password: string;
   timeTillExpiration: ExpirationTimeOptions;
 }
@@ -27,7 +42,7 @@ export interface ICreateSecretRequest {
 export interface ICreateSecretResponse {
   message: string;
   shareUrl: string;
-  secret: ISecret;
+  secret: IHydratedSecret;
 }
 
 export interface ISecretMetadata {
