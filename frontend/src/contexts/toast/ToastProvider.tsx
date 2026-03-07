@@ -1,43 +1,47 @@
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useRef, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ToastOptions, ToastType } from "../../interfaces/toast.interface";
 import { ToastContext } from "./ToastContext";
 import ToastPopup from "../../components/partials/MainPartials/Toast";
 
-interface ToastProviderProps {
-  children: ReactNode;
-}
-
-const ToastProvider = ({ children }: ToastProviderProps) => {
-  const [message, setMessage] = useState<string | null>(null);
-  const [type, setType] = useState<ToastType>("success");
-
-  const [isVisible, setIsVisible] = useState(false);
+const ToastProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
+  const [message, setMessage] = useState<string | null>(null);
+  const [type, setType] = useState<ToastType>("error");
+  const [isVisible, setIsVisible] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showToast = useCallback(
     (message: string, type: ToastType, options: ToastOptions = {}) => {
       const { redirect = false, duration = 4000 } = options;
 
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
       setMessage(message);
-      setIsVisible(true);
       setType(type);
+      setIsVisible(true);
 
       if (redirect) {
         navigate("/");
       }
 
-      setTimeout(() => {
+      timerRef.current = setTimeout(() => {
         setIsVisible(false);
-        setTimeout(() => setMessage(null), 300); // Wait for animation to complete
+        setTimeout(() => setMessage(null), 400);
+        timerRef.current = null;
       }, duration);
     },
     [navigate],
   );
 
   const clearToast = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
     setIsVisible(false);
-    setTimeout(() => setMessage(null), 300);
+    setTimeout(() => setMessage(null), 400);
   }, []);
 
   return (

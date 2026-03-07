@@ -14,8 +14,8 @@ const TOAST_CONFIG = {
     closeIcon: "border-emerald-400/30 bg-emerald-950 stroke-[#00ffbc]",
   },
   info: {
-    containerStyle: "animate-rise font-normal bg-[#37415170] border-[#374151]",
-    closeIcon: "border-[#374151] bg-gray-950 stroke-[#374151]",
+    containerStyle: "animate-rise font-normal bg-gray-400/20 border-white/20",
+    closeIcon: "border-white/30 bg-neutral-950 stroke-white/30",
   },
 };
 
@@ -37,8 +37,8 @@ const Toast = ({
       className={`${
         isVisible
           ? "opacity-100 translate-y-0"
-          : "opacity-100 translate-y-5 pointer-events-none"
-      } z-50 fixed text-base electrolize flex items-center bottom-0 right-0 mb-10 mr-20 px-3 py-3 rounded-lg backdrop-blur-xs border ${cfg.containerStyle} cursor-pointer hover:opacity-70`}
+          : "opacity-0 translate-y-10 pointer-events-none"
+      } z-50 fixed text-base electrolize flex items-center bottom-0 right-0 mb-10 mr-20 px-3 py-3 rounded-lg backdrop-blur-xs border duration-400 ${cfg.containerStyle} cursor-pointer hover:opacity-70`}
       onClick={onClose}
     >
       {type === "error" ? (

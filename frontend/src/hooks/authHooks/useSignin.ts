@@ -11,13 +11,8 @@ export const useSignin = () => {
     mutationFn: signin,
     onSuccess: (data) => {
       queryClient.setQueryData(["user"], data.user);
-      const toastType: ToastType = "info";
-      handleResponse(
-        toastType,
-        `Welcome ${data.user.email.split("@")[0]}`,
-        null,
-        5000,
-      );
+      const toastType: ToastType = "success";
+      handleResponse(toastType, "Signed In", null, 5000);
     },
     onError: (error) => {
       const toastType: ToastType = "error";

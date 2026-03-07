@@ -80,7 +80,8 @@ const Features = () => {
               Advanced Privacy Options
             </h2>
             <p className="noto-sans text-sm font-medium text-(--gray)">
-              You decide your secrets password and how long it stays live.
+              You decide your secrets password, how long it stays live and who
+              its sent to.
             </p>
           </li>
           {/* Self-erasing links */}
@@ -107,11 +108,11 @@ const Features = () => {
             </div>
 
             <h2 className="electrolize text-xl tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
-              Self-erasing Links
+              Self-erasing Link
             </h2>
             <p className="noto-sans text-sm font-medium text-(--gray)">
-              Once your secret has been accessed, the link will automatically
-              erase itself from existence.
+              Once your secret has been accessed, the link and secret will
+              automatically erase itself from existence.
             </p>
           </li>
           {/* Fully encrypted  */}
@@ -140,7 +141,7 @@ const Features = () => {
             </h2>
             <p className="noto-sans text-sm font-medium text-(--gray)">
               Both in your browser and in our database, your secret stays fully
-              encrypted at all times.
+              encrypted at all times. Even we cannot decrypt it.
             </p>
           </li>
         </ul>
