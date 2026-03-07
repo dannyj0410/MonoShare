@@ -9,7 +9,8 @@ export const validateReceiverEmail = (email: string): boolean => {
 export const validateSecretPassword = (password: string): boolean => {
   const hasSpaces = /\s/.test(password);
 
-  if (hasSpaces || !password || password.length < 3) {
+  if (!password) return false;
+  if (hasSpaces || password.length < 3) {
     return true;
   }
 

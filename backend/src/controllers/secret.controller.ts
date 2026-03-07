@@ -216,6 +216,7 @@ export const getSecretMetadata = asyncHandler(
           encryptionIV: "",
         },
       });
+
       throw new AppError(
         "This secret has expired and is no longer available",
         HTTP_GONE,

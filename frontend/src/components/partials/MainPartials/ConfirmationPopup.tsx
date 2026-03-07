@@ -62,7 +62,8 @@ const ConfirmationPopup = ({
   password?: string;
   setPassword?: Dispatch<SetStateAction<string>>;
 }) => {
-  const returnPage = useReturnPage();
+  const navBackOnCancel = option === "Erase" ? false : true;
+  const returnPage = useReturnPage(navBackOnCancel);
   return (
     <div
       className={`${options[option].position} fixed translate-x-[-50%] left-1/2 z-50 duration-200 ${isOpen ? "translate-y-0 opacity-100 blur-none" : "translate-y-10 opacity-0 blur-md pointer-events-none"}`}
@@ -121,7 +122,10 @@ const ConfirmationPopup = ({
             <button
               type="button"
               className="border border-gray-400/15 hover:border-gray-400/25 noto-sans rounded-lg py-2 px-15 cursor-pointer  transition-colors duration-100"
-              onClick={returnPage}
+              onClick={() => {
+                returnPage();
+                if (option === "Erase") setOpen(false);
+              }}
             >
               Cancel
             </button>

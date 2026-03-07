@@ -1,21 +1,23 @@
-export interface ErrorOptions {
+export type ToastType = "success" | "error" | "info";
+
+export interface ToastOptions {
   redirect?: boolean;
   duration?: number;
 }
 
-export interface ErrorContextType {
-  showError: (message: string, options?: ErrorOptions) => void;
-  clearError: () => void;
+export interface ToastContextType {
+  showToast: (message: string, type: ToastType, options?: ToastOptions) => void;
+  clearToast: () => void;
 }
 
-export interface ApiErrorResponse {
+export interface ApiResponse {
   message: string;
   statusCode?: number;
 }
 
 export interface ApiError extends Error {
   response?: {
-    data?: ApiErrorResponse;
+    data?: ApiResponse;
     status?: number;
   };
 }

@@ -1,7 +1,7 @@
 import { createContext } from "react";
-import type { ErrorContextType } from "../../interfaces/error.interface";
+import type { ToastContextType } from "../../interfaces/toast.interface";
 
-export const ErrorContext = createContext<ErrorContextType | undefined>(
+export const ToastContext = createContext<ToastContextType | undefined>(
   undefined,
 );
 

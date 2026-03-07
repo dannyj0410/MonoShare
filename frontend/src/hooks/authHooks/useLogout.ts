@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../../lib/auth";
+import { useHandleResponse } from "../useHandleResponse";
 
 export const useLogout = () => {
+  const handleResponse = useHandleResponse();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -12,6 +14,8 @@ export const useLogout = () => {
     onSuccess: () => {
       queryClient.clear();
       queryClient.removeQueries({ queryKey: ["user"] });
+      const toastType = "info";
+      handleResponse(toastType, "Logged Out", null);
     },
   });
 };

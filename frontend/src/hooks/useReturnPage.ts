@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-const useReturnPage = (fallbackPath = "/", navback = true) => {
+const useReturnPage = (navback = true, fallbackPath = "/") => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -13,6 +13,9 @@ const useReturnPage = (fallbackPath = "/", navback = true) => {
         }, 0);
       } else {
         navigate(fallbackPath);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
       }
     }
   };
