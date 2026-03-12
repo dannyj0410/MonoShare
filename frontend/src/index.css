@@ -110,13 +110,13 @@
   }
 
   .features-card {
-    @apply z-10 flex flex-col w-70 mx-8 border  border-[#031725] rounded-md p-7 bg-[#ffffff] text-(--white);
+    @apply z-10 flex flex-col w-70 border min-w-42.5 max-lg:basis-[20%] border-[#031725] rounded-md p-7 max-xl:p-3 bg-[#ffffff] text-(--white);
     background: linear-gradient(200deg, #010e18 0%, #01090f 50%, #000407 100%);
     background-size: 150% 100%;
   }
 
   .icon-box {
-    @apply border border-[#fff0] rounded-md w-fit p-1.5 mb-1 transition-all duration-300 ease-in-out group-hover:bg-blue-300/20 group-hover:border-(--main-light-blue) group-hover:shadow-[0px_0px_20px_10px_#76c4ff1e];
+    @apply border border-[#fff0] rounded-md w-fit p-1.5 mb-1 max-xl:mx-auto transition-all duration-300 ease-in-out group-hover:bg-blue-300/20 group-hover:border-(--main-light-blue) group-hover:shadow-[0px_0px_20px_10px_#76c4ff1e];
   }
 
   .features-card:hover {
