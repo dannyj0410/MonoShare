@@ -81,7 +81,7 @@ const Features = () => {
             </h2>
             <p className="noto-sans text-sm font-medium text-(--gray)">
               You decide your secrets password, how long it stays live and who
-              its sent to.
+              can access it.
             </p>
           </li>
           {/* Self-erasing links */}
@@ -111,11 +111,11 @@ const Features = () => {
               Self-erasing Link
             </h2>
             <p className="noto-sans text-sm font-medium text-(--gray)">
-              Once your secret has been accessed, the link and secret will
-              automatically erase itself from existence.
+              Once your secret has been accessed, it will automatically erase
+              itself forever.
             </p>
           </li>
-          {/* Fully encrypted  */}
+          {/* Zero Knowledge  */}
           <li className="features-card group transition-all duration-300 ease-in-out">
             <div className="icon-box">
               <svg
@@ -137,11 +137,11 @@ const Features = () => {
             </div>
 
             <h2 className="electrolize text-xl tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
-              Fully Encrypted
+              Zero Knowledge Architecture
             </h2>
             <p className="noto-sans text-sm font-medium text-(--gray)">
               Both in your browser and in our database, your secret stays fully
-              encrypted at all times. Even we cannot decrypt it.
+              encrypted at all times.
             </p>
           </li>
         </ul>

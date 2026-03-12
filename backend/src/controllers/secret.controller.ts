@@ -194,6 +194,7 @@ export const getSecretMetadata = asyncHandler(
         expiresAt: true,
         viewedAt: true,
         creatorId: true,
+        receiverEmail: true,
       },
     });
 
@@ -223,6 +224,21 @@ export const getSecretMetadata = asyncHandler(
       );
     }
 
+    if (secret.receiverEmail) {
+      if (!user) {
+        throw new AppError(
+          "Please sign in to view this secret",
+          HTTP_UNAUTHORIZED,
+        );
+      }
+      if (secret.receiverEmail !== user.email) {
+        throw new AppError(
+          "You are not authorized to view this secret",
+          HTTP_UNAUTHORIZED,
+        );
+      }
+    }
+
     res.status(HTTP_SUCCESS).json({
       passwordProtected: !!secret.passwordHash,
       isOwner,
@@ -232,6 +248,7 @@ export const getSecretMetadata = asyncHandler(
 
 export const viewSecret = asyncHandler(
   async (req: Request, res: Response<ViewSecretResponse>) => {
+    const user = req.user;
     const slug = req.params.secretid;
     const { password } = req.body;
 
@@ -263,6 +280,21 @@ export const viewSecret = asyncHandler(
           "This secret has expired and is no longer available",
           HTTP_GONE,
         );
+      }
+
+      if (originalSecret.receiverEmail) {
+        if (!user) {
+          throw new AppError(
+            "Please sign in to view this secret",
+            HTTP_UNAUTHORIZED,
+          );
+        }
+        if (originalSecret.receiverEmail !== user.email) {
+          throw new AppError(
+            "You are not authorized to view this secret",
+            HTTP_UNAUTHORIZED,
+          );
+        }
       }
 
       if (originalSecret.passwordHash) {

@@ -16,7 +16,7 @@ export const rateLimiter = (
     },
     standardHeaders: true,
     legacyHeaders: false,
-    // skip: (req) => process.env.NODE_ENV === "development",
+    skip: (req) => process.env.NODE_ENV === "development",
   });
 };
 

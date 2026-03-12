@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface ReceiverEmailInputProps {
   receiverEmail: string;
   error?: boolean;
@@ -11,6 +13,8 @@ const ReceiverEmailInputField = ({
   onChange,
   onClear,
 }: ReceiverEmailInputProps) => {
+  const [placeholderText, setPlaceholderText] = useState("Require Account?");
+
   return (
     <div
       className={`pl-3 w-140 group ${error ? "input-box-red" : "input-box"} ${!receiverEmail && "cursor-pointer opacity-60 focus-within:opacity-100 hover:opacity-100"}`}
@@ -43,10 +47,16 @@ const ReceiverEmailInputField = ({
         type="text"
         name="receiverEmail"
         id="receiverEmail"
-        placeholder="Send to an email?"
+        placeholder={placeholderText}
         className={`p-3 text-xs placeholder-(--white) focus:outline-0 w-full ${!receiverEmail && "focus:cursor-auto hover:cursor-pointer"}`}
         value={receiverEmail}
         onChange={onChange}
+        onFocus={() => {
+          setPlaceholderText("email@example.com");
+        }}
+        onBlur={() => {
+          setPlaceholderText("Require Account?");
+        }}
       />
     </div>
   );
