@@ -17,7 +17,7 @@ const ReceiverEmailInputField = ({
 
   return (
     <div
-      className={`pl-3 w-140 group ${error ? "input-box-red" : "input-box"} ${!receiverEmail && "cursor-pointer opacity-60 focus-within:opacity-100 hover:opacity-100"}`}
+      className={`pl-3 w-140 max-md:w-[90vw] group ${error ? "input-box-red" : "input-box"} ${!receiverEmail && "cursor-pointer opacity-60 focus-within:opacity-100 hover:opacity-100"}`}
     >
       <label
         htmlFor="receiverEmail"

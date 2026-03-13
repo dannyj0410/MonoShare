@@ -17,7 +17,7 @@ const SecretPasswordField = ({
 
   return (
     <div
-      className={`pl-3 pr-3 w-50 flex items-center group ${
+      className={`pl-3 pr-3 w-50 flex items-center group max-md:w-[90vw] ${
         error ? "input-box-red" : "input-box"
       } ${!password && "opacity-60 focus-within:opacity-100 hover:opacity-100 transition-all duration-300 cursor-pointer"}`}
     >
@@ -50,7 +50,7 @@ const SecretPasswordField = ({
         name="password"
         id="password"
         placeholder="Require Password?"
-        className={`text-xs placeholder-(--white) w-30 pr-2 h-full focus:outline-0 ${!password && "focus:cursor-auto hover:cursor-pointer"}`}
+        className={`py-3 text-xs placeholder-(--white) w-30 pr-2 h-full focus:outline-0 ${!password && "focus:cursor-auto hover:cursor-pointer"}`}
         value={password}
         onChange={onChange}
       />
