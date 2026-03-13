@@ -48,7 +48,7 @@ const ReceiverEmailInputField = ({
         name="receiverEmail"
         id="receiverEmail"
         placeholder={placeholderText}
-        className={`p-3 text-xs placeholder-(--white) focus:outline-0 w-full ${!receiverEmail && "focus:cursor-auto hover:cursor-pointer"}`}
+        className={`p-3 text-xs placeholder-(--white) focus:outline-0 w-full focus:placeholder-white/40 ${!receiverEmail && "focus:cursor-auto hover:cursor-pointer"}`}
         value={receiverEmail}
         onChange={onChange}
         onFocus={() => {

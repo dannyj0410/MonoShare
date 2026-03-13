@@ -1,7 +1,6 @@
 import { memo } from "react";
 
 const Features = memo(function Features() {
-  console.log("rerender");
   return (
     <section className="flex flex-col items-center mb-50 max-xl:max-w-[90vw]">
       <h1 className="text-3xl max-sm:text-2xl mb-3 arvo">We do it right.</h1>

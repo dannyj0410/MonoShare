@@ -1,6 +1,12 @@
-import type { UseMutateFunction } from "@tanstack/react-query";
+import type {
+  UseMutateAsyncFunction,
+  UseMutateFunction,
+} from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
-import type { DeleteSecretResponse } from "../../../interfaces/secret.interface";
+import type {
+  DeleteSecretResponse,
+  IViewSecretResponse,
+} from "../../../interfaces/secret.interface";
 import Spinner from "../../loaders/Spinner";
 import useReturnPage from "../../../hooks/useReturnPage";
 
@@ -50,12 +56,9 @@ const ConfirmationPopup = ({
   secret: string;
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  actionFunction?: UseMutateFunction<
-    DeleteSecretResponse,
-    Error,
-    string,
-    unknown
-  >;
+  actionFunction?:
+    | UseMutateAsyncFunction<DeleteSecretResponse, Error, string, unknown>
+    | UseMutateFunction<IViewSecretResponse, Error, string, unknown>;
   actionPending?: boolean;
   showPasswordField?: boolean;
   isOwner?: boolean;

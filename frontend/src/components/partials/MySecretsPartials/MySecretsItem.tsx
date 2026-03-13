@@ -61,7 +61,7 @@ const MySecretsItem = memo(function MySecretsItem({
   return (
     <Link to={`/details/${secret.slug}`}>
       <li
-        className={`mx-6 py-2 px-4 h-fit grid grid-cols-[230px_220px_210px_20px] items-center gap-4 rounded-sm cursor-pointer  ${
+        className={`mx-6 py-2 px-4 h-fit grid grid-cols-[230px_220px_210px_20px] items-center gap-4 rounded-sm cursor-pointer transition-colors duration-300  ${
           secret.status === "ACTIVE"
             ? "hover:bg-blue-200/10 border-t-2 border-white/0 hover:border-white/5"
             : secret.status === "VIEWED"

@@ -15,7 +15,7 @@ const MySecrets = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedSecretId, setSelectedSecretId] = useState<string>("");
   const { data: mySecrets, isPending: pendingSecrets } = useMySecrets();
-  const { mutate: deleteSecretMutate, isPending: deletePending } =
+  const { mutateAsync: deleteSecretMutate, isPending: deletePending } =
     useDeleteSecret();
 
   const activeSecrets = useMemo(

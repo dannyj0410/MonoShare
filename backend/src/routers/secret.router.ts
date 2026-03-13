@@ -23,7 +23,7 @@ router.post(
 router.get("/my-secrets", requireAuth, apiLimiter, getMySecrets);
 router.get("/details/:secretid", requireAuth, apiLimiter, getSecretDetails);
 router.get("/metadata/:secretid", userCheck, apiLimiter, getSecretMetadata);
-router.post("/view/:secretid", apiLimiter, viewSecret);
+router.post("/view/:secretid", userCheck, apiLimiter, viewSecret);
 router.delete("/delete/:secretid", requireAuth, apiLimiter, deleteSecret);
 
 export { router as secretRouter };
