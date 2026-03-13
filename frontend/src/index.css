@@ -27,6 +27,7 @@
   );
 
   --animate-skeleton: skeleton-shimmer 2s ease-in-out infinite;
+  --breakpoint-xs: 30rem;
 }
 
 @layer base {

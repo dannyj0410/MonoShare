@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const AuthCTA = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   return (
-    <div className="flex items-center justify-between w-140 my-10">
+    <div className="flex max-xs:flex-col-reverse max-sm gap-5 items-center justify-between w-140 max-md:w-[90vw] my-10">
       {!isAuthenticated ? (
         <Link
           to="/sign-in"
@@ -16,9 +16,9 @@ const AuthCTA = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
       ) : (
         <Link
           to="/my-secrets"
-          className="flex items-center justify-center relative overflow-hidden py-6.5 w-50 bg-[#3F67E1] cursor-pointer rounded-sm duration-300 transition-colors hover:bg-[#1f4ad6] hover:outline-(--white) hover:outline-3"
+          className="flex max-md:w-[90vw] items-center justify-center relative overflow-hidden py-6.5 w-50 bg-[#3F67E1] cursor-pointer rounded-sm duration-300 transition-colors hover:bg-[#1f4ad6] hover:outline-(--white) hover:outline-3"
         >
-          <span className="electrolize font-bold tracking-wider ml-2.5">
+          <span className="electrolize font-bold tracking-wider ml-2.5 max-md:text-lg">
             My Secrets
           </span>
           <svg
