@@ -50,7 +50,7 @@ const SecretPasswordField = ({
         name="password"
         id="password"
         placeholder="Require Password?"
-        className={`py-3 text-xs placeholder-(--white) w-30 pr-2 h-full focus:outline-0 ${!password && "focus:cursor-auto hover:cursor-pointer"}`}
+        className={`py-3 text-xs placeholder-(--white) w-30 max-md:w-full pr-2 h-full focus:outline-0 ${!password && "focus:cursor-auto hover:cursor-pointer"}`}
         value={password}
         onChange={onChange}
       />

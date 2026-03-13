@@ -114,7 +114,7 @@ const CreateSecretForm = forwardRef<
       <h1 className="text-3xl mb-6 arvo max-sm:text-2xl">Create Your Secret</h1>
       <form
         onSubmit={onSubmit}
-        className="flex flex-col gap-3 max-md:max-w-[90vw]"
+        className="flex flex-col gap-3 max-sm:gap-2 max-md:max-w-[90vw]"
       >
         {/* Email */}
         {isAuthenticated && (
@@ -139,7 +139,7 @@ const CreateSecretForm = forwardRef<
         />
 
         {/* Password, Expiration Time, Create Button */}
-        <div className="flex gap-4 w-140 max-md:w-[90vw] max-sm:flex-col">
+        <div className="flex gap-4 max-sm:gap-2 w-140 max-md:w-[90vw] max-sm:flex-col">
           {/* Password */}
           <SecretPasswordField
             password={secretFormData.password}
@@ -159,7 +159,7 @@ const CreateSecretForm = forwardRef<
           {/* Create Button */}
           <button
             disabled={isCreating}
-            className={`relative overflow-hidden action-btn max-sm:border-4 max-sm:bg-[#0A314E80] max-sm:bg-none! max-sm:ml-auto max-sm:w-30 max-sm:h-15 max-md:min-w-26 w-26 h-12.5 border-3 rounded-xl arvo ${formHasErrors && hasSubmitted ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
+            className={`relative overflow-hidden action-btn max-sm:w-[90vw] max-sm:rounded-sm max-sm:py-8 max-sm:text-lg max-sm:border-4 max-sm:bg-[#0A314E80] max-sm:bg-none! max-sm:ml-auto max-sm:h-15 max-md:min-w-26 w-26 h-12.5 border-3 rounded-xl arvo ${formHasErrors && hasSubmitted ? "bg-red-400/10! bg-none! border-red-400/15! hover:bg-red-400/15! hover:border-red-400/20!" : "group"}`}
           >
             {!isCreating ? (
               <span>Create</span>
