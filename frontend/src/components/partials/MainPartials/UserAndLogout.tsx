@@ -15,7 +15,7 @@ const UserAndLogout = () => {
     : "";
 
   return (
-    <div className="max-sm:text-sm max-xs:text-xs h-70 w-140 flex flex-col fixed pl-7 pb-4 left-0 bottom-0 items-start justify-end electrolize text-center tracking-wider text-base text-(--gray) blur-[0.5px] rounded-md transition-all duration-600 ease-in-out opacity-50 max-sm:opacity-70 sm:hover:opacity-100 z-0">
+    <div className="max-sm:text-sm max-xs:text-xs h-70 w-140 flex flex-col fixed pl-7 pb-4 left-0 bottom-0 items-start justify-end electrolize text-center tracking-wider text-base text-(--gray) blur-[0.5px] rounded-md transition-all duration-600 ease-in-out opacity-50 max-xs:opacity-100 max-sm:opacity-80 sm:hover:opacity-100 z-0">
       <div
         className="flex gap-1 items-center text-left group cursor-pointer"
         onClick={() => logoutMutate()}

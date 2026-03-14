@@ -34,11 +34,11 @@ const Toast = ({
 
   return (
     <div
-      className={`${
+      className={`max-sm:bottom-5 max-sm:mx-auto max-sm:left-0 max-sm:right-0 max-sm:w-fit ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-10 pointer-events-none"
-      } z-50 fixed text-base electrolize flex items-center bottom-0 right-0 mb-10 mr-20 px-3 py-3 rounded-lg backdrop-blur-xs border duration-400 ${cfg.containerStyle} cursor-pointer hover:opacity-70`}
+      } z-50 fixed text-base electrolize flex items-center bottom-10 sm:right-0 sm:mr-20 px-3 py-3 rounded-lg backdrop-blur-xs border duration-400 ${cfg.containerStyle} cursor-pointer hover:opacity-70`}
       onClick={onClose}
     >
       {type === "error" ? (
@@ -49,9 +49,9 @@ const Toast = ({
         <ToastInfoIcon />
       )}
 
-      <p className="mr-2">{message}</p>
+      <p className="mr-2 max-sm:text-xs">{message}</p>
       <div
-        className={`absolute -top-2.25 right-2 p-0.2 rounded-4xl border ${cfg.closeIcon}`}
+        className={`absolute max-sm:-top-1.75 max-sm:right-1.75 -top-2.25 right-2 p-0.2 rounded-4xl border ${cfg.closeIcon}`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -60,6 +60,7 @@ const Toast = ({
           id="Close--Streamline-Majesticons"
           height="16"
           width="16"
+          className="max-sm:size-2.75 "
         >
           <desc>Close Streamline Icon: https://streamlinehq.com</desc>
           <path
