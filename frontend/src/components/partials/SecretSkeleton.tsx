@@ -4,7 +4,7 @@ import BackButton from "./MainPartials/BackButton";
 
 const SecretSkeleton = ({ view }: { view?: boolean }) => {
   return (
-    <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210">
+    <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210 max-md:w-full max-md:px-0 max-md:min-w-auto max-md:pt-30">
       <div className="flex items-center justify-center">
         <div className="text-(--gray) electrolize font-bold absolute top-25 flex items-center gap-2">
           Loading
@@ -15,7 +15,7 @@ const SecretSkeleton = ({ view }: { view?: boolean }) => {
         <BackButton />
         {/* status */}
         <BoxSkeleton
-          className="w-15 h-6"
+          className="w-15 h-6 max-md:mx-2"
           colour="#76c4ff70"
           highlightColour="#76c4ff70"
         />
@@ -28,7 +28,7 @@ const SecretSkeleton = ({ view }: { view?: boolean }) => {
         <BoxSkeleton className="w-50 h-5" />
       </div>
 
-      <div className="flex flex-col mt-2">
+      <div className="flex flex-col mt-2 max-md:mx-2">
         {/* textbox */}
         <BoxSkeleton
           className="w-full h-45 border-2 border-gray-500/30"
@@ -38,7 +38,7 @@ const SecretSkeleton = ({ view }: { view?: boolean }) => {
         {/* delete button */}
         {!view && (
           <BoxSkeleton
-            className="w-25 h-12 ml-auto mr-2 mt-3"
+            className="w-25 h-12 ml-auto mt-3"
             colour="#fb2c3630"
             highlightColour="#fb2c3630"
           />

@@ -31,12 +31,17 @@
 }
 
 @layer base {
+  html {
+    /* This reserves space for the scrollbar so content doesn't jump */
+    scrollbar-gutter: stable;
+  }
   body {
     color: var(--white);
     background-color: var(--bg);
     font-family: var(--arvo);
     overflow: scroll;
     overflow-x: hidden;
+    scrollbar-gutter: stable;
   }
 }
 
@@ -65,6 +70,7 @@
 }
 
 .app-container {
+  @apply max-xs:max-w-full;
   width: 100vw;
   min-height: 100vh;
   background-color: var(--bg);
@@ -81,6 +87,14 @@
 
   .arvo {
     font-family: var(--arvo);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .main-btn {

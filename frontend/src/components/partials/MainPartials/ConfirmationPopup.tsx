@@ -36,7 +36,7 @@ const options: Record<
     txtClr: "text-(--main-light-blue)",
     bgClr: "bg-(--main-light-blue)",
     hvrBgClr: "hover:bg-(--main-dark-blue)",
-    position: "bottom-1/2",
+    position: "bottom-1/2 max-xs: bottom-1/3",
   },
 };
 
@@ -71,14 +71,14 @@ const ConfirmationPopup = ({
     <div
       className={`${options[option].position} fixed translate-x-[-50%] left-1/2 z-50 duration-200 ${isOpen ? "translate-y-0 opacity-100 blur-none" : "translate-y-10 opacity-0 blur-md pointer-events-none"}`}
     >
-      <div className="flex flex-col bg-[#02131f] w-min rounded-lg border border-gray-400/15">
+      <div className="flex flex-col bg-[#02131f] w-min max-xs:w-max max-xs:max-w-[95vw] rounded-lg border border-gray-400/15">
         <div className="flex flex-col gap-1 bg-[#02131f] rounded-t-lg py-3 px-5 border-b border-gray-400/15">
           <h1 className={`${options[option].txtClr} noto-sans font-semibold`}>
             {option} Confirmation
           </h1>
 
           <p
-            className={`text-(--gray) text-sm noto-sans ${option === "Erase" ? "w-185" : "w-fit"}`}
+            className={`text-(--gray) text-sm noto-sans ${option === "Erase" ? "w-185" : "w-fit max-xs:w-full"}`}
           >
             Are you sure you want to {options[option].action}{" "}
             <span className="font-bold arvo">
@@ -87,7 +87,7 @@ const ConfirmationPopup = ({
             ? {option === "View" && <br />} {options[option].details}
           </p>
           {isOwner && (
-            <p className="text-(--gray) noto-sans font-normal opacity-60 text-sm">
+            <p className="text-(--gray) noto-sans font-normal opacity-60 text-sm max-xs:w-full">
               Viewing your own secret will still erase it!
             </p>
           )}
@@ -102,10 +102,10 @@ const ConfirmationPopup = ({
           </div>
         )}
 
-        <div className="flex flex-col w-fit ml-auto">
+        <div className="flex flex-col w-fit ml-auto max-xs:m-0 max-xs:w-full">
           {showPasswordField && setPassword && (
             <div className="px-2 mt-3 ml-auto w-full">
-              <p className="text-base text-center mb-0.5 electrolize text-(--main-light-blue) w-full">
+              <p className="max-xs:text-sm text-base text-center mb-0.5 electrolize text-(--main-light-blue) w-full">
                 Viewing this secret requires a password:
               </p>
               <input
@@ -121,10 +121,10 @@ const ConfirmationPopup = ({
             </div>
           )}
 
-          <div className="flex ml-auto px-2 py-2 text-sm gap-2">
+          <div className="flex max-xs:flex-col ml-auto px-2 py-2 text-sm gap-2 max-xs:max-w-screen max-xs:w-full">
             <button
               type="button"
-              className="border border-gray-400/15 hover:border-gray-400/25 noto-sans rounded-lg py-2 px-15 cursor-pointer  transition-colors duration-100"
+              className="max-xs:text-xs max-xs:w-full max-xs:px-0 border border-gray-400/15 hover:border-gray-400/25 noto-sans rounded-lg py-2 px-15 cursor-pointer  transition-colors duration-100"
               onClick={() => {
                 returnPage();
                 if (option === "Erase") setOpen(false);
@@ -133,7 +133,7 @@ const ConfirmationPopup = ({
               Cancel
             </button>
             <button
-              className={`${options[option].bgClr} ${options[option].hvrBgClr} flex items-center  justify-center noto-sans rounded-lg h-9.5 w-39 cursor-pointer transition-colors duration-100`}
+              className={`${options[option].bgClr} ${options[option].hvrBgClr} max-xs:text-xs max-xs:w-full flex items-center justify-center noto-sans rounded-lg h-9.5 w-39 cursor-pointer transition-colors duration-100`}
               onClick={
                 actionFunction
                   ? async () => {

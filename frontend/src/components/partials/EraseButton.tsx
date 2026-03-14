@@ -9,7 +9,7 @@ const EraseButton = ({ status }: { status: string }) => {
   const { mutate: deleteSecretMutate, isPending } = useDeleteSecret(true);
 
   return (
-    <div className="flex ml-auto gap-5">
+    <div className="flex ml-auto gap-5 max-md:mr-2">
       {eraseConfirmation && (
         <>
           <button

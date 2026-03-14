@@ -23,9 +23,9 @@ const SecretTextArea = ({
         : "*!kuSL%GYM*Ad1WAl#o$*RtV#!&*ml|EXAMPLE|UaPl^HSV@!&*$DJpoQm.%QzX;P&^";
 
   return (
-    <div className="flex flex-col w-0 min-w-full max-md:w-screen max-md:min-w-screen">
+    <div className="flex flex-col w-full">
       <div className="flex electrolize px-5 mt-2 pb-1 text-xs sm:text-sm text-(--gray)">
-        <p>
+        <p className="max-xs:text-balance text-wrap">
           {created
             ? "You will only see this once."
             : viewing
@@ -48,7 +48,7 @@ const SecretTextArea = ({
       <textarea
         readOnly
         name="secret-content"
-        className={`text-wrap bg-(--main-dark-blue-40) max-md:w-screen max-md:px-3 max-md:text-sm px-5 py-3 min-h-40
+        className={`max-md:mx-2 text-wrap box-border bg-(--main-dark-blue-40) max-md:px-3 max-md:text-sm px-5 py-3 min-h-40
             field-sizing-content rounded-md noto-sans resize-none border-2 
             border-white/5 outline-0
             ${

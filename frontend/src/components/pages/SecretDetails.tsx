@@ -44,11 +44,11 @@ const SecretDetails = () => {
   }
 
   return (
-    <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200 max-md:w-screen max-md:px-0 max-md:pt-30">
-      <div className="flex items-center justify-between w-full relative mb-5">
+    <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200 max-md:w-screen max-md:min-w-auto max-md:px-0 max-md:pt-30">
+      <div className="flex items-center justify-between w-full relative mb-5 max-md:max-w-screen">
         <BackButton />
         <h1
-          className={`electrolize font-bold ${secret.status === "ACTIVE" ? "text-(--main-light-blue)" : secret.status === "VIEWED" ? "text-green-500" : "text-red-500"}`}
+          className={`max-md:mr-2 electrolize font-bold ${secret.status === "ACTIVE" ? "text-(--main-light-blue)" : secret.status === "VIEWED" ? "text-green-500" : "text-red-500"}`}
         >
           {secret.status}
         </h1>
@@ -131,14 +131,14 @@ const SecretDetails = () => {
       {created && (
         <div className="mb-5 flex flex-col w-full max-md:w-screen">
           <div
-            className={`flex w-max min-w-180 max-w-200 max-md:w-screen max-md:min-w-screen max-md:rounded-none max-md:border-2 items-center justify-center rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
+            className={`flex w-max min-w-180 max-w-200 max-md:w-screen max-md:min-w-screen max-md:rounded-none max-md:border-2 items-center justify-between rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
               copyClicked
                 ? "border-green-500 bg-green-500/15"
                 : "border-(--main-dark-blue-40) bg-blue-300/5"
             } h-fit`}
           >
             {/*//* SECRET URL */}
-            <p className="arvo w-full text-nowrap overflow-hidden text-[9px] xs:text-xs sm:text-base h-fit px-5 max-md:px-1.5 bg-transparent">
+            <p className="arvo w-max text-nowrap overflow-x-auto no-scrollbar text-[9px] xs:text-xs sm:text-sm md:text-base h-fit px-5 max-md:px-1.5 bg-transparent">
               {secret.shareUrl}#{secret.key}
             </p>
             <div
@@ -160,7 +160,7 @@ const SecretDetails = () => {
                 height="24"
                 width="24"
                 className={`max-xs:size-4 max-sm:size-5 ${
-                  copyClicked ? "hidden" : "block"
+                  copyClicked ? "hidden" : "inline-block"
                 } group-hover:opacity-70`}
               >
                 <desc>
@@ -187,7 +187,7 @@ const SecretDetails = () => {
                 height="24px"
                 width="24px"
                 xmlns="http://www.w3.org/2000/svg"
-                className={`max-xs:size-4 max-sm:size-5 ${copyClicked ? "block" : "hidden"}`}
+                className={`max-xs:size-4 max-sm:size-5 ${copyClicked ? "inline-block" : "hidden"}`}
               >
                 <path
                   strokeLinecap="round"
