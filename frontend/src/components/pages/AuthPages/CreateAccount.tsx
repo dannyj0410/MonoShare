@@ -83,13 +83,15 @@ const CreateAccount = () => {
   };
 
   return (
-    <div className="w-screen h-screen pt-45">
-      <div className="relative flex flex-col w-md h-fit rounded-xl m-auto py-8 px-8 z-10 bg-white/3 border-gray-400/20 border">
+    <div className="w-screen h-screen pt-45 max-xs:pt-35">
+      <div className="max-xs:w-full max-xs:rounded-none max-xs:border-l-0 max-xs:border-r-0 max-xs:px-4 relative flex flex-col w-md h-fit rounded-xl m-auto py-8 px-8 z-10 bg-white/3 border-gray-400/20 border">
         <div className="absolute -top-15 left-0 opacity-70 hover:opacity-100">
           <BackButton />
         </div>
-        <h1 className="mx-auto text-3xl">Welcome</h1>
-        <h2 className="text-2xl noto-sans mt-7 mb-1">Create Account</h2>
+        <h1 className="mx-auto text-3xl max-xs:text-2xl">Welcome</h1>
+        <h2 className="text-2xl max-xs:text-xl noto-sans mt-7 mb-1">
+          Create Account
+        </h2>
         <p className="text-sm text-(--gray) noto-sans ml-0.5">
           Join MonoShare to unlock even more features.
         </p>
