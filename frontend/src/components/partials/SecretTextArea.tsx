@@ -23,7 +23,7 @@ const SecretTextArea = ({
         : "*!kuSL%GYM*Ad1WAl#o$*RtV#!&*ml|EXAMPLE|UaPl^HSV@!&*$DJpoQm.%QzX;P&^";
 
   return (
-    <div className="flex flex-col w-0 min-w-full">
+    <div className="flex flex-col w-0 min-w-full max-md:w-screen max-md:min-w-screen">
       <div className="flex electrolize px-5 mt-2 pb-1 text-xs sm:text-sm text-(--gray)">
         <p>
           {created
@@ -48,7 +48,7 @@ const SecretTextArea = ({
       <textarea
         readOnly
         name="secret-content"
-        className={`text-wrap bg-(--main-dark-blue-40) px-5 py-3 min-h-40
+        className={`text-wrap bg-(--main-dark-blue-40) max-md:w-screen max-md:px-3 max-md:text-sm px-5 py-3 min-h-40
             field-sizing-content rounded-md noto-sans resize-none border-2 
             border-white/5 outline-0
             ${
@@ -66,7 +66,7 @@ const SecretTextArea = ({
       ></textarea>
 
       {guestSecret && !viewing && (
-        <p className="text-red-400 text-base electrolize mr-5 mt-2 ml-auto">
+        <p className="text-red-400 text-basemax-sm:text-sm electrolize mr-2 mt-2 max-xs:pl-2 ml-auto">
           This secret will erase itself{" "}
           <span className="underline underline-offset-2">after expiration</span>
           .

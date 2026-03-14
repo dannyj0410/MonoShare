@@ -44,7 +44,7 @@ const SecretDetails = () => {
   }
 
   return (
-    <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200">
+    <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200 max-md:w-screen max-md:px-0 max-md:pt-30">
       <div className="flex items-center justify-between w-full relative mb-5">
         <BackButton />
         <h1
@@ -129,16 +129,16 @@ const SecretDetails = () => {
       )}
       {/* Secret Link */}
       {created && (
-        <div className="mb-5 flex flex-col w-full">
+        <div className="mb-5 flex flex-col w-full max-md:w-screen">
           <div
-            className={`flex w-max min-w-180 max-w-200 items-center justify-center rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
+            className={`flex w-max min-w-180 max-w-200 max-md:w-screen max-md:min-w-screen max-md:rounded-none max-md:border-2 items-center justify-center rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
               copyClicked
                 ? "border-green-500 bg-green-500/15"
                 : "border-(--main-dark-blue-40) bg-blue-300/5"
             } h-fit`}
           >
             {/*//* SECRET URL */}
-            <p className="arvo w-full text-nowrap overflow-hidden text-sm sm:text-base h-fit px-5 bg-transparent">
+            <p className="arvo w-full text-nowrap overflow-hidden text-[9px] xs:text-xs sm:text-base h-fit px-5 max-md:px-1.5 bg-transparent">
               {secret.shareUrl}#{secret.key}
             </p>
             <div
@@ -148,7 +148,7 @@ const SecretDetails = () => {
                 );
                 setCopyClicked(true);
               }}
-              className={`group cursor-pointer h-12 w-15 border-3 border-hidden flex items-center justify-center rounded-r-[3px]  transition-all duration-600 ease-in-out ${
+              className={`group cursor-pointer h-12 w-15 max-xs:h-7 max-xs:w-7 max-sm:h-9 max-sm:w-11 max-md:rounded-none border-3 border-hidden flex items-center justify-center rounded-r-[3px] transition-all duration-600 ease-in-out ${
                 copyClicked ? "bg-green-500 " : "bg-(--main-dark-blue-40)"
               }
             `}
@@ -159,7 +159,7 @@ const SecretDetails = () => {
                 id="Documents-Fill--Streamline-Mingcute-Fill"
                 height="24"
                 width="24"
-                className={`${
+                className={`max-xs:size-4 max-sm:size-5 ${
                   copyClicked ? "hidden" : "block"
                 } group-hover:opacity-70`}
               >
@@ -187,7 +187,7 @@ const SecretDetails = () => {
                 height="24px"
                 width="24px"
                 xmlns="http://www.w3.org/2000/svg"
-                className={`${copyClicked ? "block" : "hidden"}`}
+                className={`max-xs:size-4 max-sm:size-5 ${copyClicked ? "block" : "hidden"}`}
               >
                 <path
                   strokeLinecap="round"
@@ -198,7 +198,7 @@ const SecretDetails = () => {
               </svg>
             </div>
           </div>
-          <div className="flex gap-1 electrolize ml-auto">
+          <div className="flex gap-1 electrolize ml-auto mr-2 max-xs:pl-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
