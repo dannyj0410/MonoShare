@@ -1,3 +1,5 @@
+import { useState } from "react";
+import CopySecretButton from "./CopySecretButton";
 import EraseButton from "./EraseButton";
 
 const SecretTextArea = ({
@@ -15,6 +17,7 @@ const SecretTextArea = ({
   passwordProtected: boolean;
   guestSecret?: boolean;
 }) => {
+  const [eraseConfirmation, setEraseConfirmation] = useState(false);
   const secretText =
     created || text
       ? text
@@ -73,7 +76,18 @@ const SecretTextArea = ({
         </p>
       )}
 
-      {!viewing && !guestSecret && <EraseButton status={status} />}
+      <div className="flex justify-end gap-5">
+        {!viewing && !guestSecret && (
+          <EraseButton
+            status={status}
+            eraseConfirmation={eraseConfirmation}
+            setEraseConfirmation={setEraseConfirmation}
+          />
+        )}
+        {text && (created || viewing) && (
+          <CopySecretButton show={!eraseConfirmation} secret={text} />
+        )}
+      </div>
     </div>
   );
 };

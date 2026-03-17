@@ -96,7 +96,8 @@ const SecretDetails = () => {
             <path d="m12 2 0 13" strokeWidth="2"></path>
           </svg>
           <p className="electrolize mb-0.5 sm:mb-0 text-sm sm:text-base text-(--gray) tracking-tight">
-            Receiver must be signed in as:{" "}
+            Receiver{secret.status !== "ACTIVE" && ":"}
+            {secret.status === "ACTIVE" && " must be signed in as:"}{" "}
             <span className="font-bold text-(--main-light-blue)">
               {secret.receiverEmail}
             </span>

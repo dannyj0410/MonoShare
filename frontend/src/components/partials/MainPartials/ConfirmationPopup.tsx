@@ -36,7 +36,7 @@ const options: Record<
     txtClr: "text-(--main-light-blue)",
     bgClr: "bg-(--main-light-blue)",
     hvrBgClr: "hover:bg-(--main-dark-blue)",
-    position: "bottom-1/2 max-xs: bottom-1/3",
+    position: "bottom-1/2 max-xs:bottom-1/3",
   },
 };
 

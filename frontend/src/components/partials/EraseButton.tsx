@@ -1,15 +1,21 @@
-import { useState } from "react";
 import { useDeleteSecret } from "../../hooks/secretHooks/useDeleteSecret";
 import { useParams } from "react-router-dom";
 import Spinner from "../loaders/Spinner";
 
-const EraseButton = ({ status }: { status: string }) => {
-  const [eraseConfirmation, setEraseConfirmation] = useState(false);
+const EraseButton = ({
+  status,
+  eraseConfirmation,
+  setEraseConfirmation,
+}: {
+  status: string;
+  eraseConfirmation: boolean;
+  setEraseConfirmation: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { id } = useParams();
   const { mutate: deleteSecretMutate, isPending } = useDeleteSecret(true);
 
   return (
-    <div className="flex ml-auto gap-5 max-md:mr-2">
+    <div className="flex gap-5 max-md:mr-2">
       {eraseConfirmation && (
         <>
           <button

@@ -36,13 +36,16 @@ const SecretSkeleton = ({ view }: { view?: boolean }) => {
           highlightColour="var(--main-dark-blue-70)"
         />
         {/* delete button */}
-        {!view && (
-          <BoxSkeleton
-            className="w-25 h-12 ml-auto mt-3"
-            colour="#fb2c3630"
-            highlightColour="#fb2c3630"
-          />
-        )}
+        <div className="flex justify-end gap-5">
+          <BoxSkeleton className="w-25 h-12 ml-auto mt-3" />
+          {!view && (
+            <BoxSkeleton
+              className="w-25 h-12 mt-3"
+              colour="#fb2c3630"
+              highlightColour="#fb2c3630"
+            />
+          )}
+        </div>
       </div>
 
       {/* timeline items */}

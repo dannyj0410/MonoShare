@@ -48,7 +48,7 @@ const ViewSecret = () => {
         }
       } catch (error) {
         console.error("Failed to decrypt secret:", error);
-        setSecretText("Error: Could not decrypt message. Key may be invalid.");
+        setSecretText("Error. Could not decrypt message. Key may be invalid.");
       }
     };
     handleDecryption();
