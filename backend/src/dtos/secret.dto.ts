@@ -25,6 +25,10 @@ export interface CreateSecretDto {
   password?: string;
 }
 
+export interface CreateSecretValidation extends CreateSecretDto {
+  isAuthenticated: boolean;
+}
+
 type WithStatus<T> = T & {
   status: ComputedStatus;
 };

@@ -20,6 +20,7 @@ import type {
 import { useDebounce } from "../../../hooks/useDebounce";
 import { validateEmail } from "../../../utils/validators/auth.validator";
 import { createEncryptedSecret } from "../../../services/createSecret";
+import CharCounter from "./CharCounter";
 
 const CreateSecretForm = forwardRef<
   HTMLDivElement,
@@ -39,8 +40,9 @@ const CreateSecretForm = forwardRef<
     useCreateSecret();
 
   const debouncedEmail = useDebounce(secretFormData.receiverEmail, 200);
-  const debouncedSecret = useDebounce(secretFormData.secret, 200);
+  const debouncedSecret = useDebounce(secretFormData.secret, 300);
   const debouncedPassword = useDebounce(secretFormData.password, 200);
+  const charLimit = isAuthenticated ? 10000 : 1000;
 
   const emailError =
     debouncedEmail.length > 0
@@ -49,7 +51,7 @@ const CreateSecretForm = forwardRef<
 
   const secretError =
     hasSubmitted || debouncedSecret.length > 0
-      ? validateSecretText(debouncedSecret)
+      ? validateSecretText(debouncedSecret, charLimit)
       : undefined;
 
   const passwordError =
@@ -62,7 +64,7 @@ const CreateSecretForm = forwardRef<
       validateEmail(secretFormData.receiverEmail)) ||
     (secretFormData.password &&
       validateSecretPassword(secretFormData.password)) ||
-    validateSecretText(secretFormData.secret);
+    validateSecretText(secretFormData.secret, charLimit);
 
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -86,7 +88,7 @@ const CreateSecretForm = forwardRef<
 
     const emailErr = validateReceiverEmail(secretFormData.receiverEmail);
     const passwordErr = validateSecretPassword(secretFormData.password);
-    const secretErr = validateSecretText(secretFormData.secret);
+    const secretErr = validateSecretText(secretFormData.secret, charLimit);
 
     if (emailErr || secretErr || passwordErr) {
       return;
@@ -129,14 +131,17 @@ const CreateSecretForm = forwardRef<
         )}
 
         {/* Secret Text Field */}
-        <textarea
-          name="secret"
-          id="secret"
-          className={`hide-scrollbar resize-none noto-sans w-full h-45 p-5 text-xs placeholder-(--white) focus:outline-0 ${secretError ? "input-box-red" : "input-box"}`}
-          placeholder="Write your secret here..."
-          value={secretFormData.secret}
-          onChange={onChangeHandler}
-        />
+        <div className="relative">
+          <textarea
+            name="secret"
+            id="secret"
+            className={`relative hide-scrollbar resize-none noto-sans w-full h-45 px-4 pt-3 pb-6 text-xs placeholder-(--white) ${secretFormData.secret ? "cursor-auto" : "cursor-pointer"} focus:cursor-auto focus:outline-0 ${secretError ? "input-box-red" : "input-box"}`}
+            placeholder="Write your secret here..."
+            value={secretFormData.secret}
+            onChange={onChangeHandler}
+          />
+          <CharCounter secret={debouncedSecret} charLimit={charLimit} />
+        </div>
 
         {/* Password, Expiration Time, Create Button */}
         <div className="flex gap-4 max-sm:gap-2 w-140 max-md:w-[90vw] max-sm:flex-col">
@@ -171,6 +176,15 @@ const CreateSecretForm = forwardRef<
             </div>
           </button>
         </div>
+        {secretFormData.secret.length > charLimit && (
+          <div className="flex w-full bg-red-400/10 p-2 rounded-sm border border-red-400/10">
+            <p className="text-red-400 noto-sans text-sm italic font-light ml-2 mr-2">
+              You have exceeded the secret character limit of{" "}
+              <span className="font-bold">{charLimit}</span>
+              {!isAuthenticated && ". Sign in to increase it."}
+            </p>
+          </div>
+        )}
       </form>
 
       {/* Sign in, Login features */}

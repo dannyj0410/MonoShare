@@ -35,6 +35,7 @@ export const createSecret = asyncHandler(
     const user = req.user;
 
     SecretService.validateSecretPayload({
+      isAuthenticated: !!user,
       encryptedText,
       encryptionIV,
       timeTillExpiration,

@@ -17,7 +17,10 @@ export const validateSecretPassword = (password: string): boolean => {
   return false;
 };
 
-export const validateSecretText = (secret: string): boolean => {
-  if (secret.trim().length < 3) return true;
+export const validateSecretText = (
+  secret: string,
+  charLimit: number = 1000,
+): boolean => {
+  if (secret.length < 3 || secret.length > charLimit) return true;
   return false;
 };

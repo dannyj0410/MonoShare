@@ -2,7 +2,10 @@ import argon2 from "argon2";
 import { customAlphabet } from "nanoid";
 import { ONE_DAY_MS, ONE_HOUR_MS, SEVEN_DAYS_MS } from "../constants/days_ms";
 import { HTTP_BAD_REQUEST } from "../constants/http_status";
-import { CreateSecretDto, SecretExpirationOptions } from "../dtos/secret.dto";
+import {
+  CreateSecretValidation,
+  SecretExpirationOptions,
+} from "../dtos/secret.dto";
 import { AppError } from "../utils/AppError";
 
 export const SecretService = {
@@ -22,17 +25,27 @@ export const SecretService = {
   },
 
   validateSecretPayload({
+    isAuthenticated,
     encryptedText,
     encryptionIV,
     timeTillExpiration,
     receiverEmail,
     password,
-  }: CreateSecretDto) {
+  }: CreateSecretValidation) {
     if (!encryptedText) {
       throw new AppError("Secret text field cannot be empty", HTTP_BAD_REQUEST);
     }
     if (!encryptionIV) {
       throw new AppError("Error encrypting secret", HTTP_BAD_REQUEST);
+    }
+
+    const charLimit = isAuthenticated ? 30000 : 3000;
+
+    if (encryptedText.length > charLimit) {
+      throw new AppError(
+        "Secret size too large. Try using less special characters.",
+        HTTP_BAD_REQUEST,
+      );
     }
 
     // 2. Base64 validation
