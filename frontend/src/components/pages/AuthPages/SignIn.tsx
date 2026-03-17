@@ -67,7 +67,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="w-screen h-screen pt-45 max-xs:pt-35">
+    <div className="w-screen min-h-screen pt-45 max-xs:pt-35">
       <div className="max-xs:w-full max-xs:rounded-none max-xs:border-l-0 max-xs:border-r-0 max-xs:px-4 relative flex flex-col w-md h-fit rounded-xl m-auto py-8 px-8 z-10 bg-white/3 border-gray-400/20 border">
         <div className="absolute -top-15 left-0 opacity-70 hover:opacity-100">
           <BackButton />

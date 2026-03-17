@@ -34,11 +34,11 @@ const Toast = ({
 
   return (
     <div
-      className={`max-sm:bottom-5 max-sm:mx-auto max-sm:left-0 max-sm:right-0 max-sm:w-fit ${
+      className={`max-md:bottom-5 max-md:mx-auto max-md:left-0 max-md:right-0 max-md:w-fit ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-10 pointer-events-none"
-      } z-50 fixed text-base electrolize flex items-center bottom-10 sm:right-0 sm:mr-20 px-3 py-3 rounded-lg backdrop-blur-xs border duration-400 ${cfg.containerStyle} cursor-pointer hover:opacity-70`}
+      } z-40 fixed text-base electrolize flex items-center bottom-10 md:right-0 md:mr-20 px-3 py-3 rounded-lg backdrop-blur-xs border duration-400 ${cfg.containerStyle} cursor-pointer hover:opacity-70`}
       onClick={onClose}
     >
       {type === "error" ? (

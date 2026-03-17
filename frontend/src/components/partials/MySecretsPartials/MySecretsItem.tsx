@@ -27,6 +27,7 @@ type MySecretsItemProps = {
 
 const MySecretsItem = memo(function MySecretsItem({
   secret,
+  index,
   isSelected,
   setSelectedSecretId,
   setIsDeleting,
@@ -34,6 +35,7 @@ const MySecretsItem = memo(function MySecretsItem({
   pendingDelete,
 }: {
   secret: MySecretsItemProps;
+  index: number;
   isSelected: boolean;
   setSelectedSecretId: Dispatch<SetStateAction<string>>;
   setIsDeleting: Dispatch<SetStateAction<boolean>>;
@@ -46,8 +48,8 @@ const MySecretsItem = memo(function MySecretsItem({
   pendingDelete: boolean;
 }) {
   const [isCleaningUp, setIsCleaningUp] = useState(false);
-
   const timePassed = calcTimePastCreation(secret.createdAt);
+  const isEven = index % 2 === 0;
 
   useEffect(() => {
     if (!isCleaningUp) return;
@@ -61,13 +63,13 @@ const MySecretsItem = memo(function MySecretsItem({
   return (
     <Link to={`/details/${secret.slug}`}>
       <li
-        className={`mx-6 py-2 px-4 h-fit grid grid-cols-[230px_220px_210px_20px] items-center gap-4 rounded-sm cursor-pointer transition-colors duration-300  ${
+        className={`ml-8 py-2 px-4 h-fit grid grid-cols-[230px_220px_210px_20px] max-md:grid-cols-[38vw_46vw_4vw_5vw] max-md:h-10 max-md:ml-0 items-center gap-4 max-md:gap-1 rounded-sm cursor-pointer transition-colors duration-200  ${
           secret.status === "ACTIVE"
-            ? "hover:bg-blue-200/10 border-t-2 border-white/0 hover:border-white/5"
+            ? `md:hover:bg-blue-200/10 md:border-t-2 border-white/0 md:hover:border-white/5 ${isEven ? "max-md:bg-blue-200/6" : "max-md:bg-blue-200/2"}`
             : secret.status === "VIEWED"
-              ? "hover:bg-green-200/10 border-t-2 border-white/0 hover:border-white/5"
+              ? `hover:bg-green-200/10 border-t-2 border-white/0 hover:border-white/5 ${isEven ? "max-md:bg-emerald-200/6" : "max-md:bg-emerald-200/2"}`
               : secret.status === "EXPIRED"
-                ? "hover:bg-red-400/10 border-t-2 border-white/0 hover:border-white/5"
+                ? `hover:bg-red-400/10 border-t-2 border-white/0 hover:border-white/5 ${isEven ? "max-md:bg-red-400/6" : "max-md:bg-red-400/3"}`
                 : ""
         }`}
       >
@@ -80,17 +82,19 @@ const MySecretsItem = memo(function MySecretsItem({
           ) : (
             <ExpiredItemIcon />
           )}
-          <p className="text-sm text-(--white)">
+          <p className="text-sm text-(--white) max-sm:text-xs">
             {secret.slug.slice(0, 5).toLowerCase()}
           </p>
-          <p className="text-sm text-(--gray) electrolize">{timePassed}</p>
+          <p className="text-sm text-(--gray) electrolize max-sm:text-xs">
+            {timePassed}
+          </p>
         </div>
         {/* password protected */}
         <div className="flex items-center gap-1 justify-start">
           {secret.passwordProtected && (
             <>
               <ShieldIcon />
-              <p className="text-sm electrolize text-(--gray) mt-0.5">
+              <p className="text-sm electrolize text-(--gray) mt-0.5 max-sm:text-xs">
                 Password Protected
               </p>
             </>
@@ -101,7 +105,7 @@ const MySecretsItem = memo(function MySecretsItem({
           {secret.receiverEmail && (
             <>
               <MailIcon />
-              <p className="text-sm noto-sans">
+              <p className="text-sm noto-sans max-sm:text-xs max-md:hidden">
                 {emailShortener(secret.receiverEmail)}
               </p>
             </>
@@ -109,7 +113,7 @@ const MySecretsItem = memo(function MySecretsItem({
         </div>
         {/* delete icons */}
         <div
-          className="flex group"
+          className="flex group justify-end"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
