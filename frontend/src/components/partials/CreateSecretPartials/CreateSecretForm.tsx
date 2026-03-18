@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { forwardRef, useState } from "react";
+import { forwardRef, useCallback, useState } from "react";
 import { useCreateSecret } from "../../../hooks/secretHooks/useCreateSecret";
 import Spinner from "../../loaders/Spinner";
 import ReceiverEmailInputField from "./ReceiverEmailInput";
@@ -18,7 +18,6 @@ import type {
   ICreateSecretFormData,
 } from "../../../interfaces/secret.interface";
 import { useDebounce } from "../../../hooks/useDebounce";
-import { validateEmail } from "../../../utils/validators/auth.validator";
 import { createEncryptedSecret } from "../../../services/createSecret";
 import CharCounter from "./CharCounter";
 
@@ -59,19 +58,19 @@ const CreateSecretForm = forwardRef<
       ? validateSecretPassword(debouncedPassword)
       : undefined;
 
-  const formHasErrors =
-    (secretFormData.receiverEmail &&
-      validateEmail(secretFormData.receiverEmail)) ||
-    (secretFormData.password &&
-      validateSecretPassword(secretFormData.password)) ||
-    validateSecretText(secretFormData.secret, charLimit);
+  const formHasErrors = emailError || passwordError || secretError;
 
-  const onChangeHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setSecretFormData({ ...secretFormData, [name]: value });
-  };
+  const handleClear = useCallback((fieldName: string) => {
+    setSecretFormData((prev) => ({ ...prev, [fieldName]: "" }));
+  }, []);
+
+  const onChangeHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setSecretFormData({ ...secretFormData, [name]: value });
+    },
+    [secretFormData],
+  );
 
   const onExpirationChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -140,7 +139,7 @@ const CreateSecretForm = forwardRef<
             value={secretFormData.secret}
             onChange={onChangeHandler}
           />
-          <CharCounter secret={debouncedSecret} charLimit={charLimit} />
+          <CharCounter secret={secretFormData.secret} charLimit={charLimit} />
         </div>
 
         {/* Password, Expiration Time, Create Button */}
@@ -150,9 +149,7 @@ const CreateSecretForm = forwardRef<
             password={secretFormData.password}
             error={passwordError}
             onChange={onChangeHandler}
-            onClear={() =>
-              setSecretFormData({ ...secretFormData, password: "" })
-            }
+            onClear={handleClear}
           />
 
           {/* Expiration Time */}

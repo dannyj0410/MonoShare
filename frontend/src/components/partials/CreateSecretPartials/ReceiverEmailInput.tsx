@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 interface ReceiverEmailInputProps {
   receiverEmail: string;
   error?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClear: () => void;
+  onClear: (fieldName: string) => void;
 }
 
-const ReceiverEmailInputField = ({
+const ReceiverEmailInputField = memo(function ReceiverEmailInputField({
   receiverEmail,
   error,
   onChange,
   onClear,
-}: ReceiverEmailInputProps) => {
+}: ReceiverEmailInputProps) {
   const [placeholderText, setPlaceholderText] = useState("Require Account?");
 
   return (
@@ -32,7 +32,7 @@ const ReceiverEmailInputField = ({
           width="16px"
           xmlns="http://www.w3.org/2000/svg"
           className={`${(error || error === undefined || !receiverEmail) && "opacity-0"}`}
-          onClick={() => !!error && receiverEmail && onClear()}
+          onClick={() => receiverEmail && onClear("receiverEmail")}
         >
           <path
             strokeLinecap="round"
@@ -60,6 +60,6 @@ const ReceiverEmailInputField = ({
       />
     </div>
   );
-};
+});
 
 export default ReceiverEmailInputField;

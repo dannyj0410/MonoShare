@@ -1,10 +1,12 @@
-const CharCounter = ({
+import { memo } from "react";
+
+const CharCounter = memo(function CharCounter({
   secret,
   charLimit,
 }: {
   secret: string;
   charLimit: number;
-}) => {
+}) {
   const charCount = secret.length;
   return (
     <div className="absolute bottom-1 right-2 backdrop-blur-xs p-0.5 rounded-sm pointer-events-none">
@@ -15,6 +17,6 @@ const CharCounter = ({
       </p>
     </div>
   );
-};
+});
 
 export default CharCounter;

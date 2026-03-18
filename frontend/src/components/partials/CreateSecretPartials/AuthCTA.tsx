@@ -1,6 +1,11 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 
-const AuthCTA = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+const AuthCTA = memo(function AuthCTA({
+  isAuthenticated,
+}: {
+  isAuthenticated: boolean;
+}) {
   return (
     <div className="flex max-xs:flex-col-reverse max-sm gap-5 items-center justify-between w-140 max-md:w-[90vw] my-10">
       {!isAuthenticated ? (
@@ -141,6 +146,6 @@ const AuthCTA = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
       )}
     </div>
   );
-};
+});
 
 export default AuthCTA;

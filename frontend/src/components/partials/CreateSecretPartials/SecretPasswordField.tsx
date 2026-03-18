@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 interface SecretPasswordFieldProps {
   password: string;
   error?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClear: () => void;
+  onClear: (fieldName: string) => void;
 }
 
-const SecretPasswordField = ({
+const SecretPasswordField = memo(function SecretPasswordField({
   password,
   error,
   onChange,
   onClear,
-}: SecretPasswordFieldProps) => {
+}: SecretPasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -24,7 +24,7 @@ const SecretPasswordField = ({
       <label
         htmlFor="password"
         className={`mr-3 ${error ? "checkbox-red" : "checkbox"}`}
-        onClick={() => password && onClear()}
+        onClick={() => password && onClear("password")}
       >
         <svg
           stroke="currentColor"
@@ -108,6 +108,6 @@ const SecretPasswordField = ({
       </div>
     </div>
   );
-};
+});
 
 export default SecretPasswordField;

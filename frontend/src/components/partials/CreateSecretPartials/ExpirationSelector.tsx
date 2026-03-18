@@ -1,14 +1,15 @@
+import { memo } from "react";
 import type { ExpirationTimeOptions } from "../../../interfaces/secret.interface";
 
 const EXPIRATION_OPTIONS: ExpirationTimeOptions[] = ["7d", "1d", "1h"];
 
-const ExpirationSelector = ({
+const ExpirationSelector = memo(function ExpirationSelector({
   onChange,
   timeTillExpiration,
 }: {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   timeTillExpiration: string;
-}) => {
+}) {
   return (
     <div className="input-box w-60 max-md:w-[90vw] gap-2 flex p-3 text-xs">
       <span className="select-none">Expires in:</span>
@@ -55,6 +56,6 @@ const ExpirationSelector = ({
       </div>
     </div>
   );
-};
+});
 
 export default ExpirationSelector;
