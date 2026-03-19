@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
+import CheckmarkIcon from "../../icons/CheckmarkIcon";
 
 const AuthCTA = memo(function AuthCTA({
   isAuthenticated,
@@ -82,62 +83,17 @@ const AuthCTA = memo(function AuthCTA({
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
-            <div className="flex flex-col opacity-85">
-              <div className="flex items-center">
-                <svg
-                  stroke="#02a30f"
-                  fill="none"
-                  strokeWidth="0"
-                  viewBox="0 0 24 24"
-                  height="15px"
-                  width="15px"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  ></path>
-                </svg>
+            <div className="flex flex-col opacity-85 mr-1">
+              <div className="flex items-center gap-0.5">
+                <CheckmarkIcon className="stroke-[#02a30f] size-4" />
                 <p className="electrolize text-xs">timeline</p>
               </div>
-              <div className="flex items-center">
-                <svg
-                  stroke="#02a30f"
-                  fill="none"
-                  strokeWidth="0"
-                  viewBox="0 0 24 24"
-                  height="15px"
-                  width="15px"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  ></path>
-                </svg>
+              <div className="flex items-center gap-0.5">
+                <CheckmarkIcon className="stroke-[#02a30f] size-4" />
                 <p className="electrolize text-xs">details</p>
               </div>
-              <div className="flex items-center">
-                <svg
-                  stroke="#02a30f"
-                  fill="none"
-                  strokeWidth="0"
-                  viewBox="0 0 24 24"
-                  height="15px"
-                  width="15px"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  ></path>
-                </svg>
+              <div className="flex items-center gap-0.5">
+                <CheckmarkIcon className="stroke-[#02a30f] size-4" />
                 <p className="electrolize text-xs">erase</p>
               </div>
             </div>

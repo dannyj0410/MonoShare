@@ -1,4 +1,5 @@
 import { memo, useState } from "react";
+import CheckmarkIcon from "../../icons/CheckmarkIcon";
 
 interface ReceiverEmailInputProps {
   receiverEmail: string;
@@ -22,25 +23,11 @@ const ReceiverEmailInputField = memo(function ReceiverEmailInputField({
       <label
         htmlFor="receiverEmail"
         className={`${error ? "checkbox-red" : "checkbox"}`}
+        onClick={() => receiverEmail && onClear("receiverEmail")}
       >
-        <svg
-          stroke="currentColor"
-          fill="none"
-          strokeWidth="0"
-          viewBox="0 0 24 24"
-          height="16px"
-          width="16px"
-          xmlns="http://www.w3.org/2000/svg"
-          className={`${(error || error === undefined || !receiverEmail) && "opacity-0"}`}
-          onClick={() => receiverEmail && onClear("receiverEmail")}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M5 13l4 4L19 7"
-          ></path>
-        </svg>
+        <CheckmarkIcon
+          className={`size-3.75 stroke-(--white) ${(error || error === undefined || !receiverEmail) && "opacity-0"}`}
+        />
       </label>
 
       <input

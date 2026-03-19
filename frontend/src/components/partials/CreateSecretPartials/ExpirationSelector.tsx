@@ -1,5 +1,6 @@
 import { memo } from "react";
 import type { ExpirationTimeOptions } from "../../../interfaces/secret.interface";
+import CheckmarkIcon from "../../icons/CheckmarkIcon";
 
 const EXPIRATION_OPTIONS: ExpirationTimeOptions[] = ["7d", "1d", "1h"];
 
@@ -31,24 +32,11 @@ const ExpirationSelector = memo(function ExpirationSelector({
               className="absolute opacity-0 w-0 h-0"
             />
             <span className="checkbox flex items-center justify-center">
-              <svg
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 24 24"
-                height="16px"
-                width="16px"
-                xmlns="http://www.w3.org/2000/svg"
-                className={`${
+              <CheckmarkIcon
+                className={`size-3.75 stroke-(--white) ${
                   timeTillExpiration === option ? "opacity-100" : "opacity-0"
                 }`}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
+              />
             </span>
             {option}
           </label>
