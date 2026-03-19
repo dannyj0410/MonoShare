@@ -14,8 +14,7 @@ export const useLogout = () => {
     onSuccess: () => {
       queryClient.clear();
       queryClient.removeQueries({ queryKey: ["user"] });
-      const toastType = "info";
-      handleResponse(toastType, "Logged Out", null);
+      handleResponse("info", "Logged Out", null);
     },
   });
 };
