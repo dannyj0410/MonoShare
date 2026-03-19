@@ -12,12 +12,12 @@ export const useSecretMetadata = (id: string, hasHash: boolean) => {
   const query = useQuery({
     queryKey: ["secret-metadata", id],
     queryFn: () => getSecretMetadata(id, hasHash),
-    gcTime: 0,
-    staleTime: 0,
+    gcTime: 60_000,
+    staleTime: 60_000,
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: true,
+    refetchOnMount: false,
     throwOnError: false,
   });
 

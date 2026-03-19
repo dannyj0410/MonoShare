@@ -12,7 +12,7 @@ export const useMySecrets = () => {
     queryKey: ["mysecrets"],
     queryFn: getMySecrets,
     retry: false,
-    staleTime: 0,
+    staleTime: 60_000,
     gcTime: 60_000,
     refetchOnWindowFocus: false,
     refetchOnMount: true,

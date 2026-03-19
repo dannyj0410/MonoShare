@@ -14,7 +14,7 @@ export const useSecretDetails = (id: string, options = {}) => {
     queryFn: () => getSecretDetails(id),
     ...options,
     gcTime: 60_000,
-    staleTime: 0,
+    staleTime: 60_000,
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

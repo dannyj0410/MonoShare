@@ -1,6 +1,7 @@
 import {
   memo,
   useEffect,
+  useMemo,
   useState,
   type Dispatch,
   type SetStateAction,
@@ -48,7 +49,10 @@ const MySecretsItem = memo(function MySecretsItem({
   pendingDelete: boolean;
 }) {
   const [isCleaningUp, setIsCleaningUp] = useState(false);
-  const timePassed = calcTimePastCreation(secret.createdAt);
+  const timePassed = useMemo(
+    () => calcTimePastCreation(secret.createdAt),
+    [secret],
+  );
   const isEven = index % 2 === 0;
 
   useEffect(() => {
