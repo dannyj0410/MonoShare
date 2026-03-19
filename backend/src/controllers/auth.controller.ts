@@ -35,8 +35,8 @@ export const createUser = asyncHandler(
       );
     }
 
+    const passwordHash = await AuthService.hashPassword(password);
     const [user, session, token] = await prisma.$transaction(async (tx) => {
-      const passwordHash = await AuthService.hashPassword(password);
       const user = await tx.user.create({
         data: { email: normalizedEmail, passwordHash },
       });
@@ -53,7 +53,7 @@ export const createUser = asyncHandler(
       });
 
       return [user, session, token];
-    }); // can put this in a user.service.ts
+    });
 
     if (!user || !session) {
       throw new AppError("Error creating user or session", HTTP_BAD_REQUEST);
