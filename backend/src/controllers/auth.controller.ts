@@ -12,6 +12,7 @@ import {
   HTTP_SUCCESS,
   HTTP_UNAUTHORIZED,
 } from "../constants/http_status";
+import { invalidateCachedSession } from "../lib/sessionCache";
 
 //* CREATE
 export const createUser = asyncHandler(
@@ -36,6 +37,7 @@ export const createUser = asyncHandler(
     }
 
     const passwordHash = await AuthService.hashPassword(password);
+    const expiresAt = new Date(Date.now() + 7 * 86400000); //7 days ms
     const [user, session, token] = await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
         data: { email: normalizedEmail, passwordHash },
@@ -43,7 +45,6 @@ export const createUser = asyncHandler(
 
       const token = AuthService.generateSessionToken();
       const tokenHash = AuthService.hashSessionToken(token);
-      const expiresAt = new Date(Date.now() + 7 * 86400000); //7 days
       const session = await tx.session.create({
         data: {
           userId: user.id,
@@ -128,6 +129,7 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   const tokenHash = req.session!.tokenHash;
 
   await prisma.session.delete({ where: { tokenHash } });
+  invalidateCachedSession(tokenHash);
   res.clearCookie("session", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

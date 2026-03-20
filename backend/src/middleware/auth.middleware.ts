@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../../prisma/prisma-client";
 import { AuthService } from "../services/auth.service";
+import { getCachedSession, setCachedSession } from "../lib/sessionCache";
 
 export const requireAuth = async (
   req: Request,
@@ -17,6 +18,14 @@ export const requireAuth = async (
 
   const tokenHash = AuthService.hashSessionToken(token);
 
+  const cache = getCachedSession(tokenHash);
+  if (cache) {
+    console.log("cache");
+    req.user = cache.user;
+    req.session = cache;
+    return next();
+  }
+  console.log("no cache");
   const session = await prisma.session.findUnique({
     where: { tokenHash },
     include: { user: true },
@@ -26,8 +35,8 @@ export const requireAuth = async (
     return res.status(401).json({ message: "Invalid session." });
   }
 
+  setCachedSession(tokenHash, session);
   req.user = session.user;
   req.session = session;
-
-  next();
+  return next();
 };

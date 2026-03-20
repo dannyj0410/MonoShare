@@ -212,14 +212,6 @@ export const getSecretMetadata = asyncHandler(
     }
 
     if (status === "EXPIRED") {
-      await prisma.secret.update({
-        where: { slug },
-        data: {
-          encryptedText: "",
-          encryptionIV: "",
-        },
-      });
-
       throw new AppError(
         "This secret has expired and is no longer available",
         HTTP_GONE,
@@ -270,14 +262,6 @@ export const viewSecret = asyncHandler(
       }
 
       if (originalStatus === "EXPIRED") {
-        await tx.secret.update({
-          where: { slug },
-          data: {
-            encryptedText: "",
-            encryptionIV: "",
-          },
-        });
-
         throw new AppError(
           "This secret has expired and is no longer available",
           HTTP_GONE,
