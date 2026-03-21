@@ -17,7 +17,7 @@ export const useSecretMetadata = (id: string, hasHash: boolean) => {
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: false,
+    refetchOnMount: true,
     throwOnError: false,
   });
 

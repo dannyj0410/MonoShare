@@ -20,12 +20,11 @@ export const requireAuth = async (
 
   const cache = getCachedSession(tokenHash);
   if (cache) {
-    console.log("cache");
     req.user = cache.user;
     req.session = cache;
     return next();
   }
-  console.log("no cache");
+
   const session = await prisma.session.findUnique({
     where: { tokenHash },
     include: { user: true },
