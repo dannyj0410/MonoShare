@@ -121,19 +121,118 @@
     @apply h-5 w-5 flex items-center justify-center relative cursor-pointer border border-red-400/20 rounded-sm bg-red-400/5 hover:border-red-400/25;
   }
 
+  /* Outer Container */
   .features-card {
-    @apply z-10 flex flex-col w-70 border min-w-42.5 max-lg:basis-[20%] border-[#031725] rounded-md p-7 max-xl:p-3 bg-[#ffffff] text-(--white);
+    @apply relative overflow-hidden w-70 min-w-42.5 max-lg:basis-[20%] rounded-md;
+    padding: 2px;
+    background-color: #031725;
+    /* Add the transition here for the shadow */
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  /* APPLY SHADOW HERE: This bypasses the overflow-hidden clipping */
+  .features-card:hover {
+    box-shadow: 0px 0px 20px rgba(118, 196, 255, 0.3);
+  }
+
+  /* Shared properties for both Orbs */
+  .features-card::before,
+  .features-card::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    /* Kept at 50% as requested - long chasing trails */
+    background: conic-gradient(
+      transparent 50%,
+      var(--main-light-blue) 95%,
+      #cae5f7 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+  }
+
+  /* Orb 1: Starts at 0 degrees */
+  .features-card::before {
+    z-index: 1;
+    animation: rotate-orb-1 3s linear infinite;
+  }
+
+  /* Orb 2: Starts at 180 degrees */
+  .features-card::after {
+    z-index: 2;
+    animation: rotate-orb-2 3s linear infinite;
+  }
+
+  .features-card:hover::before,
+  .features-card:hover::after {
+    opacity: 1;
+  }
+
+  /* Inner Card */
+  .features-card-inner {
+    @apply relative z-10 flex flex-col h-full rounded-[inherit] p-7 max-xl:p-3;
+    /* Base Dark State */
     background: linear-gradient(200deg, #010e18 0%, #01090f 50%, #000407 100%);
-    background-size: 150% 100%;
+    overflow: hidden; /* Clips the glow layer to the card shape */
+  }
+
+  /* 2. Create the "Light" layer as a hidden child */
+  /* Add this empty div in your JSX: <div className="hover-glow-bg" /> */
+  .hover-glow-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1; /* Sits behind the icons/text */
+    background: linear-gradient(
+      200deg,
+      #0c3453 0%,
+      #89caf523 50%,
+      #011829 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease; /* You can make this as slow/smooth as you want */
+  }
+
+  /* 3. Trigger the fade when the parent card is hovered */
+  .features-card:hover .hover-glow-bg {
+    opacity: 1;
+  }
+
+  /* Trigger the background shift on parent hover for better UX */
+  .features-card:hover .features-card-inner {
+    background-position: 100% 0%;
+    /* background: linear-gradient(200deg, #03233b 0%, #072033 50%, #162733 100%); */
   }
 
   .icon-box {
-    @apply border border-[#fff0] rounded-md w-fit p-1.5 mb-1 max-xl:mx-auto transition-all duration-300 ease-in-out group-hover:bg-blue-300/20 group-hover:border-(--main-light-blue) group-hover:shadow-[0px_0px_20px_10px_#76c4ff1e];
+    @apply border-2 border-[#fff0] blur-[0.5px] rounded-md w-fit p-1.5 max-xl:mx-auto transition-all duration-300 ease-in-out group-hover:bg-blue-300/20 group-hover:border-(--main-light-blue) group-hover:shadow-[0px_0px_20px_10px_#76c4ff1e];
   }
 
-  .features-card:hover {
-    box-shadow: 0px 0px 20px 10px #76c4ff07;
-    background-position: 100% 0%;
+  .features-card:hover .icon-box {
+    @apply blur-none;
+  }
+
+  /* Animation Keyframes */
+  @keyframes rotate-orb-1 {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  @keyframes rotate-orb-2 {
+    0% {
+      transform: translate(-50%, -50%) rotate(180deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(540deg);
+    }
   }
 
   .hero-text-glow {
