@@ -25,6 +25,7 @@
 
   --animate-skeleton: skeleton-shimmer 2s ease-in-out infinite;
   --animate-rainbow: rainbow 14s linear infinite;
+  --animate-move-bg: move-bg 15s ease-in-out infinite;
   --breakpoint-xs: 30rem;
 }
 
@@ -118,6 +119,53 @@
     @apply flex items-center justify-center text-(--white) border-(--main-dark-blue) [background-image:var(--button-gradient)] hover:cursor-pointer hover:border-[#a4c1d6] transition-colors duration-500 ease-in-out;
   }
 
+  /* switch to width over padding */
+  .create-btn {
+    @apply relative cursor-pointer inline-block w-20 h-9.5 lg:hover:scale-110 duration-200 max-lg:w-full max-lg:h-13 max-lg:cursor-pointer;
+    z-index: 2;
+  }
+
+  .create-btn::before {
+    content: "";
+    z-index: -2;
+    background-size: 360% 360%;
+    @apply absolute bg-[url("/clrbg.png")] scale-x-[-1] -inset-0.75 max-lg:-inset-1 rounded-lg transition-all duration-200 ease-in-out animate-move-bg;
+  }
+
+  .create-btn:hover::before {
+    @apply brightness-130 lg:-scale-x-[1.0125] lg:scale-y-[1.025];
+  }
+
+  .create-btn::after {
+    content: "";
+    z-index: -1;
+    @apply absolute bg-[#000a13] rounded-lg inset-0 duration-300;
+  }
+  /* bg-[#000509] */
+  .create-btn:hover::after {
+    @apply lg:scale-x-[.98] lg:scale-y-[.98] inset-px;
+  }
+
+  .create-btn.is-invalid::before {
+    background-image:
+      linear-gradient(rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0.5)),
+      url("/clrbg.png");
+    background-blend-mode: multiply;
+    filter: sepia(1) hue-rotate(-60deg) brightness(1.3) contrast(1.6);
+  }
+
+  .create-btn.is-invalid:hover::before {
+    background-image:
+      linear-gradient(rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0.5)),
+      url("/clrbg.png");
+    background-blend-mode: multiply;
+    filter: sepia(1) hue-rotate(-60deg) brightness(1.3) contrast(1.6);
+  }
+
+  .create-btn.is-invalid::after {
+    background-color: #040001;
+  }
+
   .input-box {
     @apply rounded-sm border-3 border-(--main-dark-blue-40) bg-[#04121C] flex items-center focus:border-(--main-dark-blue-70) focus-within:border-(--main-dark-blue-70) transition-all duration-300 ease-in-out;
   }
@@ -134,23 +182,19 @@
     @apply h-5 w-5 flex items-center justify-center relative cursor-pointer border border-red-400/20 rounded-sm bg-red-400/5 hover:border-red-400/25;
   }
 
-  /* Outer Container */
   .features-card {
     @apply relative overflow-hidden w-70 min-w-42.5 max-lg:basis-[20%] rounded-md;
     padding: 2px;
     background-color: #031725;
-    /* Add the transition here for the shadow */
     transition:
       box-shadow 0.3s ease,
       transform 0.3s ease;
   }
 
-  /* APPLY SHADOW HERE: This bypasses the overflow-hidden clipping */
   .features-card:hover {
     box-shadow: 0px 0px 20px rgba(118, 196, 255, 0.3);
   }
 
-  /* Shared properties for both Orbs */
   .features-card::before,
   .features-card::after {
     content: "";
@@ -159,7 +203,6 @@
     left: 50%;
     width: 200%;
     height: 200%;
-    /* Kept at 50% as requested - long chasing trails */
     background: conic-gradient(
       transparent 50%,
       var(--main-light-blue) 95%,
@@ -169,13 +212,11 @@
     transition: opacity 0.4s ease-in-out;
   }
 
-  /* Orb 1: Starts at 0 degrees */
   .features-card::before {
     z-index: 1;
     animation: rotate-orb-1 3s linear infinite;
   }
 
-  /* Orb 2: Starts at 180 degrees */
   .features-card::after {
     z-index: 2;
     animation: rotate-orb-2 3s linear infinite;
@@ -186,20 +227,16 @@
     opacity: 1;
   }
 
-  /* Inner Card */
   .features-card-inner {
     @apply relative z-10 flex flex-col h-full rounded-[inherit] p-7 max-xl:p-3;
-    /* Base Dark State */
     background: linear-gradient(200deg, #010e18 0%, #01090f 50%, #000407 100%);
-    overflow: hidden; /* Clips the glow layer to the card shape */
+    overflow: hidden;
   }
 
-  /* 2. Create the "Light" layer as a hidden child */
-  /* Add this empty div in your JSX: <div className="hover-glow-bg" /> */
   .hover-glow-bg {
     position: absolute;
     inset: 0;
-    z-index: -1; /* Sits behind the icons/text */
+    z-index: -1;
     background: linear-gradient(
       200deg,
       #0c3453 0%,
@@ -207,18 +244,15 @@
       #011829 100%
     );
     opacity: 0;
-    transition: opacity 0.4s ease; /* You can make this as slow/smooth as you want */
+    transition: opacity 0.4s ease;
   }
 
-  /* 3. Trigger the fade when the parent card is hovered */
   .features-card:hover .hover-glow-bg {
     opacity: 1;
   }
 
-  /* Trigger the background shift on parent hover for better UX */
   .features-card:hover .features-card-inner {
     background-position: 100% 0%;
-    /* background: linear-gradient(200deg, #03233b 0%, #072033 50%, #162733 100%); */
   }
 
   .icon-box {
@@ -229,7 +263,16 @@
     @apply blur-none;
   }
 
-  /* Animation Keyframes */
+  @keyframes move-bg {
+    0%,
+    100% {
+      background-position: 10% 20%;
+    }
+    50% {
+      background-position: 30% 10%;
+    }
+  }
+
   @keyframes rotate-orb-1 {
     0% {
       transform: translate(-50%, -50%) rotate(0deg);

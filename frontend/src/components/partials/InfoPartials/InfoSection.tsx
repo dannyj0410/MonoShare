@@ -46,20 +46,20 @@ const SecurityCard = () => {
         <p className="electrolize font-bold text-(--white) text-2xl pt-10 pb-2">
           Instant Security
         </p>
-        <div className="flex flex-col opacity-80 text-lg">
-          <div className="flex gap-3 items-center">
-            <p className="electrolize text-(--gray)">
+        <div className="flex flex-col text-lg">
+          <div className="flex gap-2 items-center">
+            <p className="electrolize text-(--gray)/80">
               Use{" "}
               <span className="text-(--main-light-blue) arvo">MonoShare </span>
               to
             </p>
-            <button className="bg-(--main-dark-blue) rounded-md px-4 py-2 text-sm">
+            <button className="create-btn scale-85 pointer-events-none">
               Create
             </button>
           </div>
-          <p className="electrolize text-(--gray)">
-            and <span className="text-(--white)">securely</span> share
-            information.
+          <p className="electrolize text-(--gray)/80">
+            and <span className="text-(--white)/80 font-bold">securely</span>{" "}
+            share information.
           </p>
         </div>
       </div>
