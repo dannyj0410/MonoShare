@@ -1,6 +1,7 @@
 import UseCaseDropdown from "./UseCaseDropdown";
 
 const UseCaseCard = () => {
+  // RESTORE CENTERING
   return (
     <div className="flex flex-col px-8 pt-10 w-150 h-fit rounded-xl bg-linear-to-br from-[#6a89f167] to-[#1f4ad628] overflow-hidden">
       {/* Dropdown Field */}

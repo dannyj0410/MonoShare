@@ -23,6 +23,7 @@
     rgba(10, 49, 78, 0.5)
   );
 
+  --animate-timeline: timeline-grow 25s linear infinite;
   --animate-skeleton: skeleton-shimmer 2s ease-in-out infinite;
   --animate-rainbow: rainbow 14s linear infinite;
   --animate-move-bg: move-bg 15s ease-in-out infinite;
@@ -119,7 +120,6 @@
     @apply flex items-center justify-center text-(--white) border-(--main-dark-blue) [background-image:var(--button-gradient)] hover:cursor-pointer hover:border-[#a4c1d6] transition-colors duration-500 ease-in-out;
   }
 
-  /* switch to width over padding */
   .create-btn {
     @apply relative cursor-pointer inline-block w-20 h-9.5 lg:hover:scale-110 duration-200 max-lg:w-full max-lg:h-13 max-lg:cursor-pointer;
     z-index: 2;
@@ -141,7 +141,7 @@
     z-index: -1;
     @apply absolute bg-[#000a13] rounded-lg inset-0 duration-300;
   }
-  /* bg-[#000509] */
+
   .create-btn:hover::after {
     @apply lg:scale-x-[.98] lg:scale-y-[.98] inset-px;
   }
@@ -261,6 +261,18 @@
 
   .features-card:hover .icon-box {
     @apply blur-none;
+  }
+
+  @keyframes timeline-grow {
+    0% {
+      height: 0;
+    }
+    80% {
+      height: 100%;
+    }
+    100% {
+      height: 100%;
+    }
   }
 
   @keyframes move-bg {

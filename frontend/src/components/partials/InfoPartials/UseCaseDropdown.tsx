@@ -73,6 +73,7 @@ const UseCaseDropdown = () => {
             .filter(([key]) => key !== selectedCase)
             .map(([key, value]) => (
               <li
+                key={key}
                 className="py-2 px-2 rounded-sm hover:bg-(--gray)/50 cursor-pointer"
                 onClick={() => {
                   setSelectedCase(key as UseCaseKey);

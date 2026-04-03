@@ -6,6 +6,7 @@ import Hero from "../partials/MainPartials/Hero";
 import CreateSecretForm from "../partials/CreateSecretPartials/CreateSecretForm";
 import InfoSection from "../partials/InfoPartials/InfoSection";
 import Features from "../partials/Features";
+import Process from "../partials/Process";
 
 const Home = () => {
   const { isAuthenticated } = useAuthCheck();
@@ -30,6 +31,7 @@ const Home = () => {
       />
 
       <InfoSection />
+      <Process />
       <Features />
     </main>
   );

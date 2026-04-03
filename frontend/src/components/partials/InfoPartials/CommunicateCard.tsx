@@ -80,7 +80,10 @@ const CommunicateCard = () => {
           <div className="flex w-fit gap-2 justify-between ml-9 mr-11 pt-3 opacity-80">
             {"QWERTYUIOP".split("").map((key) => {
               return (
-                <button className="bg-[#042741] border-[#093455] text-xs electrolize border-r-3 border-b-3 w-8 h-8 rounded-sm active:scale-95 duration-100">
+                <button
+                  key={key}
+                  className="bg-[#042741] border-[#093455] text-xs electrolize border-r-3 border-b-3 w-8 h-8 rounded-sm active:scale-95 duration-100"
+                >
                   {key}
                 </button>
               );
@@ -89,7 +92,10 @@ const CommunicateCard = () => {
           <div className="flex opacity-70 w-fit gap-2 justify-between mr-9 ml-11 pt-2">
             {"ASDFGHJKL;".split("").map((key) => {
               return (
-                <button className="bg-[#042741] border-[#093455] text-xs electrolize border-r-3 border-b-3 w-8 h-8 rounded-sm">
+                <button
+                  key={key}
+                  className="bg-[#042741] border-[#093455] text-xs electrolize border-r-3 border-b-3 w-8 h-8 rounded-sm"
+                >
                   {key}
                 </button>
               );
