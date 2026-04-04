@@ -9,9 +9,9 @@
   --white: #eef2f6;
   --gray: #babbbd;
   --main-light-blue: #76c4ff;
-  --main-dark-blue: rgb(51, 78, 98);
-  --main-dark-blue-40: rgba(51, 78, 98, 0.4);
-  --main-dark-blue-70: rgba(51, 78, 98, 0.7);
+  --main-dark-blue: rgb(29, 64, 92);
+  --main-dark-blue-40: rgba(29, 64, 92, 0.4);
+  --main-dark-blue-70: rgba(29, 64, 92, 0.7);
   --skltn-box-clr-default: rgb(55 65 81);
   --skltn-box-highlight-clr-default: rgba(77, 91, 110, 0.9);
 
@@ -171,11 +171,11 @@
   }
 
   .input-box {
-    @apply rounded-sm border-3 border-(--main-dark-blue-40) bg-[#04121C] flex items-center focus:border-(--main-dark-blue-70) focus-within:border-(--main-dark-blue-70) transition-all duration-300 ease-in-out;
+    @apply rounded-lg border-3 border-(--main-dark-blue) bg-[#04121C] focus:bg-[#04121C] hover:bg-[#051520] flex items-center focus:border-(--main-dark-blue-70) focus-within:border-(--main-dark-blue-70) transition-all duration-300 ease-in-out;
   }
 
   .input-box-red {
-    @apply rounded-sm border-3 border-red-400/15 bg-red-400/10 flex items-center focus:border-red-400/30 focus-within:border-red-400/30 transition-all duration-300 ease-in-out;
+    @apply rounded-sm border-3 border-red-400/15 bg-red-400/10 hover:bg-red-400/12 focus:bg-red-400/10 flex items-center focus:border-red-400/30 focus-within:border-red-400/30 transition-all duration-300 ease-in-out;
   }
 
   .checkbox {

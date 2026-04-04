@@ -22,7 +22,7 @@ const AuthCTA = memo(function AuthCTA({
       ) : (
         <Link
           to="/my-secrets"
-          className="flex max-md:w-[90vw] items-center justify-center relative overflow-hidden py-6.5 w-50 bg-[#3F67E1] cursor-pointer rounded-sm duration-300 transition-colors hover:bg-[#1f4ad6] hover:outline-(--white) hover:outline-3"
+          className="flex max-md:w-[90vw] items-center justify-center relative overflow-hidden py-6.5 w-50 bg-[#3F67E1] cursor-pointer rounded-lg duration-300 transition-colors hover:bg-[#1f4ad6] hover:outline-(--white) hover:outline-3"
         >
           <span className="electrolize font-bold tracking-wider ml-2.5 max-md:text-lg">
             My Secrets

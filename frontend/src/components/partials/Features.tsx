@@ -7,7 +7,7 @@ const Features = () => {
         better way to send passwords, tokens and private messages.
       </p>
 
-      <ul className="flex max-lg:flex-wrap justify-center cursor-default gap-16 max-xl:gap-4 max-xl:max-w-[90vw]">
+      <ul className="flex max-lg:flex-wrap justify-center cursor-default gap-12 max-xl:gap-4 max-xl:max-w-[90vw]">
         {/* Security first */}
         <li className="features-card group transition-all duration-300 ease-in-out max-xl:text-center">
           <div className="features-card-inner">
