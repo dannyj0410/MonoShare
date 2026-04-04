@@ -53,8 +53,6 @@ const Process = () => {
   const [cycle, setCycle] = useState(0);
 
   useEffect(() => {
-    const currentDuration = processStep === 3 ? 5000 : 10000;
-
     const timer = setTimeout(() => {
       if (processStep === 3) {
         setProcessStep(1);
@@ -62,7 +60,7 @@ const Process = () => {
       } else {
         setProcessStep((prev) => prev + 1);
       }
-    }, currentDuration);
+    }, 10000);
 
     return () => clearTimeout(timer);
   }, [processStep, cycle]);

@@ -16,9 +16,9 @@ const InfoSection = () => {
       </h1>
       {/* cards + usecase container */}
       {isVisible ? (
-        <div className="flex gap-10 mx-20 w-[95vw] mb-40 cursor-default">
+        <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-[95vw] mb-40 cursor-default">
           {/* all 3 cards wrapper */}
-          <div className="flex gap-10">
+          <div className="max-lg:flex-col flex gap-10">
             {/* cards 1-2 column wrapper */}
             <div className="flex flex-col gap-10">
               {/* card1 */}
@@ -27,7 +27,10 @@ const InfoSection = () => {
               <CertaintyCard />
             </div>
             {/* card3 */}
-            <CommunicateCard />
+            <div className="flex flex-col gap-3 justify-center">
+              <CommunicateCard />
+              <FreeUsageCard />
+            </div>
           </div>
 
           <UseCaseCard />
@@ -111,7 +114,7 @@ const SecurityCard = () => {
 
 const CertaintyCard = () => {
   return (
-    <div className="flex flex-col w-120 h-100 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c]overflow-hidden">
+    <div className="flex flex-col w-120 h-100 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c]">
       <p className="electrolize font-bold text-(--white) text-2xl pt-10 px-8 pb-2">
         Absolute Certainty
       </p>
@@ -122,6 +125,17 @@ const CertaintyCard = () => {
       <div className="flex rounded-xl opacity-90 mx-2 mt-8 mask-[linear-gradient(to_bottom,black_95%,transparent_100%)]">
         <img src="my-secrets.png" alt="" className="" />
       </div>
+    </div>
+  );
+};
+
+const FreeUsageCard = () => {
+  return (
+    <div className="flex flex-col w-120 h-fit py-5 rounded-xl bg-[#cdd7df21] border-2 border-white/5">
+      <p className="noto-sans text-(--gray) text-sm px-5">
+        Core features will always remain free for personal use. No account
+        creation or credit card is required to start sharing safely today.
+      </p>
     </div>
   );
 };

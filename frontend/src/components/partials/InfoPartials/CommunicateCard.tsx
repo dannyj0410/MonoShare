@@ -8,7 +8,7 @@ const CommunicateCard = () => {
   };
   return (
     <div className="flex items-center">
-      <div className="flex flex-col w-120 h-100 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c] overflow-hidden">
+      <div className="flex flex-col w-120 h-100 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c]">
         <p className="electrolize font-bold text-(--white) text-2xl pt-10 px-8 pb-2">
           Communicate Safely
         </p>

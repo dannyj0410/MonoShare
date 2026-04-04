@@ -3,7 +3,7 @@ import UseCaseDropdown from "./UseCaseDropdown";
 const UseCaseCard = () => {
   // RESTORE CENTERING
   return (
-    <div className="flex flex-col px-8 pt-10 w-150 h-fit rounded-xl bg-linear-to-br from-[#6a89f167] to-[#1f4ad628] overflow-hidden">
+    <div className="flex flex-col px-8 pt-10 min-w-150 w-150 h-fit rounded-xl bg-linear-to-br from-[#6a89f167] to-[#1f4ad628]">
       {/* Dropdown Field */}
       <p className="electrolize font-bold text-(--white) text-2xl text-center mb-10">
         Use Case
@@ -11,7 +11,7 @@ const UseCaseCard = () => {
       <UseCaseDropdown />
 
       {/* Why choose us section */}
-      <div className="mt-10 flex- bg-[#cdd7df21] border-2 border-white/5 p-5 rounded-lg">
+      <div className="mt-10 flex flex-col bg-[#cdd7df21] border-2 border-white/5 p-5 rounded-lg">
         <h3 className="text-white text-base font-bold mb-4">Why choose us?</h3>
         <ul className="space-y-4">
           {[

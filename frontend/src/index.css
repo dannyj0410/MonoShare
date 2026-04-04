@@ -23,7 +23,7 @@
     rgba(10, 49, 78, 0.5)
   );
 
-  --animate-timeline: timeline-grow 25s linear infinite;
+  --animate-timeline: timeline-grow 30s linear infinite;
   --animate-skeleton: skeleton-shimmer 2s ease-in-out infinite;
   --animate-rainbow: rainbow 14s linear infinite;
   --animate-move-bg: move-bg 15s ease-in-out infinite;
@@ -267,7 +267,7 @@
     0% {
       height: 0;
     }
-    80% {
+    66% {
       height: 100%;
     }
     100% {
