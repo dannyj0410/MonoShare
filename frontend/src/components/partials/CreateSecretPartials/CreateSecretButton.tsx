@@ -14,7 +14,7 @@ const CreateSecretButton = ({
     <div className="flex items-center justify-center max-lg:mt-1">
       <button
         disabled={isCreating}
-        className={`create-btn noto-sans font-semibold ${showError ? "is-invalid" : ""}`}
+        className={`create-btn create-btn-mobile noto-sans font-semibold ${showError ? "is-invalid" : ""}`}
       >
         {!isCreating ? (
           "Create"

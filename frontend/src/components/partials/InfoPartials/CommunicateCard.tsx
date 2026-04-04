@@ -8,7 +8,7 @@ const CommunicateCard = () => {
   };
   return (
     <div className="flex items-center">
-      <div className="flex flex-col w-120 h-100 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c]">
+      <div className="flex flex-col w-120 max-xs:max-w-screen h-100 max-xs:h-70 max-xs:min-h-fit max-xs:pb-10 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c] overflow-hidden">
         <p className="electrolize font-bold text-(--white) text-2xl pt-10 px-8 pb-2">
           Communicate Safely
         </p>
@@ -43,7 +43,7 @@ const CommunicateCard = () => {
         </div>
 
         {/*  keyboard UI */}
-        <div className="mask-[linear-gradient(to_bottom,black_20%,transparent_100%)]">
+        <div className="mask-[linear-gradient(to_bottom,black_20%,transparent_100%)] max-xs:hidden">
           <div className="flex mx-12 mt-3 electrolize gap-3 items-center opacity-90">
             <div className="p-1.5 rounded-full bg-[#042741] hover:bg-[#042741a6] hover:rotate-90 duration-300">
               <svg

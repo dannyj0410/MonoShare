@@ -1,4 +1,4 @@
-import type { IProcessStep } from "../../interfaces/process.interface";
+import type { IProcessStep } from "../../../interfaces/process.interface";
 
 const ProcessItem = ({
   processStepConfig,
@@ -20,7 +20,9 @@ const ProcessItem = ({
     <div className="flex items-center">
       <div className="flex gap-4 items-center">
         {/* left: step*/}
-        <p className={`text-3xl w-25 duration-500 ${getOpacity()}`}>
+        <p
+          className={`text-3xl w-25 duration-500 max-lg:hidden ${getOpacity()}`}
+        >
           {processStepConfig.step}
         </p>
         {/* center: timeline ping */}
@@ -36,6 +38,11 @@ const ProcessItem = ({
         <div
           className={`flex flex-col items-start rounded-md duration-500 ${getOpacity()}`}
         >
+          <p
+            className={`text-xl w-25 duration-500 hidden max-lg:block ${getOpacity()}`}
+          >
+            {processStepConfig.step}
+          </p>
           <p
             className={`text-md text-nowrap electrolize leading-4.5 font-bold ${processStepConfig.textClr}`}
           >

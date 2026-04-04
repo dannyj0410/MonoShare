@@ -9,14 +9,14 @@ const InfoSection = () => {
   return (
     <section
       ref={containerRef}
-      className="flex flex-col usecase-bg w-screen pt-20 px-20"
+      className="flex flex-col items-center usecase-bg w-screen pt-20 md:px-20"
     >
       <h1 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
         What we do.
       </h1>
       {/* cards + usecase container */}
       {isVisible ? (
-        <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-[95vw] mb-40 cursor-default">
+        <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-screen mb-40 cursor-default">
           {/* all 3 cards wrapper */}
           <div className="max-lg:flex-col flex gap-10">
             {/* cards 1-2 column wrapper */}
@@ -44,7 +44,7 @@ const InfoSection = () => {
 
 const SecurityCard = () => {
   return (
-    <div className="flex flex-col gap-2 w-120 h-100 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c] overflow-hidden">
+    <div className="flex flex-col gap-2 max-xs:max-w-screen w-120 h-100 max-xs:min-h-fit border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c] overflow-hidden">
       <div className="px-8">
         <p className="electrolize font-bold text-(--white) text-2xl pt-10 pb-2">
           Instant Security
@@ -68,15 +68,15 @@ const SecurityCard = () => {
       </div>
       <div className="w-full h-full bg-[url('/clrbg.png')] mask-[linear-gradient(to_bottom,transparent_0%,black_5%)] bg-cover flex flex-col items-center">
         <div className="flex items-center gap-2 mt-10">
-          <div className="flex w-fit rounded-md border-white/5 backdrop-blur-xs border-4">
-            <p className="bg-[#00111fd3] px-3 py-2 rounded-md noto-sans text-sm text-(--gray)">
+          <div className="flex max-xs:max-w-screen w-fit rounded-md border-white/5 backdrop-blur-xs border-4">
+            <p className="bg-[#00111fd3] max-xs:wrap-break-word px-3 py-2 rounded-md noto-sans text-sm max-xs:text-xs text-(--gray)">
               https://
               <span className="text-(--white)">monoshare.com</span>/
               <span className="text-blue-200">yoursecretid</span>#
               <span className="text-red-200">securekey</span>
             </p>
           </div>
-          <div className="flex items-center w-fit rounded-md border-white/5 backdrop-blur-xs border-4">
+          <div className="max-xs:hidden flex items-center w-fit rounded-md border-white/5 backdrop-blur-xs border-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -114,7 +114,7 @@ const SecurityCard = () => {
 
 const CertaintyCard = () => {
   return (
-    <div className="flex flex-col w-120 h-100 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c]">
+    <div className="flex flex-col w-120 max-xs:max-w-screen h-100 max-xs:min-h-fit border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c]">
       <p className="electrolize font-bold text-(--white) text-2xl pt-10 px-8 pb-2">
         Absolute Certainty
       </p>
@@ -131,7 +131,7 @@ const CertaintyCard = () => {
 
 const FreeUsageCard = () => {
   return (
-    <div className="flex flex-col w-120 h-fit py-5 rounded-xl bg-[#cdd7df21] border-2 border-white/5">
+    <div className="flex flex-col w-120 max-xs:max-w-screen h-fit py-5 rounded-xl bg-[#cdd7df21] border-2 border-white/5">
       <p className="noto-sans text-(--gray) text-sm px-5">
         Core features will always remain free for personal use. No account
         creation or credit card is required to start sharing safely today.

@@ -121,8 +121,12 @@
   }
 
   .create-btn {
-    @apply relative cursor-pointer inline-block w-20 h-9.5 lg:hover:scale-110 duration-200 max-lg:w-full max-lg:h-13 max-lg:cursor-pointer;
+    @apply relative cursor-pointer inline-block w-20 h-9.5 lg:hover:scale-110 duration-200 max-lg:cursor-pointer;
     z-index: 2;
+  }
+
+  .create-btn-mobile {
+    @apply max-sm:w-full max-sm:h-13;
   }
 
   .create-btn::before {

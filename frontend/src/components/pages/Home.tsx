@@ -6,7 +6,7 @@ import Hero from "../partials/MainPartials/Hero";
 import CreateSecretForm from "../partials/CreateSecretPartials/CreateSecretForm";
 import InfoSection from "../partials/InfoPartials/InfoSection";
 import Features from "../partials/Features";
-import Process from "../partials/Process";
+import Process from "../partials/ProcessPartials/Process";
 
 const Home = () => {
   const { isAuthenticated } = useAuthCheck();
