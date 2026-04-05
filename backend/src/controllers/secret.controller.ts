@@ -13,6 +13,7 @@ import {
 import {
   HTTP_BAD_REQUEST,
   HTTP_CREATED,
+  HTTP_FORBIDDEN,
   HTTP_GONE,
   HTTP_NOT_FOUND,
   HTTP_SUCCESS,
@@ -228,7 +229,7 @@ export const getSecretMetadata = asyncHandler(
       if (secret.receiverEmail !== user.email) {
         throw new AppError(
           "You are not authorized to view this secret",
-          HTTP_UNAUTHORIZED,
+          HTTP_FORBIDDEN,
         );
       }
     }
@@ -278,7 +279,7 @@ export const viewSecret = asyncHandler(
         if (originalSecret.receiverEmail !== user.email) {
           throw new AppError(
             "You are not authorized to view this secret",
-            HTTP_UNAUTHORIZED,
+            HTTP_FORBIDDEN,
           );
         }
       }
