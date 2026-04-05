@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Navigate, redirect, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import AuthGuard from "./components/guards/AuthGuard";
 
@@ -10,6 +10,7 @@ import CreateAccount from "./components/pages/AuthPages/CreateAccount";
 import ViewSecret from "./components/pages/ViewSecret";
 import UserAndLogout from "./components/partials/MainPartials/UserAndLogout";
 import PageLoader from "./components/loaders/PageLoader";
+import NotFound from "./components/pages/NotFound";
 
 const SecretDetails = lazy(() => import("./components/pages/SecretDetails"));
 const MySecrets = lazy(() => import("./components/pages/MySecrets"));
@@ -48,7 +49,8 @@ function App() {
               </AuthGuard>
             }
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/not-found" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/not-found" replace />} />
         </Routes>
       </Suspense>
     </div>
