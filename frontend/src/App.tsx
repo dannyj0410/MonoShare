@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, redirect, Route, Routes } from "react-router-dom";
 
 import AuthGuard from "./components/guards/AuthGuard";
 
@@ -48,6 +48,7 @@ function App() {
               </AuthGuard>
             }
           />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </div>

@@ -69,20 +69,18 @@ const UseCaseDropdown = () => {
         <ul
           className={`absolute w-full bg-white rounded-md px-2 h-max text-black transition-all duration-300 ${showDropdown ? "max-h-65 top-13 opacity-100 py-2 " : "max-h-0 py-0 text-black/0 top-11 opacity-0 pointer-events-none"}`}
         >
-          {Object.entries(useCases)
-            .filter(([key]) => key !== selectedCase)
-            .map(([key, value]) => (
-              <li
-                key={key}
-                className="py-2 px-2 rounded-sm hover:bg-(--gray)/50 cursor-pointer"
-                onClick={() => {
-                  setSelectedCase(key as UseCaseKey);
-                  setShowDropdown(false);
-                }}
-              >
-                {value.title}
-              </li>
-            ))}
+          {Object.entries(useCases).map(([key, value]) => (
+            <li
+              key={key}
+              className={`${key === selectedCase ? "bg-(--gray)/80" : "bg-(--white) cursor-pointer hover:bg-(--gray)/50"} py-2 px-2 rounded-md `}
+              onClick={() => {
+                setSelectedCase(key as UseCaseKey);
+                setShowDropdown(false);
+              }}
+            >
+              {value.title}
+            </li>
+          ))}
         </ul>
       </div>
 
