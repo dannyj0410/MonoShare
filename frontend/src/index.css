@@ -110,7 +110,7 @@
   }
 
   .main-btn {
-    @apply flex items-center text-(--white) [background-image:var(--main-button-gradient)] w-fit  hover:cursor-pointer;
+    @apply flex items-center text-(--white) [background-image:var(--main-button-gradient)] w-fit hover:cursor-pointer;
     background-size: 150% 100%;
     background-position: 0% 0%;
     animation: btn-bg-move-gradient 6s ease-in-out infinite reverse;
@@ -121,7 +121,7 @@
   }
 
   .create-btn {
-    @apply relative cursor-pointer inline-block w-20 h-9.5 lg:hover:scale-110 duration-200 max-lg:cursor-pointer;
+    @apply relative cursor-pointer inline-block w-20 h-9.5 lg:active:scale-100 lg:hover:scale-110 duration-200 max-lg:cursor-pointer;
     z-index: 2;
   }
 
