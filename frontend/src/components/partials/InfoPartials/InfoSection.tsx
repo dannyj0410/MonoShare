@@ -101,7 +101,7 @@ const SecurityCard = () => {
           </div>
         </div>
         <div className="relative p-1 mt-5 mx-8 rounded-md overflow-hidden group">
-          <div className="absolute inset-[-1000%] animate-[spin_10s_linear_infinite] bg-[conic-gradient(from_0deg,#00b4d8,#05134E,#0077b6,#07004b,#00b4d8)]" />
+          <div className="absolute inset-[-1000%] animate-[spin_10s_linear_infinite] will-change-transform bg-[conic-gradient(from_0deg,#00b4d8,#05134E,#0077b6,#07004b,#00b4d8)]" />
           <p className="noto-sans relative backdrop-blur-xs bg-[#001525ce] text-sm text-center text-(--gray) p-1 py-1.5 rounded-sm">
             You hold the key. Stored only in the generated url's hash, not even
             we can decrypt your secret.

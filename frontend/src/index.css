@@ -75,8 +75,8 @@
   min-height: 100vh;
   min-height: 100dvh;
   background-attachment: fixed;
-  background: linear-gradient(180deg, #06141f 0%, #01090f 100vh, #000407 150vh);
-  background-color: var(--bg);
+  /* 000407 the bg, set the gradient to be only on the hero section + create secret section by putting htem in a div, check if this colour change affects other pages */
+  background: linear-gradient(180deg, #06141f 0%, #01090f 20%, #000407 40%);
 }
 
 @layer utilities {
@@ -209,6 +209,7 @@
     left: 50%;
     width: 200%;
     height: 200%;
+    animation-play-state: paused;
     background: conic-gradient(
       transparent 50%,
       var(--main-light-blue) 95%,
@@ -231,6 +232,7 @@
   .features-card:hover::before,
   .features-card:hover::after {
     opacity: 1;
+    animation-play-state: running;
   }
 
   .features-card-inner {
@@ -339,6 +341,7 @@
 
   .glow-white-default {
     @apply -top-60 opacity-0 absolute h-100  w-0 z-20;
+    will-change: transform, opacity;
     transform: rotate(20deg);
     box-shadow: 0px 0px 200px 25px var(--white);
     animation: spotlight-glow-white 12s linear infinite alternate;
@@ -350,6 +353,7 @@
 
   .glow-blue-default {
     @apply -top-60 absolute h-100 w-0 opacity-10 z-20;
+    will-change: transform, opacity;
     transform: rotate(20deg);
     box-shadow: 0px 0px 100px 100px var(--main-light-blue);
     animation: spotlight-glow-blue 7s linear infinite alternate;
@@ -361,6 +365,7 @@
 
   .glow-middle {
     @apply left-[51vw] -top-10 opacity-0 absolute h-100  w-0 z-20;
+    will-change: transform, opacity;
     transform: rotate(10deg);
     box-shadow: 0px 0px 600px 160px var(--main-light-blue);
     animation-delay: 500ms;

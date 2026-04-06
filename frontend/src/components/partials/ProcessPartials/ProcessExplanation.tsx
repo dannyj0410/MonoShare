@@ -13,7 +13,7 @@ const ProcessExplanation = ({
         >
           Step {currentStepConfig.id}: {currentStepConfig.step}
         </h2>
-        <p className="text-(--gray) leading-relaxed text-lg max-lg:text-sm">
+        <p className="text-(--gray) tracking-tight leading-relaxed text-lg max-lg:text-sm">
           {currentStepConfig.guide}
         </p>
 
