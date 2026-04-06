@@ -9,7 +9,7 @@ const InfoSection = () => {
   return (
     <section
       ref={containerRef}
-      className="flex flex-col items-center usecase-bg w-screen pt-20 md:px-20"
+      className="flex flex-col items-center usecase-bg w-full pt-20 md:px-20"
     >
       <h1 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
         What we do.

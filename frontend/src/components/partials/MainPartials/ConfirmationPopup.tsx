@@ -121,7 +121,7 @@ const ConfirmationPopup = ({
             </div>
           )}
 
-          <div className="flex max-xs:flex-col-reverse ml-auto px-2 py-2 text-sm gap-2 max-xs:max-w-screen max-xs:w-full">
+          <div className="flex max-xs:flex-col-reverse ml-auto px-2 py-2 text-sm gap-2 max-xs:max-w-full max-xs:w-full">
             <button
               type="button"
               className="max-xs:text-xs max-xs:w-full max-xs:px-0 border border-gray-400/15 hover:border-gray-400/25 noto-sans rounded-lg py-2 px-15 cursor-pointer  transition-colors duration-100"

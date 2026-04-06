@@ -71,10 +71,12 @@
 
 .app-container {
   @apply max-xs:max-w-full;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
-  background-color: var(--bg);
+  min-height: 100dvh;
+  background-attachment: fixed;
   background: linear-gradient(180deg, #06141f 0%, #01090f 100vh, #000407 150vh);
+  background-color: var(--bg);
 }
 
 @layer utilities {

@@ -1,7 +1,7 @@
 const Hero = ({ scroll }: { scroll: () => void }) => {
   return (
-    <main className="text-center pt-75 max-md:pt-50 mb-100 z-10 w-screen overflow-x-hidden">
-      <div className="mb-23 max-md:mb-15 relative cursor-default w-screen">
+    <main className="text-center pt-75 max-md:pt-50 mb-100 z-10 w-full overflow-x-hidden">
+      <div className="mb-23 max-md:mb-15 relative cursor-default w-full">
         <div className="hero-glow" />
         <h1 className="text-5xl max-md:text-2xl mb-3 z-10 blur-[0.3px] text-shadow-[0_0_10px_rgb(238_238_238/0.3)]">
           Your Shared Secret

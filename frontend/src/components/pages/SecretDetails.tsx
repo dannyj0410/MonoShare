@@ -44,8 +44,8 @@ const SecretDetails = () => {
   }
 
   return (
-    <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200 max-md:w-screen max-md:min-w-auto max-md:px-0 max-md:pt-30">
-      <div className="flex items-center justify-between w-full relative mb-5 max-md:max-w-screen">
+    <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200 max-md:w-full max-md:min-w-auto max-md:px-0 max-md:pt-30">
+      <div className="flex items-center justify-between w-full relative mb-5 max-md:max-w-full">
         <BackButton />
         <h1
           className={`max-md:mr-2 electrolize font-bold ${secret.status === "ACTIVE" ? "text-(--main-light-blue)" : secret.status === "VIEWED" ? "text-green-500" : "text-red-500"}`}
@@ -130,9 +130,9 @@ const SecretDetails = () => {
       )}
       {/* Secret Link */}
       {created && (
-        <div className="mb-5 flex flex-col w-full max-md:w-screen">
+        <div className="mb-5 flex flex-col w-full max-md:w-full">
           <div
-            className={`flex w-max min-w-180 max-w-200 max-md:w-screen max-md:min-w-screen max-md:rounded-none max-md:border-2 items-center justify-between rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
+            className={`flex w-max min-w-180 max-w-200 max-md:w-full max-md:min-w-full max-md:rounded-none max-md:border-2 items-center justify-between rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
               copyClicked
                 ? "border-green-500 bg-green-500/15"
                 : "border-(--main-dark-blue-40) bg-blue-300/5"

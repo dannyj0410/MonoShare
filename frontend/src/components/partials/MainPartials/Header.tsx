@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 const Header = () => {
   const location = useLocation();
   return (
-    <div className="flex w-screen items-center justify-center absolute">
+    <div className="flex w-full items-center justify-center absolute">
       <Link
         to="/"
         className={`${
