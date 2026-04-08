@@ -1,11 +1,20 @@
 const SpotlightGlow = () => {
   return (
-    <div>
-      <div className="glow-white-default left-1/5 max-md:hidden" />
-      <div className="glow-blue-default left-[37vw] max-md:hidden" />
-      <div className="glow-middle left-[51vw]" />
-      <div className="glow-blue-default right-[29vw] max-md:hidden" />
-      <div className="glow-white-default delayed-white-glow right-1/9 max-md:hidden" />
+    <div className="absolute inset-0 z-50 overflow-hidden pointer-events-none w-full flex justify-center">
+      {/* Left White Glow */}
+      <div className="glow-white left-[15%] max-md:hidden" />
+
+      {/* Left Blue Glow */}
+      <div className="glow-blue left-[31%] max-md:hidden" />
+
+      {/* Center Main Glow */}
+      <div className="glow-center left-1/2" />
+
+      {/* Right Blue Glow */}
+      <div className="glow-blue right-[30%] max-md:hidden" />
+
+      {/*Right White Glow  */}
+      <div className="glow-white right-[15%] [animation-delay:3s] max-md:hidden" />
     </div>
   );
 };

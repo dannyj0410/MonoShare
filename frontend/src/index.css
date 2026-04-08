@@ -339,37 +339,32 @@
       glow-breathe 7s ease-in-out infinite alternate;
   }
 
-  .glow-white-default {
-    @apply -top-60 opacity-0 absolute h-100  w-0 z-20;
-    will-change: transform, opacity;
+  .glow-white {
+    @apply top-[-10%] w-10 h-40 bg-white/90 absolute mix-blend-screen;
     transform: rotate(20deg);
-    box-shadow: 0px 0px 200px 25px var(--white);
-    animation: spotlight-glow-white 12s linear infinite alternate;
-  }
-
-  .delayed-white-glow {
-    animation-delay: 3s;
-  }
-
-  .glow-blue-default {
-    @apply -top-60 absolute h-100 w-0 opacity-10 z-20;
+    animation: spotlight-glow-white 10s ease-in-out infinite alternate;
+    filter: blur(70px);
     will-change: transform, opacity;
-    transform: rotate(20deg);
-    box-shadow: 0px 0px 100px 100px var(--main-light-blue);
-    animation: spotlight-glow-blue 7s linear infinite alternate;
   }
 
-  .delayed-blue-glow {
-    animation-delay: 1s;
-  }
-
-  .glow-middle {
-    @apply left-[51vw] -top-10 opacity-0 absolute h-100  w-0 z-20;
-    will-change: transform, opacity;
+  .glow-blue {
+    @apply top-[-10%] w-60 h-100 absolute mix-blend-screen;
+    background: var(--main-light-blue);
     transform: rotate(10deg);
-    box-shadow: 0px 0px 600px 160px var(--main-light-blue);
-    animation-delay: 500ms;
-    animation: spotlight-glow-middle 7s linear infinite alternate;
+    animation: spotlight-glow-blue 7s ease-in-out infinite alternate;
+    filter: blur(60px);
+    animation-delay: 1200ms;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  .glow-center {
+    @apply top-[-5%] w-80 h-120 absolute mix-blend-screen;
+    background: var(--main-light-blue);
+    transform: rotate(10deg);
+    animation: spotlight-glow-middle 7s ease-in-out infinite alternate;
+    filter: blur(70px);
+    will-change: transform, opacity;
   }
 
   .animate-glow {
@@ -607,58 +602,54 @@
     }
   }
 
+  @keyframes spotlight-glow-white {
+    0% {
+      opacity: 0.1;
+      transform: translate(50px, -100px) scale(0.4);
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0.6;
+      transform: translate(10px, 0px) scale(1);
+    }
+  }
+
+  @keyframes spotlight-glow-middle {
+    0% {
+      opacity: 0.05;
+      transform: translate(-50%, -100px) scale(0.8);
+    }
+    50% {
+      opacity: 0.2;
+      transform: translate(-50%, -30px) scale(1);
+    }
+    100% {
+      opacity: 0.35;
+      transform: translate(-50%, 50px) scale(1.1);
+    }
+  }
+
+  @keyframes spotlight-glow-blue {
+    0% {
+      opacity: 0.01;
+      transform: translate(20px, -100px);
+    }
+    50% {
+      opacity: 0.1;
+    }
+    100% {
+      opacity: 0.15;
+    }
+  }
+
   @keyframes glow {
     0% {
       box-shadow: 0px 0px 20px 3px rgba(118, 196, 255, 0.3);
     }
     100% {
       box-shadow: 0px 0px 20px 3px rgba(118, 196, 255, 0.5);
-    }
-  }
-
-  @keyframes spotlight-glow-white {
-    0% {
-      opacity: 0.1;
-      transform: translate(100px, -180px);
-    }
-    50% {
-      opacity: 0.3;
-    }
-    80% {
-      transform: translate(20px, 0px);
-    }
-    100% {
-      opacity: 0.5;
-    }
-  }
-
-  @keyframes spotlight-glow-middle {
-    0% {
-      opacity: 0.1;
-      transform: translate(30px, -180px);
-    }
-    30% {
-      opacity: 0.2;
-    }
-    50% {
-      opacity: 0.3;
-      transform: translate(10px, -50px);
-    }
-    100% {
-      opacity: 0.5;
-    }
-  }
-
-  @keyframes spotlight-glow-blue {
-    0% {
-      opacity: 0;
-      transform: translate(30px, -180px);
-    }
-    50% {
-      opacity: 0.1;
-    }
-    100% {
-      opacity: 0.2;
     }
   }
 

@@ -134,7 +134,7 @@ const CreateSecretForm = forwardRef<
           <textarea
             name="secret"
             id="secret"
-            className={`relative hide-scrollbar resize-none noto-sans w-full h-45 px-4 pt-3 pb-6 text-xs placeholder-(--white) ${secretFormData.secret ? "cursor-auto" : "cursor-pointer"} focus:cursor-auto focus:outline-0 ${secretError ? "input-box-red" : "input-box"}`}
+            className={`relative hide-scrollbar resize-none noto-sans w-full h-45 px-4 pt-3 pb-6 text-xs placeholder-(--white) ${secretFormData.secret ? "cursor-auto" : "cursor-pointer"} focus:cursor-auto outline-0 ${secretError ? "input-box-red" : "input-box"}`}
             placeholder="Write your secret here..."
             value={secretFormData.secret}
             onChange={onChangeHandler}
