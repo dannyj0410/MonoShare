@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ProcessItem from "./ProcessItem";
 import ProcessExplanation from "./ProcessExplanation";
 import type { ProcessStepsType } from "../../../interfaces/process.interface";
-import { useElementOnScreen } from "../../../hooks/IntersectionHook";
+import { motion } from "framer-motion";
 
 const processSteps: ProcessStepsType = {
   create: {
@@ -52,12 +52,10 @@ const processSteps: ProcessStepsType = {
 const Process = () => {
   const [processStep, setProcessStep] = useState(1);
   const [cycle, setCycle] = useState(0);
-  const { containerRef, isVisible } = useElementOnScreen({
-    threshold: 0.1,
-  });
+  const [hasEnteredView, setHasEnteredView] = useState(false);
 
   useEffect(() => {
-    if (!isVisible) return;
+    if (!hasEnteredView) return;
     const timer = setTimeout(() => {
       if (processStep === 3) {
         setProcessStep(1);
@@ -68,7 +66,7 @@ const Process = () => {
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [processStep, cycle, isVisible]);
+  }, [processStep, cycle, hasEnteredView]);
 
   const currentStepConfig =
     processStep === 1
@@ -80,8 +78,9 @@ const Process = () => {
           : processSteps.create;
 
   return (
-    <section
-      ref={containerRef}
+    <motion.section
+      viewport={{ once: true, amount: 0.1 }}
+      onViewportEnter={() => setHasEnteredView(true)}
       className="flex flex-col items-center mt-10 mb-40 w-full"
     >
       <h1 className="text-4xl max-sm:text-2xl mb-3 arvo text-center">
@@ -91,7 +90,7 @@ const Process = () => {
         No payment or sign-in required. Designed for a clear, fast, streamlined
         process.
       </p>
-      {isVisible && (
+      {hasEnteredView && (
         <div className="flex max-sm:flex-wrap w-full items-center xs:justify-evenly">
           {/* left: timeline */}
           <div className="bg-[#1a2c4152] h-105 hx-auto relative min-w-1 w-1 rounded-3xl mx-40 max-md:ml-10 max-xs:mr-0">
@@ -121,7 +120,7 @@ const Process = () => {
           <ProcessExplanation currentStepConfig={currentStepConfig} />
         </div>
       )}
-    </section>
+    </motion.section>
   );
 };
 

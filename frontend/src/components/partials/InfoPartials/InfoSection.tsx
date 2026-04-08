@@ -1,21 +1,21 @@
-import { useElementOnScreen } from "../../../hooks/IntersectionHook";
+import { motion } from "framer-motion";
 import CommunicateCard from "./CommunicateCard";
 import UseCaseCard from "./UseCaseCard";
+import { useState } from "react";
 
 const InfoSection = () => {
-  const { containerRef, isVisible } = useElementOnScreen({
-    threshold: 0.1,
-  });
+  const [hasEnteredView, setHasEnteredView] = useState(false);
   return (
-    <section
-      ref={containerRef}
+    <motion.section
+      onViewportEnter={() => setHasEnteredView(true)}
+      viewport={{ once: true, amount: 0.1 }}
       className="flex flex-col items-center usecase-bg w-full pt-20 md:px-20"
     >
       <h1 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
         What we do.
       </h1>
       {/* cards + usecase container */}
-      {isVisible ? (
+      {hasEnteredView ? (
         <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-screen mb-40 cursor-default">
           {/* all 3 cards wrapper */}
           <div className="max-lg:flex-col flex gap-10">
@@ -38,7 +38,7 @@ const InfoSection = () => {
       ) : (
         <div className="h-225 w-full" />
       )}
-    </section>
+    </motion.section>
   );
 };
 
