@@ -1,6 +1,6 @@
 const SpotlightGlow = () => {
   return (
-    <div className="absolute inset-0 z-50 overflow-hidden pointer-events-none w-full flex justify-center">
+    <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none w-full flex justify-center">
       {/* Left White Glow */}
       <div className="glow-white left-[15%] max-md:hidden" />
 
