@@ -126,7 +126,7 @@ const MySecrets = () => {
                 colour="#22c55e20"
                 highlightColour="#22c55e20"
               />
-            ) : viewedSecrets.length < 0 ? (
+            ) : viewedSecrets.length > 0 ? (
               viewedSecrets.map((secret, index) => {
                 return (
                   <MySecretsItem
