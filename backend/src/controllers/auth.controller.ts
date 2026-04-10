@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import argon2 from "argon2";
 import { Request, Response } from "express";
 import { prisma } from "../../prisma/prisma-client";
-import { AuthDto, UserResponse } from "../dtos/auth.dto";
+import { AuthBase, AuthDto, UserResponse } from "../dtos/auth.dto";
 import { AuthService } from "../services/auth.service";
 import { AppError } from "../utils/AppError";
 import {
@@ -155,7 +155,7 @@ export const checkUser = asyncHandler(async (req: Request, res: Response) => {
   });
 
   res.status(HTTP_SUCCESS).json({
-    user: { id: user.id, email: user.email, createdAt: user.createdAt },
+    user: { email: user.email, createdAt: user.createdAt },
   });
   return;
 });

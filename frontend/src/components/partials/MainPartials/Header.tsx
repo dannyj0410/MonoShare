@@ -1,7 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import { NavLink } from "react-router-dom";
 
-const MotionNavLink = motion(NavLink);
+const MotionNavLink = motion.create(NavLink);
 const headerVariants: Variants = {
   hidden: {
     opacity: 0,

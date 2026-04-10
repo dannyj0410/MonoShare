@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /secret/
+Disallow: /details/
+Disallow: /my-secrets
+Disallow: /sign-in
+Disallow: /create-account
+Allow: /

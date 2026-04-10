@@ -33,6 +33,7 @@ const MySecrets = () => {
 
   return (
     <main className="min-h-screen w-full pb-20 bg-[#01090f]">
+      <meta name="robots" content="noindex" />
       <ConfirmationPopup
         option="Erase"
         secret={selectedSecretId}

@@ -45,6 +45,7 @@ const SecretDetails = () => {
 
   return (
     <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200 max-md:w-full max-md:min-w-auto max-md:px-0 max-md:pt-30">
+      <meta name="robots" content="noindex" />
       <div className="flex items-center justify-between w-full relative mb-5 max-md:max-w-full">
         <BackButton />
         <h1

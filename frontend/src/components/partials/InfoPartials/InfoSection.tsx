@@ -66,7 +66,7 @@ const SecurityCard = () => {
           </p>
         </div>
       </div>
-      <div className="w-full h-full bg-[url('/clrbg.png')] mask-[linear-gradient(to_bottom,transparent_0%,black_5%)] bg-cover flex flex-col items-center">
+      <div className="w-full h-full bg-[url('/clrbg.webp')] mask-[linear-gradient(to_bottom,transparent_0%,black_5%)] bg-cover flex flex-col items-center">
         <div className="flex items-center gap-2 mt-10">
           <div className="flex max-xs:max-w-screen w-fit rounded-md border-white/5 backdrop-blur-xs border-4">
             <p className="bg-[#00111fd3] max-xs:wrap-break-word px-3 py-2 rounded-md noto-sans text-sm max-xs:text-xs text-(--gray)">
@@ -123,7 +123,7 @@ const CertaintyCard = () => {
         and erase them through our exclusive dashboard.
       </p>
       <div className="flex rounded-xl opacity-90 mx-2 mt-8 mask-[linear-gradient(to_bottom,black_95%,transparent_100%)]">
-        <img src="my-secrets.png" alt="" className="" />
+        <img src="my-secrets.webp" alt="" className="" />
       </div>
     </div>
   );

@@ -29,6 +29,7 @@ const Home = () => {
 
   return (
     <main className="flex flex-col items-center">
+      {/* <link rel="canonical" href="https://yourdomain.com/" /> */}
       {/* Add animations on load */}
       <SpotlightGlow />
       <Hero scroll={scrollToCreateForm} />
