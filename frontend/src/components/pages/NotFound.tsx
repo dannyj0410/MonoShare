@@ -7,7 +7,8 @@ const NotFound = () => {
   const linkText = isAuthenticated ? "View Secrets" : "Sign In";
   return (
     <>
-      <meta name="robots" content="noindex" />
+      <title>Page Not Found | MonoShare</title>
+      <meta name="robots" content="noindex, follow" />
       <div className="flex flex-col items-center pt-30 text-center mx-2">
         <p className="noto-sans text-sm mb-2">404 - Not Found</p>
         <p className="noto-sans text-(--gray)/90 text-sm">

@@ -1,7 +1,7 @@
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import { NavLink } from "react-router-dom";
 
-const MotionNavLink = motion.create(NavLink);
+const MotionNavLink = m.create(NavLink);
 const headerVariants: Variants = {
   hidden: {
     opacity: 0,
@@ -25,6 +25,7 @@ const Header = () => {
         to="/"
         initial="hidden"
         animate="show"
+        viewport={{ once: true }}
         variants={headerVariants}
         className={({ isActive }) =>
           `${

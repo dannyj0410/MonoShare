@@ -1,44 +1,51 @@
-import { motion } from "framer-motion";
+import { m, LazyMotion } from "framer-motion";
 import CommunicateCard from "./CommunicateCard";
 import UseCaseCard from "./UseCaseCard";
 import { useState } from "react";
 
+const loadFeatures = () =>
+  import("framer-motion").then((res) => res.domAnimation);
+
 const InfoSection = () => {
   const [hasEnteredView, setHasEnteredView] = useState(false);
   return (
-    <motion.section
-      onViewportEnter={() => setHasEnteredView(true)}
-      viewport={{ once: true, amount: 0.1 }}
-      className="flex flex-col items-center usecase-bg w-full pt-20 md:px-20"
-    >
-      <h1 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
-        What we do.
-      </h1>
-      {/* cards + usecase container */}
-      {hasEnteredView ? (
-        <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-screen mb-40 cursor-default">
-          {/* all 3 cards wrapper */}
-          <div className="max-lg:flex-col flex gap-10">
-            {/* cards 1-2 column wrapper */}
-            <div className="flex flex-col gap-10">
-              {/* card1 */}
-              <SecurityCard />
-              {/* card2 */}
-              <CertaintyCard />
+    <LazyMotion features={loadFeatures}>
+      <m.section
+        onViewportEnter={() => {
+          setHasEnteredView(true);
+        }}
+        viewport={{ once: true, amount: 0.1 }}
+        className="flex flex-col items-center usecase-bg w-full pt-20 md:px-20"
+      >
+        <h1 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
+          What we do.
+        </h1>
+        {/* cards + usecase container */}
+        {hasEnteredView ? (
+          <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-screen mb-40 cursor-default">
+            {/* all 3 cards wrapper */}
+            <div className="max-lg:flex-col flex gap-10">
+              {/* cards 1-2 column wrapper */}
+              <div className="flex flex-col gap-10">
+                {/* card1 */}
+                <SecurityCard />
+                {/* card2 */}
+                <CertaintyCard />
+              </div>
+              {/* card3 */}
+              <div className="flex flex-col gap-3 justify-center">
+                <CommunicateCard />
+                <FreeUsageCard />
+              </div>
             </div>
-            {/* card3 */}
-            <div className="flex flex-col gap-3 justify-center">
-              <CommunicateCard />
-              <FreeUsageCard />
-            </div>
-          </div>
 
-          <UseCaseCard />
-        </div>
-      ) : (
-        <div className="h-225 w-full" />
-      )}
-    </motion.section>
+            <UseCaseCard />
+          </div>
+        ) : (
+          <div className="h-225 w-full" />
+        )}
+      </m.section>
+    </LazyMotion>
   );
 };
 
@@ -123,7 +130,7 @@ const CertaintyCard = () => {
         and erase them through our exclusive dashboard.
       </p>
       <div className="flex rounded-xl opacity-90 mx-2 mt-8 mask-[linear-gradient(to_bottom,black_95%,transparent_100%)]">
-        <img src="my-secrets.webp" alt="" className="" />
+        <img src="my-secrets.webp" alt="my secrets page dashboard preview" />
       </div>
     </div>
   );

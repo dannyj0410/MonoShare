@@ -68,7 +68,8 @@ const SignIn = () => {
 
   return (
     <div className="w-full min-h-screen pt-45 max-xs:pt-35">
-      <meta name="robots" content="noindex" />
+      <title>Sign In | MonoShare</title>
+      <meta name="robots" content="noindex, follow" />
       <div className="max-xs:w-full max-xs:rounded-none max-xs:border-l-0 max-xs:border-r-0 max-xs:px-4 relative flex flex-col w-md h-fit rounded-xl m-auto py-8 px-8 z-10 bg-white/3 border-gray-400/20 border">
         <div className="absolute -top-15 left-0 opacity-70 hover:opacity-100">
           <BackButton />

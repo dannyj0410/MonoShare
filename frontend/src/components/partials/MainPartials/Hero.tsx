@@ -1,4 +1,4 @@
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 
 const containerVariants = {
   initial: { opacity: 0 },
@@ -40,32 +40,32 @@ const additionalVariants: Variants = {
 
 const Hero = ({ scroll }: { scroll: () => void }) => {
   return (
-    <motion.main
+    <m.main
       variants={containerVariants}
       initial="initial"
       animate="show"
       className="text-center pt-75 max-md:pt-50 pb-10 mb-100 z-10 w-full overflow-x-hidden"
     >
-      <motion.div
+      <m.div
         variants={heroVariants}
         className="mb-23 max-md:mb-15 relative cursor-default w-full"
       >
         <div className="hero-glow" />
-        <h1 className="text-5xl max-md:text-2xl mb-3 z-10 blur-[0.3px] text-shadow-[0_0_10px_rgb(238_238_238/0.3)]">
+        <h2 className="text-5xl max-md:text-2xl mb-3 z-10 blur-[0.3px] text-shadow-[0_0_10px_rgb(238_238_238/0.3)]">
           Your Shared Secret
-        </h1>
+        </h2>
         <h1 className="text-5xl max-md:text-3xl  font-bold text-(--main-light-blue) hero-text-glow z-10">
           Delivered. Viewed. Deleted.
         </h1>
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         variants={additionalVariants}
         className="flex flex-col justify-center items-center gap-5"
       >
-        <p className="text-(--gray) text-lg max-md:text-base max-md:max-w-[80vw] electrolize blur-[0.5px] cursor-default">
+        <h3 className="text-(--gray) text-lg max-md:text-base max-md:max-w-[80vw] electrolize blur-[0.5px] cursor-default">
           The safest choice for discrete information sharing.
-        </p>
+        </h3>
 
         <button
           onClick={scroll}
@@ -92,8 +92,8 @@ const Hero = ({ scroll }: { scroll: () => void }) => {
             <div className="relative h-full w-30 blur-xl bg-white/60"></div>
           </div>
         </button>
-      </motion.div>
-    </motion.main>
+      </m.div>
+    </m.main>
   );
 };
 

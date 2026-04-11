@@ -10,24 +10,116 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@graph": [
+  {
   "@type": "WebApplication",
+  "@id": "https://#website",
   "name": "MonoShare",
   "url": "https://",
-  "description": "MonoShare — Easily share passwords, tokens, and private messages with zero-knowledge encryption. Self-erasing links that delete themselves after one view.",
+  "description": "MonoShare — Share passwords, tokens, and private messages with zero-knowledge encryption. Self-erasing links automatically deleted after one view.",
+  "applicationCategory": "SecurityApplication",
+  "applicationSubCategory": "Encryption Tool",
+  "operatingSystem": "Any",
+  "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+  },
+  "featureList": [
+        "Secret Sharing",
+        "Zero-knowledge encryption",
+        "Self-erasing links",
+        "Password protection",
+        "Recipient email restriction",
+        "Expiration time control"
+      ],
   "inLanguage": "en",
   "author": {
     "@type": "Person",
     "name": "Daniel Jenkins",
-    "url": "https://daniel-jenkins-portfolio.onrender.com",
-    "jobTitle": "Web Developer",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "BG"
-    }
+    "url": "https://daniel-jenkins-portfolio.onrender.com"
   },
-  "keywords": "MonoShare, monoshare, secure, share, private, sensitive, data, information, privately, tokens, secret, secrets, one-time, erase, delete, automatically, after, view, encryption",
+  "keywords": "secure password sharing, zero-knowledge encryption, self-erasing links, private message share",
   "sameAs": [
-    "https://github.com/dannyj0410", "https://daniel-jenkins-portfolio.onrender.com"
+        "https://github.com/dannyj0410",
+        "https://daniel-jenkins-portfolio.onrender.com"
+      ]
+  },
+  {
+      "@type": "HowTo",
+      "name": "How to Share a Secret Securely with MonoShare",
+      "mainEntityOfPage": { "@id": "https://#website" },
+      "description": "Share sensitive information like passwords and tokens using zero-knowledge encryption in three simple steps.",
+      "totalTime": "PT2M",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Create your secret",
+          "text": "Enter your secret text, choose an expiration time (1 hour, 1 day, or 7 days), and optionally add a password or restrict access to a specific email address. Your secret is encrypted entirely in your browser before leaving your device.",
+          "image": "https://yourdomain.com/clrbg.webp"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Share the generated link",
+          "text": "Copy the unique one-time link generated for your secret. The decryption key is stored only in the URL fragment and never sent to our servers. Paste the link into any messenger, email, or ticket system.",
+          "image": "https://yourdomain.com/my-secrets.webp"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Secret is automatically erased",
+          "text": "Once the recipient opens the link, the secret is displayed once and permanently deleted from our servers. If the link expires before being viewed, the secret is also automatically erased.",
+          "image": "https://yourdomain.com/M-logo.webp"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is MonoShare really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Core features including creating and sharing secrets are free with no account required. Creating an account unlocks additional features like longer secrets, a personal dashboard, and recipient email restrictions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can MonoShare read my secrets?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. MonoShare uses zero-knowledge encryption. Your secret is encrypted in your browser before being sent to our servers, and the decryption key is stored only in the URL fragment which is never transmitted to the server. We have no technical ability to decrypt your data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if no one views the secret?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Secrets automatically expire after the time period you chose when creating them — either 1 hour, 1 day, or 7 days. Once expired, the encrypted data is permanently deleted from our servers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What kind of information can I share with MonoShare?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MonoShare is designed for sensitive text-based information such as passwords, API keys, database credentials, private messages, temporary access codes, and any other confidential data you need to share securely."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does MonoShare work without creating an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can create and share secrets without signing up. However, registered users get access to a secret management dashboard, longer character limits, and the ability to restrict secrets to a specific recipient email."
+          }
+        }
+      ]
+    }
   ]
 }
 </script>
@@ -55,7 +147,7 @@
     content="Easily share passwords, tokens, and private messages with zero-knowledge encryption. Self-erasing links that delete themselves after one view. All for free!" />
   <meta name="author" content="Daniel Jenkins" />
   <meta name="keywords"
-    content="MonoShare, monoshare, secure, share, private, sensitive, data, information, privately, tokens, secret, secrets, one-time, erase, delete, automatically, after, view, encryption" />
+    content="MonoShare, secure, share, private, sensitive, data, information, privately, tokens, secret, secrets, one-time, erase, delete, automatically, after, view, encryption" />
   <!-- <meta property="og:url" content="https://" /> -->
   <meta property="og:site_name" content="MonoShare" />
   <meta property="og:locale" content="en_US" />
@@ -67,7 +159,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Electrolize&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Electrolize&family=Noto+Sans:wght@300;400;600;700&display=swap"
     rel="stylesheet" />
   <title>MonoShare</title>
 

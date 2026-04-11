@@ -1,4 +1,4 @@
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import type { IProcessStep } from "../../../interfaces/process.interface";
 
 const additionalVariants: Variants = {
@@ -19,7 +19,7 @@ const ProcessExplanation = ({
   currentStepConfig: IProcessStep;
 }) => {
   return (
-    <motion.div
+    <m.div
       initial="hidden"
       animate="show"
       drag
@@ -49,7 +49,7 @@ const ProcessExplanation = ({
           ))}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 

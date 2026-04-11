@@ -59,6 +59,7 @@ const ViewSecret = () => {
 
   return (
     <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210 max-md:w-full max-md:min-w-auto max-md:px-0 max-md:pt-30 max-sm:pb-20">
+      <title>View Secret | MonoShare</title>
       <ConfirmationPopup
         option="View"
         secret={id!}

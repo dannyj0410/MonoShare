@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const TypingInput = () => {
   const fullText = "Your password is ";
@@ -40,7 +40,7 @@ const TypingInput = () => {
   }, [isTyping, cursorExists, hasEnteredView]);
 
   return (
-    <motion.div
+    <m.div
       onViewportEnter={() => setHasEnteredView(true)}
       viewport={{ once: true, amount: 0.1 }}
       className="flex w-full"
@@ -51,7 +51,7 @@ const TypingInput = () => {
         value={`${displayedText}${cursorExists && showCursor ? "|" : ""}`}
         readOnly
       />
-    </motion.div>
+    </m.div>
   );
 };
 

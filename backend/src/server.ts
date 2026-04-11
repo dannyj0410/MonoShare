@@ -63,6 +63,12 @@ app.use((req, res, next) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/secret", secretRouter);
+app.all("/api/*", (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "API endpoint not found",
+  });
+});
 
 if (process.env.NODE_ENV === "production") {
   const publicPath = path.join(__dirname, "public");
@@ -70,7 +76,16 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(publicPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(publicPath, "index.html"));
+    const frontendRoutes = ["/", "/sign-in", "/create-account", "/my-secrets"];
+
+    const isDynamicRoute =
+      req.path.startsWith("/secret/") || req.path.startsWith("/details/");
+
+    if (frontendRoutes.includes(req.path) || isDynamicRoute) {
+      res.sendFile(path.join(publicPath, "index.html"));
+    } else {
+      res.status(404).sendFile(path.join(publicPath, "index.html"));
+    }
   });
 }
 
