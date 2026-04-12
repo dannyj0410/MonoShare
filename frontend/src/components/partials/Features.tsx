@@ -119,7 +119,8 @@ const Features = () => {
             </h2>
             <p className="noto-sans text-sm font-medium text-(--gray)">
               Once your secret has been accessed, it will automatically erase
-              itself forever.
+              stored encrypted data, allowing you to continue viewing its
+              details in your dashboard.
             </p>
           </div>
         </li>

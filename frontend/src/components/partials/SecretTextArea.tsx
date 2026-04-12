@@ -76,7 +76,7 @@ const SecretTextArea = ({
         </p>
       )}
 
-      <div className="flex justify-end gap-5">
+      <div className="flex justify-end gap-5 max-md:gap-2">
         {!viewing && !guestSecret && (
           <EraseButton
             status={status}

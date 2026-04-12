@@ -20,7 +20,7 @@ const CopySecretButton = ({
   if (!show) return;
   return (
     <button
-      className={`${copyClicked ? "bg-emerald-500 hover:bg-emerald-500/80" : "bg-(--main-dark-blue-40) hover:bg-(--main-dark-blue-70)"} duration-600 flex items-center justify-center noto-sans w-25 h-11 rounded-md mt-5 bg-(--main-dark-blue-40) cursor-pointer`}
+      className={`${copyClicked ? "bg-emerald-500 hover:bg-emerald-500/80" : "bg-(--main-dark-blue-40) hover:bg-(--main-dark-blue-70)"} max-md:mr-3 duration-600 flex items-center justify-center noto-sans w-25 h-11 rounded-md mt-5 bg-(--main-dark-blue-40) cursor-pointer`}
       onClick={() => {
         navigator.clipboard.writeText(secret);
         setCopyClicked(true);
