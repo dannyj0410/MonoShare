@@ -15,6 +15,10 @@
   --skltn-box-clr-default: rgb(55 65 81);
   --skltn-box-highlight-clr-default: rgba(77, 91, 110, 0.9);
 
+  /* Legal page clrs */
+  --lgl-card-bg: rgba(12, 50, 80, 0.18);
+  --lgl-border: rgba(255, 255, 255, 0.07);
+
   --main-button-gradient: linear-gradient(to right, #7696ff, #1f4ad6);
   --button-gradient: linear-gradient(
     to right,
@@ -32,9 +36,10 @@
 
 @layer base {
   html {
-    /* This reserves space for the scrollbar so content doesn't jump */
     scrollbar-gutter: stable;
+    /* scroll-behavior: smooth; */
   }
+
   body {
     color: var(--white);
     background-color: var(--bg);
@@ -75,12 +80,51 @@
   min-height: 100vh;
   min-height: 100dvh;
   background-attachment: fixed;
-  /* 000407 the bg, set the gradient to be only on the hero section + create secret section by putting htem in a div, check if this colour change affects other pages */
   background: linear-gradient(180deg, #06141f 0%, #01090f 100vh, #000407 150vh);
   background-color: var(--bg);
 }
 
 @layer utilities {
+  /* ── Footer ─────────────────────────────────────────────────── */
+  @property --grad-stop {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 70%;
+  }
+
+  .footer-root {
+    background: linear-gradient(
+      to bottom,
+      #000407 var(--grad-stop, 70%),
+      rgba(29, 64, 92, 0.25) 100%
+    );
+    animation: footer-gradient-animation 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes footer-gradient-animation {
+    from {
+      --grad-stop: 15%;
+    }
+    to {
+      --grad-stop: 5%;
+    }
+  }
+
+  .footer-divider {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(118, 196, 255, 0.3) 30%,
+      rgba(118, 196, 255, 0.5) 50%,
+      rgba(118, 196, 255, 0.3) 70%,
+      transparent
+    );
+    box-shadow: 0 0 12px rgba(118, 196, 255, 0.2);
+  }
+
+  /* footer end */
+
   .usecase-bg {
     background-image:
       linear-gradient(
@@ -408,6 +452,289 @@
   .animate-rainbow {
     animation: var(--animate-rainbow);
   }
+
+  /* ToS Page */
+
+  .legal-wrapper {
+    background: linear-gradient(180deg, #06141f 0%, #01090f 60%, #000407 100%);
+    background-attachment: fixed;
+    scroll-behavior: smooth;
+  }
+
+  .legal-glow-center {
+    position: fixed;
+    top: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    height: 480px;
+    background: var(--main-light-blue);
+    filter: blur(90px);
+    opacity: 0.1;
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  .toc li {
+    counter-increment: toc-counter;
+  }
+
+  .toc a {
+    line-height: 1.75;
+    font-size: 13px;
+    color: var(--gray);
+    text-decoration: none;
+    font-family: "Noto Sans", sans-serif;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toc a::before {
+    content: counter(toc-counter, decimal-leading-zero);
+    font-family: "Electrolize", sans-serif;
+    font-size: 10px;
+    color: rgba(118, 196, 255, 0.5);
+    min-width: 20px;
+    margin-top: 2px;
+  }
+
+  .toc a:hover {
+    color: var(--main-light-blue);
+  }
+
+  /* ToS / PP Legal Sections */
+  .legal-section {
+    @apply max-lg:mx-2;
+    margin-bottom: 56px;
+    scroll-margin-top: 30px;
+    font-family: "Noto Sans", sans-serif;
+  }
+
+  .legal-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--lgl-border);
+  }
+
+  .legal-section-num {
+    font-family: "Electrolize", sans-serif;
+    font-size: 14px;
+    color: rgba(118, 196, 255, 0.5);
+    letter-spacing: 0.1em;
+    min-width: 28px;
+  }
+
+  .legal-section h2 {
+    font-family: "Arvo", serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .legal-section h3 {
+    font-family: "Electrolize", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--main-light-blue);
+    letter-spacing: 0.06em;
+    margin: 22px 0 8px;
+    text-transform: uppercase;
+  }
+
+  .legal-section p {
+    color: var(--gray);
+    font-size: 14.5px;
+    line-height: 1.85;
+    margin-bottom: 14px;
+  }
+
+  .legal-section p strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .legal-section ul {
+    list-style: disc;
+  }
+
+  .legal-section ul,
+  .legal-section ol {
+    padding-left: 20px;
+    margin-bottom: 14px;
+  }
+
+  .legal-section ul li,
+  .legal-section ol li {
+    color: var(--gray);
+    font-size: 14.5px;
+    line-height: 1.85;
+    margin-bottom: 6px;
+  }
+
+  .legal-section ul li strong,
+  .legal-section ol li strong {
+    color: var(--white);
+  }
+
+  /* TOS Contact card */
+  .contact-card {
+    background: var(--lgl-card-bg);
+    border: 1px solid var(--lgl-border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 16px;
+  }
+
+  .contact-card p {
+    font-size: 13.5px;
+    margin-bottom: 6px;
+  }
+
+  /* Info callouts */
+  .callout {
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 18px 0;
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+
+  .callout-blue {
+    background: rgba(118, 196, 255, 0.07);
+    border-left: 3px solid rgba(118, 196, 255, 0.4);
+    color: var(--gray);
+  }
+
+  .callout-blue strong {
+    color: var(--light-blue);
+  }
+
+  .callout-warn {
+    background: rgba(251, 44, 54, 0.07);
+    border-left: 3px solid rgba(251, 44, 54, 0.4);
+    color: var(--gray);
+  }
+
+  .callout-warn strong {
+    color: #fb8990;
+  }
+
+  .callout-green {
+    background: rgba(2, 163, 15, 0.07);
+    border-left: 3px solid rgba(2, 163, 15, 0.35);
+    color: var(--gray);
+  }
+
+  .callout-green strong {
+    color: #4ade80;
+  }
+
+  /* Footer */
+  .doc-footer {
+    text-align: center;
+    padding-top: 48px;
+    border-top: 1px solid var(--lgl-border);
+    margin-top: 60px;
+  }
+
+  .doc-footer p {
+    font-family: "Electrolize", sans-serif;
+    font-size: 11px;
+    color: rgba(186, 187, 189, 0.4);
+    letter-spacing: 0.08em;
+    line-height: 2;
+  }
+
+  .doc-footer .legal-link {
+    color: var(--main-light-blue);
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  .doc-footer .legal-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* PP grid */
+
+  /* Data table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    font-size: 13px;
+  }
+  .data-table thead tr {
+    background: rgba(118, 196, 255, 0.08);
+  }
+  .data-table th {
+    font-family: "Electrolize", sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--main-light-blue);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--lgl-border);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    color: var(--gray);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    vertical-align: top;
+    line-height: 1.65;
+  }
+  .data-table td strong {
+    color: var(--white);
+  }
+  .data-table tr:last-child td {
+    border-bottom: none;
+  }
+  .data-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* PP Rights grid */
+  .rights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  @media (max-width: 560px) {
+    .rights-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .right-card {
+    background: var(--lgl-card-bg);
+    border: 1px solid var(--lgl-border);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .right-card-title {
+    font-family: "Electrolize", sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--main-ight-blue);
+    margin-bottom: 6px;
+  }
+  .right-card p {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* Keyframes */
 
   @keyframes skeleton-shimmer {
     0% {

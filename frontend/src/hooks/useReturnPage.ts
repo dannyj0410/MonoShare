@@ -17,6 +17,11 @@ const useReturnPage = (navback = true, fallbackPath = "/") => {
           window.scrollTo(0, 0);
         }, 0);
       }
+    } else {
+      navigate(fallbackPath);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
     }
   };
 

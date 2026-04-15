@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { forwardRef, useCallback, useState } from "react";
+import { useAuthCheck } from "../../../hooks/authHooks/useAuthCheck";
 import { useCreateSecret } from "../../../hooks/secretHooks/useCreateSecret";
 import ReceiverEmailInputField from "./ReceiverEmailInput";
 import SecretPasswordField from "./SecretPasswordField";
@@ -21,10 +22,8 @@ import { createEncryptedSecret } from "../../../services/createSecret";
 import CharCounter from "./CharCounter";
 import CreateSecretButton from "./CreateSecretButton";
 
-const CreateSecretForm = forwardRef<
-  HTMLDivElement,
-  { isAuthenticated: boolean }
->(({ isAuthenticated }, ref) => {
+const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
+  const { isAuthenticated } = useAuthCheck();
   const navigate = useNavigate();
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -109,7 +108,7 @@ const CreateSecretForm = forwardRef<
 
   return (
     <div
-      className="flex flex-col items-center mb-70 w-140 max-md:max-w-[90vw] noto-sans"
+      className="flex flex-col items-center mb-50 w-140 max-md:max-w-[90vw] noto-sans"
       ref={ref}
     >
       <h1 className="text-3xl mb-6 arvo max-sm:text-2xl">Create Your Secret</h1>

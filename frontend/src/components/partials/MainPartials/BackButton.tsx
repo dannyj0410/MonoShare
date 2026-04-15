@@ -1,7 +1,13 @@
 import useReturnPage from "../../../hooks/useReturnPage";
 
-const BackButton = () => {
-  const returnPage = useReturnPage();
+const BackButton = ({
+  navback = true,
+  fallbackPath = "/",
+}: {
+  navback?: boolean;
+  fallbackPath?: string;
+}) => {
+  const returnPage = useReturnPage(navback, fallbackPath);
   return (
     <button
       className="group flex items-center noto-sans font-bold p-2 cursor-pointer"

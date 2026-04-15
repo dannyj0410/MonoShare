@@ -1,6 +1,6 @@
 import { m, type Variants } from "framer-motion";
 
-const containerVariants = {
+const containerVariants: Variants = {
   initial: { opacity: 0 },
   show: {
     opacity: 1,

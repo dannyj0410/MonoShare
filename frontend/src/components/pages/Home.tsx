@@ -8,6 +8,7 @@ import InfoSection from "../partials/InfoPartials/InfoSection";
 import Features from "../partials/Features";
 import Process from "../partials/ProcessPartials/Process";
 import { useLocation } from "react-router-dom";
+import Footer from "../partials/MainPartials/Footer";
 
 const Home = () => {
   const location = useLocation();
@@ -30,11 +31,9 @@ const Home = () => {
   return (
     <main className="flex flex-col items-center">
       {/* <link rel="canonical" href="https://yourdomain.com/" /> */}
-      {/* Add animations on load */}
       <SpotlightGlow />
       <Hero scroll={scrollToCreateForm} />
       <CreateSecretForm
-        isAuthenticated={isAuthenticated}
         key={isAuthenticated ? "auth" : "guest"}
         ref={createFormRef}
       />
@@ -42,6 +41,7 @@ const Home = () => {
       <InfoSection />
       <Process />
       <Features />
+      <Footer />
     </main>
   );
 };

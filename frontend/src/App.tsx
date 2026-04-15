@@ -12,6 +12,8 @@ import UserAndLogout from "./components/partials/MainPartials/UserAndLogout";
 import PageLoader from "./components/loaders/PageLoader";
 import NotFound from "./components/pages/NotFound";
 import { LazyMotion, domAnimation } from "framer-motion";
+import TermsOfService from "./components/pages/TermsOfService";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 
 const SecretDetails = lazy(() => import("./components/pages/SecretDetails"));
 const MySecrets = lazy(() => import("./components/pages/MySecrets"));
@@ -51,6 +53,8 @@ function App() {
                 </AuthGuard>
               }
             />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/not-found" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
