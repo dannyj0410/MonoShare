@@ -16,6 +16,14 @@ const EraseButton = ({
 
   return (
     <div className="flex gap-5 max-md:mr-2">
+      {!eraseConfirmation && (
+        <button
+          onClick={() => setEraseConfirmation(true)}
+          className="noto-sans w-25 py-2.5 rounded-md mt-5 bg-red-500 cursor-pointer"
+        >
+          {status === "ACTIVE" ? "Erase" : "Remove"}
+        </button>
+      )}
       {eraseConfirmation && (
         <>
           <button
@@ -35,14 +43,6 @@ const EraseButton = ({
             )}
           </button>
         </>
-      )}
-      {!eraseConfirmation && (
-        <button
-          onClick={() => setEraseConfirmation(true)}
-          className="noto-sans w-25 py-2.5 rounded-md mt-5 bg-red-500 cursor-pointer"
-        >
-          {status === "ACTIVE" ? "Erase" : "Remove"}
-        </button>
       )}
     </div>
   );

@@ -126,7 +126,9 @@ const ConfirmationPopup = ({
               type="button"
               className="max-xs:text-xs max-xs:w-full max-xs:px-0 border border-gray-400/15 hover:border-gray-400/25 noto-sans rounded-lg py-2 px-15 cursor-pointer  transition-colors duration-100"
               onClick={() => {
-                returnPage();
+                if (option === "View") {
+                  returnPage();
+                }
                 if (option === "Erase") setOpen(false);
               }}
             >

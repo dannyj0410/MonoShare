@@ -17,7 +17,7 @@ export const useDeleteSecret = (navBack: boolean = false) => {
       queryClient.invalidateQueries({ queryKey: ["mysecrets"] });
       const toastType: ToastType = "success";
       handleResponse(toastType, "Secret deleted", null, 4000);
-      returnPage();
+      if (navBack) returnPage();
     },
     onError: (error) => {
       const toastType: ToastType = "error";
