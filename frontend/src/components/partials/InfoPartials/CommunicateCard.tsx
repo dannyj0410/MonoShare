@@ -1,5 +1,19 @@
 import { useState } from "react";
 import TypingInput from "./TypingInput";
+import { m, type Variants } from "framer-motion";
+
+const cardVariants: Variants = {
+  initial: {
+    borderColor: "#0d4672",
+  },
+  show: {
+    borderColor: "#042741",
+    transition: {
+      duration: 1,
+      ease: "easeInOut",
+    },
+  },
+};
 
 const CommunicateCard = () => {
   const [animationKey, setAnimationKey] = useState(0);
@@ -8,7 +22,12 @@ const CommunicateCard = () => {
   };
   return (
     <div className="flex items-center">
-      <div className="flex flex-col w-120 max-xs:max-w-screen h-100 max-xs:h-70 max-xs:min-h-fit max-xs:pb-10 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c] overflow-hidden">
+      <m.div
+        variants={cardVariants}
+        initial="initial"
+        animate="show"
+        className="flex flex-col w-120 max-xs:max-w-screen h-100 max-xs:h-70 max-xs:min-h-fit max-xs:pb-10 border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c] overflow-hidden"
+      >
         <p className="electrolize font-bold text-(--white) text-2xl pt-10 px-8 pb-2">
           Communicate Safely
         </p>
@@ -102,7 +121,7 @@ const CommunicateCard = () => {
             })}
           </div>
         </div>
-      </div>
+      </m.div>
     </div>
   );
 };

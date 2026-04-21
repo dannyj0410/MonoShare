@@ -1,10 +1,23 @@
-import { m, LazyMotion } from "framer-motion";
+import { m, LazyMotion, type Variants } from "framer-motion";
 import CommunicateCard from "./CommunicateCard";
 import UseCaseCard from "./UseCaseCard";
 import { useState } from "react";
 
 const loadFeatures = () =>
   import("framer-motion").then((res) => res.domAnimation);
+
+const cardVariants: Variants = {
+  initial: {
+    borderColor: "#0d4672",
+  },
+  show: {
+    borderColor: "#042741",
+    transition: {
+      duration: 1,
+      ease: "easeInOut",
+    },
+  },
+};
 
 const InfoSection = () => {
   const [hasEnteredView, setHasEnteredView] = useState(false);
@@ -51,7 +64,12 @@ const InfoSection = () => {
 
 const SecurityCard = () => {
   return (
-    <div className="flex flex-col gap-2 max-xs:max-w-screen w-120 h-100 max-xs:min-h-fit border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c] overflow-hidden">
+    <m.div
+      variants={cardVariants}
+      initial="initial"
+      animate="show"
+      className="flex flex-col gap-2 max-xs:max-w-screen w-120 h-100 max-xs:min-h-fit border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c] overflow-hidden"
+    >
       <div className="px-8">
         <p className="electrolize font-bold text-(--white) text-2xl pt-10 pb-2">
           Instant Security
@@ -115,13 +133,18 @@ const SecurityCard = () => {
           </p>
         </div>
       </div>
-    </div>
+    </m.div>
   );
 };
 
 const CertaintyCard = () => {
   return (
-    <div className="flex flex-col w-120 max-xs:max-w-screen h-100 max-xs:min-h-fit border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c]">
+    <m.div
+      variants={cardVariants}
+      initial="initial"
+      animate="show"
+      className="flex flex-col w-120 max-xs:max-w-screen h-100 max-xs:min-h-fit border border-[#042741] rounded-xl bg-linear-to-br from-[#0c325062] to-[#0804411c]"
+    >
       <p className="electrolize font-bold text-(--white) text-2xl pt-10 px-8 pb-2">
         Absolute Certainty
       </p>
@@ -132,7 +155,7 @@ const CertaintyCard = () => {
       <div className="flex rounded-xl opacity-90 mx-2 mt-8 mask-[linear-gradient(to_bottom,black_95%,transparent_100%)]">
         <img src="my-secrets.webp" alt="my secrets page dashboard preview" />
       </div>
-    </div>
+    </m.div>
   );
 };
 

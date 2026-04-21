@@ -5,7 +5,7 @@ const containerVariants: Variants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.25,
     },
   },
 };
@@ -13,26 +13,41 @@ const containerVariants: Variants = {
 const heroVariants: Variants = {
   initial: {
     opacity: 0,
-    y: 5,
+    y: 15,
+    scale: 0.98,
   },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
-      duration: 2,
+      duration: 0.65,
       ease: "easeInOut",
-      type: "spring",
     },
   },
 };
 
 const additionalVariants: Variants = {
-  initial: { opacity: 0, y: 3 },
+  initial: { opacity: 0, y: 8, scale: 0.98 },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
       duration: 0.4,
+      ease: "easeInOut",
+    },
+  },
+};
+
+const buttonVariants: Variants = {
+  initial: {
+    scale: 0.8,
+  },
+  show: {
+    scale: 1,
+    transition: {
+      duration: 0.1,
       ease: "easeInOut",
     },
   },
@@ -67,7 +82,8 @@ const Hero = ({ scroll }: { scroll: () => void }) => {
           The safest choice for discrete information sharing.
         </h3>
 
-        <button
+        <m.button
+          variants={buttonVariants}
           onClick={scroll}
           className="main-btn group relative overflow-hidden py-3 pl-12 px-10 rounded-3xl border-t-2 border-transparent duration-300 hover:scale-104 hover:border-t-2 hover:border-t-[rgba(255,255,255,0.3)]"
         >
@@ -91,7 +107,7 @@ const Hero = ({ scroll }: { scroll: () => void }) => {
           <div className="absolute inset-0 flex h-full w-full justify-center transition-transform duration-300 transform -translate-x-full group-hover:translate-x-full">
             <div className="relative h-full w-30 blur-xl bg-white/60"></div>
           </div>
-        </button>
+        </m.button>
       </m.div>
     </m.main>
   );
