@@ -55,12 +55,12 @@ const Footer = () => {
               variants={footerVariants}
               className="flex flex-col items-center gap-6"
             >
-              <h1
+              <span
                 className="hero-text-glow text-6xl
 font-bold text-(--main-light-blue) arvo select-none"
               >
                 MonoShare
-              </h1>
+              </span>
               <p className="electrolize text-(--gray) text-sm text-center max-w-xs">
                 Your personal secret capsule.
               </p>

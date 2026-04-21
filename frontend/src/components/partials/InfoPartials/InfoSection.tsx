@@ -17,9 +17,9 @@ const InfoSection = () => {
         viewport={{ once: true, amount: 0.1 }}
         className="flex flex-col items-center usecase-bg w-full pt-20 md:px-20"
       >
-        <h1 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
+        <h2 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
           What we do.
-        </h1>
+        </h2>
         {/* cards + usecase container */}
         {hasEnteredView ? (
           <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-screen mb-40 cursor-default">

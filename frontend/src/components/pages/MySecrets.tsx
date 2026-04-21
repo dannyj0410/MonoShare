@@ -55,9 +55,9 @@ const MySecrets = () => {
           <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]">
             <div className="flex items-center gap-2">
               <ActiveSectionIcon />
-              <h1 className="electrolize text-(--main-light-blue) font-bold tracking-wider">
+              <h2 className="electrolize text-(--main-light-blue) font-bold tracking-wider">
                 Active
-              </h1>
+              </h2>
             </div>
             <p className="text-(--main-light-blue)">
               {!activeSecrets ? (
@@ -105,9 +105,9 @@ const MySecrets = () => {
           <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-green-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]">
             <div className="flex items-center gap-2">
               <ViewedSectionIcon />
-              <h1 className="electrolize text-green-500 font-bold tracking-wider">
+              <h2 className="electrolize text-green-500 font-bold tracking-wider">
                 Viewed
-              </h1>
+              </h2>
             </div>
             <p className="text-green-500">
               {!viewedSecrets ? (
@@ -154,9 +154,9 @@ const MySecrets = () => {
           <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]">
             <div className="flex items-center gap-2">
               <ExpiredSectionIcon />
-              <h1 className="electrolize text-red-500 font-bold tracking-wider">
+              <h2 className="electrolize text-red-500 font-bold tracking-wider">
                 Expired
-              </h1>
+              </h2>
             </div>
             <p className="text-red-500">
               {!expiredSecrets ? (

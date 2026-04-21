@@ -73,9 +73,9 @@ const ConfirmationPopup = ({
     >
       <div className="flex flex-col bg-[#02131f] w-min max-xs:w-max max-xs:max-w-[95vw] rounded-lg border border-gray-400/15">
         <div className="flex flex-col gap-1 bg-[#02131f] rounded-t-lg py-3 px-5 border-b border-gray-400/15">
-          <h1 className={`${options[option].txtClr} noto-sans font-semibold`}>
+          <span className={`${options[option].txtClr} noto-sans font-semibold`}>
             {option} Confirmation
-          </h1>
+          </span>
 
           <p
             className={`text-(--gray) text-sm noto-sans ${option === "Erase" ? "w-185 max-md:w-full" : "w-fit max-xs:w-full"}`}

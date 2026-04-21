@@ -1,7 +1,7 @@
 const Features = () => {
   return (
     <section className="flex flex-col items-center mt-30 mb-50 max-xl:max-w-[90vw]">
-      <h1 className="text-4xl max-sm:text-2xl mb-3 arvo">We do it right.</h1>
+      <h2 className="text-4xl max-sm:text-2xl mb-3 arvo">We do it right.</h2>
       <p className="electrolize text-lg max-sm:text-sm max-sm:mx-4 lg:w-135 text-center mb-15 text-(--gray)">
         Monoshare keeps your secret private from start to finish, providing a
         better way to send passwords, tokens and private messages.

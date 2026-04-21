@@ -44,10 +44,10 @@ const UserAndLogout = () => {
             </svg>
           )}
         </div>
-        <h1 className="z-50 px-2 py-0.5 opacity-60 group-hover:opacity-100 max-lg:opacity-100 transition-all duration-500">
+        <span className="z-50 px-2 py-0.5 opacity-60 group-hover:opacity-100 max-lg:opacity-100 transition-all duration-500">
           {user ? "Welcome, " : "Goodbye!"}
           <span className="text-(--main-light-blue)">{displayName}</span>
-        </h1>
+        </span>
       </div>
     </div>
   );

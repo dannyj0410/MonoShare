@@ -41,7 +41,7 @@ const Timeline = ({
             strokeWidth="0.6667"
           ></path>
         </svg>
-        <h1 className="electrolize">Timeline</h1>
+        <h2 className="electrolize">Timeline</h2>
       </div>
       {/* NEW */}
       <>

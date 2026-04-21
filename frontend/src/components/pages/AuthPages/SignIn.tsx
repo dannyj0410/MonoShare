@@ -74,8 +74,8 @@ const SignIn = () => {
         <div className="absolute -top-15 left-0 opacity-70 hover:opacity-100">
           <BackButton />
         </div>
-        <h1 className="mx-auto text-3xl max-xs:text-2xl">Welcome</h1>
-        <h2 className="text-2xl max-xs:text-xl noto-sans mt-7 mb-1">Sign In</h2>
+        <p className="mx-auto text-3xl max-xs:text-2xl">Welcome</p>
+        <h1 className="text-2xl max-xs:text-xl noto-sans mt-7 mb-1">Sign In</h1>
         <p className="text-sm text-(--gray) noto-sans">
           Enter your account to access all features.
         </p>

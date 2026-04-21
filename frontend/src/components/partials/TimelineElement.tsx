@@ -114,7 +114,7 @@ const TimelineElement = ({
 
         <div className="flex flex-col">
           {timelinePoint !== "viewed" && (
-            <h1
+            <p
               className={`electrolize ${
                 timelinePoint === "expired" && "text-red-500"
               }`}
@@ -131,14 +131,14 @@ const TimelineElement = ({
                     : "Expired"}
                 </span>
               )}
-            </h1>
+            </p>
           )}
 
           {timelinePoint === "viewed" && (
-            <h1 className="electrolize">
+            <p className="electrolize">
               <span className="text-green-500">Viewed</span> and{" "}
               <span className="text-red-500">Erased</span>
-            </h1>
+            </p>
           )}
 
           <p

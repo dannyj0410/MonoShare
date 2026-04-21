@@ -87,9 +87,9 @@ const Process = () => {
         onViewportEnter={() => setHasEnteredView(true)}
         className="flex flex-col items-center mt-30 mb-40 w-full"
       >
-        <h1 className="text-4xl max-sm:text-2xl mb-3 arvo text-center">
+        <h2 className="text-4xl max-sm:text-2xl mb-3 arvo text-center">
           How it's done.
-        </h1>
+        </h2>
         <p className="electrolize text-lg max-sm:text-sm max-sm:mx-4 lg:w-135 text-center mb-15 text-(--gray)">
           No payment or sign-in required. Designed for a clear, fast,
           streamlined process.

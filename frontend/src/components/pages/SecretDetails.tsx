@@ -44,16 +44,17 @@ const SecretDetails = () => {
   }
 
   return (
-    <div className="flex flex-col mx-auto pt-40 p-5 w-fit min-w-180 max-w-200 max-md:w-full max-md:min-w-auto max-md:px-0 max-md:pt-30">
+    <div className="flex flex-col mx-auto pt-20 p-5 w-fit min-w-180 max-w-200 max-md:w-full max-md:min-w-auto max-md:px-0 max-md:pt-30">
       <title>Secret Details | MonoShare</title>
       <meta name="robots" content="noindex" />
+      <h1 className="electrolize mx-auto mb-20 font-bold">Secret Details</h1>
       <div className="flex items-center justify-between w-full relative mb-5 max-md:max-w-full">
         <BackButton />
-        <h1
+        <span
           className={`max-md:mr-2 electrolize font-bold ${secret.status === "ACTIVE" ? "text-(--main-light-blue)" : secret.status === "VIEWED" ? "text-green-500" : "text-red-500"}`}
         >
           {secret.status}
-        </h1>
+        </span>
       </div>
       <div className="flex items-center gap-1 pl-5.5">
         <svg
@@ -72,9 +73,9 @@ const SecretDetails = () => {
             strokeWidth="1.5"
           ></path>
         </svg>
-        <p className="mb-0.5 text-sm text-(--white) font-bold electrolize tracking-widest">
+        <span className="mb-0.5 text-sm text-(--white) font-bold electrolize tracking-widest">
           {secret.slug.slice(0, 5).toLowerCase()}
-        </p>
+        </span>
       </div>
       {secret.receiverEmail && (
         <div className="flex items-center gap-1 pl-5 mb-0.5">
