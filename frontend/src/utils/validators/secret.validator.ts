@@ -1,12 +1,12 @@
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const validateReceiverEmail = (email: string): boolean => {
+export const invalidReceiverEmail = (email: string): boolean => {
   if (!email) return false;
   if (!emailRegex.test(email)) return true;
   return false;
 };
 
-export const validateSecretPassword = (password: string): boolean => {
+export const invalidSecretPassword = (password: string): boolean => {
   const hasSpaces = /\s/.test(password);
 
   if (!password) return false;
@@ -17,7 +17,7 @@ export const validateSecretPassword = (password: string): boolean => {
   return false;
 };
 
-export const validateSecretText = (
+export const invalidSecretText = (
   secret: string,
   charLimit: number = 1000,
 ): boolean => {

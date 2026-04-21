@@ -8,9 +8,9 @@ import ExpirationSelector from "./ExpirationSelector";
 import AuthCTA from "./AuthCTA";
 
 import {
-  validateReceiverEmail,
-  validateSecretPassword,
-  validateSecretText,
+  invalidReceiverEmail,
+  invalidSecretPassword,
+  invalidSecretText,
 } from "../../../utils/validators/secret.validator";
 
 import type {
@@ -44,17 +44,17 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
 
   const emailError =
     debouncedEmail.length > 0
-      ? validateReceiverEmail(debouncedEmail)
+      ? invalidReceiverEmail(debouncedEmail)
       : undefined;
 
   const secretError =
     hasSubmitted || debouncedSecret.length > 0
-      ? validateSecretText(debouncedSecret, charLimit)
+      ? invalidSecretText(debouncedSecret, charLimit)
       : undefined;
 
   const passwordError =
     debouncedPassword.length > 0
-      ? validateSecretPassword(debouncedPassword)
+      ? invalidSecretPassword(debouncedPassword)
       : undefined;
 
   const formHasErrors = emailError || passwordError || secretError;
@@ -84,9 +84,9 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
     e.preventDefault();
     setHasSubmitted(true);
 
-    const emailErr = validateReceiverEmail(secretFormData.receiverEmail);
-    const passwordErr = validateSecretPassword(secretFormData.password);
-    const secretErr = validateSecretText(secretFormData.secret, charLimit);
+    const emailErr = invalidReceiverEmail(secretFormData.receiverEmail);
+    const passwordErr = invalidSecretPassword(secretFormData.password);
+    const secretErr = invalidSecretText(secretFormData.secret, charLimit);
 
     if (emailErr || secretErr || passwordErr) {
       return;
@@ -138,7 +138,10 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
             value={secretFormData.secret}
             onChange={onChangeHandler}
           />
-          <CharCounter secret={secretFormData.secret} charLimit={charLimit} />
+          <CharCounter
+            charCount={secretFormData.secret.length}
+            charLimit={charLimit}
+          />
         </div>
 
         {/* Password, Expiration Time, Create Button */}
