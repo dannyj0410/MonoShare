@@ -1,10 +1,7 @@
-import { m, LazyMotion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import CommunicateCard from "./CommunicateCard";
 import UseCaseCard from "./UseCaseCard";
 import { useState } from "react";
-
-const loadFeatures = () =>
-  import("framer-motion").then((res) => res.domAnimation);
 
 const cardVariants: Variants = {
   initial: {
@@ -22,43 +19,41 @@ const cardVariants: Variants = {
 const InfoSection = () => {
   const [hasEnteredView, setHasEnteredView] = useState(false);
   return (
-    <LazyMotion features={loadFeatures}>
-      <m.section
-        onViewportEnter={() => {
-          setHasEnteredView(true);
-        }}
-        viewport={{ once: true, amount: 0.1 }}
-        className="flex flex-col items-center usecase-bg w-full pt-20 md:px-20"
-      >
-        <h2 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
-          What we do.
-        </h2>
-        {/* cards + usecase container */}
-        {hasEnteredView ? (
-          <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-screen mb-40 cursor-default">
-            {/* all 3 cards wrapper */}
-            <div className="max-lg:flex-col flex gap-10">
-              {/* cards 1-2 column wrapper */}
-              <div className="flex flex-col gap-10">
-                {/* card1 */}
-                <SecurityCard />
-                {/* card2 */}
-                <CertaintyCard />
-              </div>
-              {/* card3 */}
-              <div className="flex flex-col gap-3 justify-center">
-                <CommunicateCard />
-                <FreeUsageCard />
-              </div>
+    <m.section
+      onViewportEnter={() => {
+        setHasEnteredView(true);
+      }}
+      viewport={{ once: true, amount: 0.1 }}
+      className="flex flex-col items-center usecase-bg w-full pt-20 md:px-20"
+    >
+      <h2 className="text-4xl max-sm:text-2xl mt-10 mb-10 arvo m-auto">
+        What we do.
+      </h2>
+      {/* cards + usecase container */}
+      {hasEnteredView ? (
+        <div className="max-2xl:flex-col flex-wrap flex justify-center items-center gap-10 max-w-screen mb-40 cursor-default">
+          {/* all 3 cards wrapper */}
+          <div className="max-lg:flex-col flex gap-10">
+            {/* cards 1-2 column wrapper */}
+            <div className="flex flex-col gap-10">
+              {/* card1 */}
+              <SecurityCard />
+              {/* card2 */}
+              <CertaintyCard />
             </div>
-
-            <UseCaseCard />
+            {/* card3 */}
+            <div className="flex flex-col gap-3 justify-center">
+              <CommunicateCard />
+              <FreeUsageCard />
+            </div>
           </div>
-        ) : (
-          <div className="h-225 w-full" />
-        )}
-      </m.section>
-    </LazyMotion>
+
+          <UseCaseCard />
+        </div>
+      ) : (
+        <div className="h-225 w-full" />
+      )}
+    </m.section>
   );
 };
 

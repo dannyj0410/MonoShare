@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 import AuthGuard from "./components/guards/AuthGuard";
 
@@ -11,7 +12,6 @@ import ViewSecret from "./components/pages/ViewSecret";
 import UserAndLogout from "./components/partials/MainPartials/UserAndLogout";
 import PageLoader from "./components/loaders/PageLoader";
 import NotFound from "./components/pages/NotFound";
-import { LazyMotion, domAnimation } from "framer-motion";
 import TermsOfService from "./components/pages/TermsOfService";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 
