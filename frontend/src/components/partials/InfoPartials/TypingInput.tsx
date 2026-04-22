@@ -47,7 +47,7 @@ const TypingInput = () => {
     >
       <input
         type="text"
-        className="noto-sans tracking-tight text-(--gray) w-full px-4 py-2 rounded-lg border border-[#042741] bg-[#010407] outline-transparent focus:outline-[#14426631] focus:outline-2 outline-offset-1"
+        className="noto-sans tracking-[0.01em] text-(--gray) w-full px-4 py-2 rounded-lg border border-[#042741] bg-[#010407] outline-transparent focus:outline-[#14426631] focus:outline-2 outline-offset-1"
         value={`${displayedText}${cursorExists && showCursor ? "|" : ""}`}
         readOnly
       />

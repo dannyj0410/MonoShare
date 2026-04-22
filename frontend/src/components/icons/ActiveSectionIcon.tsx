@@ -12,6 +12,7 @@ const ActiveSectionIcon = memo(function ExpiredSectionIcon() {
       id="Loader-2--Streamline-Tabler"
       height="18"
       width="18"
+      aria-hidden="true"
     >
       <desc>Loader 2 Streamline Icon: https://streamlinehq.com</desc>
       <path d="M12 3a9 9 0 1 0 9 9" strokeWidth="2"></path>

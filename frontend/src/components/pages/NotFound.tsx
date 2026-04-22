@@ -9,7 +9,7 @@ const NotFound = () => {
     <>
       <title>Page Not Found | MonoShare</title>
       <meta name="robots" content="noindex, follow" />
-      <div className="flex flex-col items-center pt-30 text-center mx-2">
+      <section className="flex flex-col items-center pt-30 text-center mx-2">
         <p className="noto-sans text-sm mb-2">404 - Not Found</p>
         <p className="noto-sans text-(--gray)/90 text-sm">
           The page you're looking for doesn't exist.
@@ -18,7 +18,7 @@ const NotFound = () => {
           If you have attempted to view a secret, check the URL for typos or
           missing characters.
         </p>
-        <div className="flex gap-2 mt-4 mb-3">
+        <nav aria-label="Recovery options" className="flex gap-2 mt-4 mb-3">
           <Link
             to="/"
             state={{ scrollToCreate: true }}
@@ -32,7 +32,7 @@ const NotFound = () => {
           >
             {linkText}
           </Link>
-        </div>
+        </nav>
         <p className="noto-sans text-(--gray)/90 text-sm">
           Return home?{" "}
           <Link
@@ -42,7 +42,7 @@ const NotFound = () => {
             Just click here
           </Link>
         </p>
-      </div>
+      </section>
     </>
   );
 };

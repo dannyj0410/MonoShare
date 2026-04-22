@@ -9,6 +9,7 @@ const ExpiredSectionIcon = memo(function ExpiredSectionIcon() {
       id="Line-Arrow-Synchronize-Warning--Streamline-Core-Remix"
       height="14"
       width="14"
+      aria-hidden="true"
     >
       <desc>
         Line Arrow Synchronize Warning Streamline Icon: https://streamlinehq.com

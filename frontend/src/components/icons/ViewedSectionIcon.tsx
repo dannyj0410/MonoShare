@@ -9,6 +9,7 @@ const ViewedSectionIcon = memo(function ExpiredSectionIcon() {
       id="Check-Circle-Bold--Streamline-Phosphor"
       height="16"
       width="16"
+      aria-hidden="true"
     >
       <desc>Check Circle Bold Streamline Icon: https://streamlinehq.com</desc>
       <path

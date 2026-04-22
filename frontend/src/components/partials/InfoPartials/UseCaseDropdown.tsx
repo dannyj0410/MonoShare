@@ -8,7 +8,7 @@ const secretTextVariants: Variants = {
   show: {
     clipPath: "inset(0% 0% 0% 100%)",
     transition: {
-      duration: 4,
+      duration: 3,
       ease: "easeInOut",
     },
   },

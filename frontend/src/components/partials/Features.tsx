@@ -10,9 +10,9 @@ const Features = () => {
       <ul className="flex max-lg:flex-wrap justify-center cursor-default gap-12 max-xl:gap-4 max-xl:max-w-[90vw]">
         {/* Security first */}
         <li className="features-card group transition-all duration-300 ease-in-out max-xl:text-center">
-          <div className="features-card-inner">
-            <div className="hover-glow-bg" />
-            <div className="icon-box">
+          <article className="features-card-inner">
+            <div className="hover-glow-bg" aria-hidden="true" />
+            <div className="icon-box" aria-hidden="true">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -24,6 +24,7 @@ const Features = () => {
                 height="1.5em"
                 width="1.5em"
                 className="stroke-(--main-light-blue)"
+                aria-hidden="true"
               >
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h2" strokeWidth="2"></path>
                 <path
@@ -37,21 +38,21 @@ const Features = () => {
               </svg>
             </div>
 
-            <h2 className="electrolize text-xl max-xl:text-lg tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
+            <h3 className="electrolize text-xl max-xl:text-lg tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
               Security First
-            </h2>
+            </h3>
             <p className="noto-sans text-sm font-medium text-(--gray)">
               Our purpose is to protect your secrets at all cost using
               industry-leading security practices.
             </p>
-          </div>
+          </article>
         </li>
 
         {/* Enhanced Privacy options */}
         <li className="features-card group transition-all duration-300 ease-in-out max-xl:text-center">
-          <div className="features-card-inner">
-            <div className="hover-glow-bg" />
-            <div className="icon-box">
+          <article className="features-card-inner">
+            <div className="hover-glow-bg" aria-hidden="true" />
+            <div className="icon-box" aria-hidden="true">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -60,6 +61,7 @@ const Features = () => {
                 height="1.5em"
                 width="1.5em"
                 className="stroke-(--main-light-blue)"
+                aria-hidden="true"
               >
                 <g id="cog--work-loading-cog-gear-settings-machine">
                   <path
@@ -79,21 +81,21 @@ const Features = () => {
                 </g>
               </svg>
             </div>
-            <h2 className="electrolize text-xl max-xl:text-lg tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
+            <h3 className="electrolize text-xl max-xl:text-lg tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
               Advanced Privacy Options
-            </h2>
+            </h3>
             <p className="noto-sans text-sm font-medium text-(--gray)">
               You decide your secrets password, how long it stays live and who
               can access it.
             </p>
-          </div>
+          </article>
         </li>
 
         {/* Self-erasing links */}
         <li className="features-card group transition-all duration-300 ease-in-out max-xl:text-center">
-          <div className="features-card-inner">
-            <div className="hover-glow-bg" />
-            <div className="icon-box">
+          <article className="features-card-inner">
+            <div className="hover-glow-bg" aria-hidden="true" />
+            <div className="icon-box" aria-hidden="true">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -105,6 +107,7 @@ const Features = () => {
                 height="1.5em"
                 width="1.5em"
                 className="stroke-(--main-light-blue)"
+                aria-hidden="true"
               >
                 <path
                   d="M19 20H8.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41L11.5 20"
@@ -114,22 +117,22 @@ const Features = () => {
               </svg>
             </div>
 
-            <h2 className="electrolize text-xl max-xl:text-lg tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
+            <h3 className="electrolize text-xl max-xl:text-lg tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
               Self-erasing Link
-            </h2>
+            </h3>
             <p className="noto-sans text-sm font-medium text-(--gray)">
               Once your secret has been accessed, it will automatically erase
               stored encrypted data, allowing you to continue viewing its
               details in your dashboard.
             </p>
-          </div>
+          </article>
         </li>
 
         {/* Zero Knowledge  */}
         <li className="features-card group transition-all duration-300 ease-in-out max-xl:text-center">
-          <div className="features-card-inner">
-            <div className="hover-glow-bg" />
-            <div className="icon-box">
+          <article className="features-card-inner">
+            <div className="hover-glow-bg" aria-hidden="true" />
+            <div className="icon-box" aria-hidden="true">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="-0.5 -0.5 16 16"
@@ -138,6 +141,7 @@ const Features = () => {
                 height="1.5em"
                 width="1.5em"
                 className="stroke-(--main-light-blue)"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -148,14 +152,14 @@ const Features = () => {
               </svg>
             </div>
 
-            <h2 className="electrolize text-xl max-xl:text-lg tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
+            <h3 className="electrolize text-xl max-xl:text-lg tracking-wide font-bold my-3 text-(--main-clr) transition-all duration-300 ease-in-out group-hover:blur-[0.5px] group-hover:text-shadow-[0_0_10px_rgb(238_238_238/0.5)]">
               Zero Knowledge Architecture
-            </h2>
+            </h3>
             <p className="noto-sans text-sm font-medium text-(--gray)">
               Both in your browser and in our database, your secret stays
               unreadable and fully encrypted.
             </p>
-          </div>
+          </article>
         </li>
       </ul>
     </section>

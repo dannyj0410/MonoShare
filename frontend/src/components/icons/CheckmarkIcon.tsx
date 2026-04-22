@@ -12,6 +12,7 @@ const CheckmarkIcon = memo(function CheckmarkIcon({
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
+      aria-hidden="true"
     >
       <path
         strokeLinecap="round"

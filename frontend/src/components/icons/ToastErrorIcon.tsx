@@ -10,6 +10,7 @@ const ToastErrorIcon = memo(function ToastErrorIcon() {
       height="18"
       width="18"
       className="mr-2"
+      aria-hidden="true"
     >
       <desc>Alert Streamline Icon: https://streamlinehq.com</desc>
       <path

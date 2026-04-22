@@ -10,6 +10,7 @@ const ActiveItemIcon = memo(function ActiveItemIcon() {
       id="Three-Dots--Streamline-Bootstrap"
       height="16"
       width="16"
+      aria-hidden="true"
     >
       <desc>Three Dots Streamline Icon: https://streamlinehq.com</desc>
       <path

@@ -15,7 +15,7 @@ const footerVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
+      duration: 1.5,
       ease: "easeInOut",
     },
   },
@@ -70,7 +70,10 @@ font-bold text-(--main-light-blue) arvo select-none"
             <div className="footer-divider w-full max-w-2xl" />
 
             {/* Nav links */}
-            <nav className="flex flex-wrap justify-center gap-x-10 gap-y-4">
+            <nav
+              aria-label="Footer navigation"
+              className="flex flex-wrap justify-center gap-x-10 gap-y-4"
+            >
               {navLinks.map(({ label, to, state }) => (
                 <Link
                   key={label}
@@ -88,9 +91,10 @@ font-bold text-(--main-light-blue) arvo select-none"
               <p className="noto-sans text-xs text-(--gray)/35">
                 Built for privacy-first sharing.
               </p>
-              <p className="noto-sans text-xs text-(--gray)/50">
-                &copy; 2026 MonoShare. All rights reserved.
-              </p>
+              <small className="noto-sans text-xs text-(--gray)/50">
+                &copy; <time dateTime="2026">2026</time> MonoShare. All rights
+                reserved.
+              </small>
             </div>
           </div>
         )}

@@ -10,6 +10,7 @@ const MailIcon = memo(function MailIcon() {
       height="16"
       width="16"
       className="min-w-4 min-h-4"
+      aria-hidden="true"
     >
       <desc>Mail Streamline Icon: https://streamlinehq.com</desc>
       <path

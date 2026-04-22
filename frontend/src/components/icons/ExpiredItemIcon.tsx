@@ -9,6 +9,7 @@ const ExpiredItemIcon = memo(function ExpiredItemIcon() {
       height="10"
       width="10"
       className="z-20"
+      aria-hidden="true"
     >
       <desc>Remove Bold Streamline Icon: https://streamlinehq.com</desc>
       <path

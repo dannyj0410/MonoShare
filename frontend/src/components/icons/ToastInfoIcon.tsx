@@ -9,6 +9,7 @@ const ToastInfoIcon = memo(function ToastInfoIcon() {
       height="18"
       width="18"
       className="mr-2 fill-neutral-400"
+      aria-hidden="true"
     >
       <desc>Info Streamline Icon: https://streamlinehq.com</desc>
       <path

@@ -8,6 +8,7 @@ const ShieldIcon = memo(function ShieldIcon() {
       viewBox="0 0 24 24"
       height="18"
       width="18"
+      aria-hidden="true"
     >
       <g id="Shield">
         <path

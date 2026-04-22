@@ -81,6 +81,7 @@ const TimelineElement = ({
       {dashed && (
         <div
           className={`opacity-70 border-l-2 border-dashed h-12 ml-8 w-3 ${dashedBorder}`}
+          aria-hidden="true"
         />
       )}
 
@@ -89,6 +90,7 @@ const TimelineElement = ({
           className={`relative flex h-16 w-16 items-center justify-center rounded-3xl border-4 overflow-hidden
             ${cfg.border}
             ${cfg.glow}`}
+          aria-hidden="true"
         >
           {timelinePoint !== "created" && (
             <div
@@ -165,6 +167,7 @@ const Icon = ({ status }: { status: string }) => {
         id="Plus--Streamline-Font-Awesome"
         height="24"
         width="24"
+        aria-hidden="true"
       >
         <desc>Plus Streamline Icon: https://streamlinehq.com</desc>
         <path
@@ -183,6 +186,7 @@ const Icon = ({ status }: { status: string }) => {
         id="Remove-Bold--Streamline-Ultimate"
         height="24"
         width="24"
+        aria-hidden="true"
       >
         <desc>Remove Bold Streamline Icon: https://streamlinehq.com</desc>
         <path
@@ -202,6 +206,7 @@ const Icon = ({ status }: { status: string }) => {
         height="24"
         width="24"
         className="z-20"
+        aria-hidden="true"
       >
         <desc>Remove Bold Streamline Icon: https://streamlinehq.com</desc>
         <path
@@ -220,6 +225,7 @@ const Icon = ({ status }: { status: string }) => {
         id="Sync-Saved-Locally-Fill--Streamline-Rounded-Fill-Material"
         height="24"
         width="24"
+        aria-hidden="true"
       >
         <desc>
           Sync Saved Locally Fill Streamline Icon: https://streamlinehq.com

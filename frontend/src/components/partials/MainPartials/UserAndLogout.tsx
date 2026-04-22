@@ -9,19 +9,23 @@ const UserAndLogout = () => {
     return;
   }
   const displayName = user
-    ? user.email.substring(0, user!.email.indexOf("@"))
+    ? user.email.substring(0, user.email.indexOf("@"))
     : "";
 
   return (
-    <div className="max-md:left-2 max-md:p-2 max-md:bottom-3 max-md:h-fit max-md:w-fit max-lg:w-fit max-lg:h-fit h-35 w-80 fixed md:pl-7 md:pb-4 left-0 bottom-0 flex flex-col-reverse ease-in-out group z-40">
+    <aside
+      aria-label="User session"
+      className="max-md:left-2 max-md:p-2 max-md:bottom-3 max-md:h-fit max-md:w-fit max-lg:w-fit max-lg:h-fit h-35 w-80 fixed md:pl-7 md:pb-4 left-0 bottom-0 flex flex-col-reverse ease-in-out group z-40"
+    >
       <div className="w-fit h-fit backdrop-blur-xs rounded-lg border border-white/0 group-hover:border-white/5 max-lg:border-white/4 px-1 py-1 flex flex-col electrolize tracking-wider text-base text-(--gray) blur-[0.5px] max-md:text-sm max-xs:text-xs">
-        <div
+        <button
           className="flex gap-1 items-center group/logout cursor-pointer z-50 w-full px-2 py-0.5 hover:bg-(--main-dark-blue)/25 rounded-md duration-300"
           onClick={() => logoutMutate()}
+          aria-label={isLoggingOut ? "Logging out…" : "Log out"}
         >
-          <p className="rounded-b-md group-hover/logout:text-(--white) max-sm:text-(--white) opacity-60 group-hover:opacity-100 max-lg:opacity-100 transition-all duration-500">
+          <span className="rounded-b-md group-hover/logout:text-(--white) max-sm:text-(--white) opacity-60 group-hover:opacity-100 max-lg:opacity-100 transition-all duration-500">
             {isLoggingOut ? "Logging out " : "Logout"}
-          </p>
+          </span>
           {isLoggingOut ? (
             <Spinner size="size-3.5 max-sm:size-2.5" thickness="border-2" />
           ) : (
@@ -33,6 +37,7 @@ const UserAndLogout = () => {
               height="18"
               width="18"
               className="duration-300 group-hover/logout:translate-x-1 opacity-60 group-hover:opacity-100 max-lg:opacity-100 transition-all"
+              aria-hidden="true"
             >
               <desc>Logout Streamline Icon: https://streamlinehq.com</desc>
               <path
@@ -43,13 +48,15 @@ const UserAndLogout = () => {
               ></path>
             </svg>
           )}
-        </div>
-        <span className="z-50 px-2 py-0.5 opacity-60 group-hover:opacity-100 max-lg:opacity-100 transition-all duration-500">
+        </button>
+        <p className="z-50 px-2 py-0.5 opacity-60 group-hover:opacity-100 max-lg:opacity-100 transition-all duration-500">
           {user ? "Welcome, " : "Goodbye!"}
-          <span className="text-(--main-light-blue)">{displayName}</span>
-        </span>
+          <strong className="text-(--main-light-blue) font-normal">
+            {displayName}
+          </strong>
+        </p>
       </div>
-    </div>
+    </aside>
   );
 };
 

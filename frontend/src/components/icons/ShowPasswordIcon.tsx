@@ -14,10 +14,10 @@ const ShowPasswordIcon = memo(function ShowPasswordIcon({
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 16 16"
       fill="#eee"
-      aria-hidden="true"
       id="Eye--Streamline-Heroicons"
       height="16"
       width="16"
+      aria-hidden="true"
       className={`cursor-pointer ${className} ${showPassword ? "visible" : "hidden"}`}
       onClick={() => setShowPassword(!showPassword)}
     >

@@ -9,6 +9,7 @@ const ViewedItemIcon = memo(function ViewedItemIcon() {
       id="Sync-Saved-Locally-Fill--Streamline-Rounded-Fill-Material"
       height="14"
       width="14"
+      aria-hidden="true"
     >
       <desc>
         Sync Saved Locally Fill Streamline Icon: https://streamlinehq.com

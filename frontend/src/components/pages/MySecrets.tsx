@@ -48,18 +48,28 @@ const MySecrets = () => {
         <h1 className="mt-20 electrolize font-bold">My Secrets</h1>
 
         {/*//* Active */}
-        <section className="lg:relative flex flex-col w-200 items-center max-md:w-full">
+        <section
+          aria-labelledby="active-heading"
+          className="lg:relative flex flex-col w-200 items-center max-md:w-full"
+        >
           <div className="absolute -left-40 -top-3 max-lg:right-0 max-lg:left-auto max-lg:top-4 max-md:scale-90 opacity-70 hover:opacity-100">
             <BackButton />
           </div>
           <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]">
             <div className="flex items-center gap-2">
-              <ActiveSectionIcon />
-              <h2 className="electrolize text-(--main-light-blue) font-bold tracking-wider">
+              <ActiveSectionIcon aria-hidden="true" />
+              <h2
+                id="active-heading"
+                className="electrolize text-(--main-light-blue) font-bold tracking-wider"
+              >
                 Active
               </h2>
             </div>
-            <p className="text-(--main-light-blue)">
+            <output
+              aria-live="polite"
+              aria-label="Active secret count"
+              className="text-(--main-light-blue)"
+            >
               {!activeSecrets ? (
                 <Spinner
                   size="size-4"
@@ -69,16 +79,18 @@ const MySecrets = () => {
               ) : (
                 activeSecrets.length
               )}
-            </p>
+            </output>
           </div>
           {/* //*Active Secrets */}
           <ul className="flex flex-col w-full items-center">
             {pendingSecrets ? (
-              <BoxSkeleton
-                className="w-full pr-7 h-10 mt-1 border-t-2 border-[#76c4ff20]"
-                colour="#76c4ff20"
-                highlightColour="#76c4ff20"
-              />
+              <li aria-label="Loading active secrets" className="w-full">
+                <BoxSkeleton
+                  className="w-full pr-7 h-10 mt-1 border-t-2 border-[#76c4ff20]"
+                  colour="#76c4ff20"
+                  highlightColour="#76c4ff20"
+                />
+              </li>
             ) : activeSecrets.length > 0 ? (
               activeSecrets.map((secret, index) => {
                 return (
@@ -100,16 +112,26 @@ const MySecrets = () => {
           </ul>
         </section>
 
-        {/*//// Viewed */}
-        <section className="flex flex-col w-200 items-center max-md:w-full">
+        {/*//// Viewed Secrets */}
+        <section
+          className="flex flex-col w-200 items-center max-md:w-full"
+          aria-labelledby="viewed-heading"
+        >
           <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-green-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]">
             <div className="flex items-center gap-2">
-              <ViewedSectionIcon />
-              <h2 className="electrolize text-green-500 font-bold tracking-wider">
+              <ViewedSectionIcon aria-hidden="true" />
+              <h2
+                id="viewed-heading"
+                className="electrolize text-green-500 font-bold tracking-wider"
+              >
                 Viewed
               </h2>
             </div>
-            <p className="text-green-500">
+            <output
+              aria-live="polite"
+              aria-label="Viewed secret count"
+              className="text-green-500"
+            >
               {!viewedSecrets ? (
                 <Spinner
                   size="size-4"
@@ -119,15 +141,17 @@ const MySecrets = () => {
               ) : (
                 viewedSecrets.length
               )}
-            </p>
+            </output>
           </div>
           <ul className="flex flex-col w-full items-center">
             {pendingSecrets ? (
-              <BoxSkeleton
-                className="w-full pr-7 h-10 mt-1 border-t-2 border-[#22c55e20]"
-                colour="#22c55e20"
-                highlightColour="#22c55e20"
-              />
+              <li aria-label="Loading viewed secrets" className="w-full">
+                <BoxSkeleton
+                  className="w-full pr-7 h-10 mt-1 border-t-2 border-[#22c55e20]"
+                  colour="#22c55e20"
+                  highlightColour="#22c55e20"
+                />
+              </li>
             ) : viewedSecrets.length > 0 ? (
               viewedSecrets.map((secret, index) => {
                 return (
@@ -150,15 +174,25 @@ const MySecrets = () => {
         </section>
 
         {/*//! Expired */}
-        <section className="flex flex-col w-200 items-center max-md:w-full">
+        <section
+          className="flex flex-col w-200 items-center max-md:w-full"
+          aria-labelledby="expired-heading"
+        >
           <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]">
             <div className="flex items-center gap-2">
-              <ExpiredSectionIcon />
-              <h2 className="electrolize text-red-500 font-bold tracking-wider">
+              <ExpiredSectionIcon aria-hidden="true" />
+              <h2
+                id="expired-heading"
+                className="electrolize text-red-500 font-bold tracking-wider"
+              >
                 Expired
               </h2>
             </div>
-            <p className="text-red-500">
+            <output
+              aria-live="polite"
+              aria-label="Expired secret count"
+              className="text-red-500"
+            >
               {!expiredSecrets ? (
                 <Spinner
                   size="size-4"
@@ -168,15 +202,17 @@ const MySecrets = () => {
               ) : (
                 expiredSecrets.length
               )}
-            </p>
+            </output>
           </div>
           <ul className="flex flex-col w-full items-center">
             {pendingSecrets ? (
-              <BoxSkeleton
-                className="w-full pr-7 h-10 mt-1 border-t-2 border-[#fb2c3620]"
-                colour="#fb2c3620"
-                highlightColour="#fb2c3610"
-              />
+              <li aria-label="Loading expired secrets" className="w-full">
+                <BoxSkeleton
+                  className="w-full pr-7 h-10 mt-1 border-t-2 border-[#fb2c3620]"
+                  colour="#fb2c3620"
+                  highlightColour="#fb2c3610"
+                />
+              </li>
             ) : expiredSecrets.length > 0 ? (
               expiredSecrets.map((secret, index) => {
                 return (

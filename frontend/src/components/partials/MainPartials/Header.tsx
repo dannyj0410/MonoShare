@@ -20,7 +20,7 @@ const headerVariants: Variants = {
 
 const Header = () => {
   return (
-    <div className="flex w-full items-center justify-center absolute">
+    <header className="flex w-full items-center justify-center absolute">
       <MotionNavLink
         to="/"
         initial="hidden"
@@ -37,7 +37,7 @@ const Header = () => {
       >
         MonoShare
       </MotionNavLink>
-    </div>
+    </header>
   );
 };
 

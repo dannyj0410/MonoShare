@@ -24,7 +24,10 @@ const Timeline = ({
   }, [secret]);
 
   return (
-    <div className="flex flex-col gap-2 ml-5 my-20">
+    <section
+      className="flex flex-col gap-2 ml-5 my-20"
+      aria-label="Secret timeline"
+    >
       <div className="flex items-center gap-2 mb-2">
         <svg
           viewBox="0 0 16 16"
@@ -43,42 +46,38 @@ const Timeline = ({
         </svg>
         <h2 className="electrolize">Timeline</h2>
       </div>
-      {/* NEW */}
-      <>
+
+      <TimelineElement
+        timelinePoint="created"
+        time={formatDate(secret.createdAt)}
+        faded
+      />
+      {secret.status !== "EXPIRED" && (
         <TimelineElement
-          timelinePoint="created"
-          time={formatDate(secret.createdAt)}
-          faded
+          timelinePoint={secret.status === "VIEWED" ? "wouldExpire" : "expires"}
+          time={formatDate(secret.expiresAt)}
+          timePassedPercent={timePassedPercent}
+          dashed
+          faded={secret.status !== "ACTIVE"}
+          extraInfo={timeRemaining}
         />
-        {secret.status !== "EXPIRED" && (
-          <TimelineElement
-            timelinePoint={
-              secret.status === "VIEWED" ? "wouldExpire" : "expires"
-            }
-            time={formatDate(secret.expiresAt)}
-            timePassedPercent={timePassedPercent}
-            dashed
-            faded={secret.status !== "ACTIVE"}
-            extraInfo={timeRemaining}
-          />
-        )}
-        {secret.status === "VIEWED" && (
-          <TimelineElement
-            timelinePoint="viewed"
-            time={formatDate(secret.viewedAt)}
-            dashed
-            extraInfo="Erased"
-          />
-        )}
-        {secret.status === "EXPIRED" && (
-          <TimelineElement
-            timelinePoint="expired"
-            time={formatDate(secret.expiresAt)}
-            dashed
-          />
-        )}
-      </>
-    </div>
+      )}
+      {secret.status === "VIEWED" && (
+        <TimelineElement
+          timelinePoint="viewed"
+          time={formatDate(secret.viewedAt)}
+          dashed
+          extraInfo="Erased"
+        />
+      )}
+      {secret.status === "EXPIRED" && (
+        <TimelineElement
+          timelinePoint="expired"
+          time={formatDate(secret.expiresAt)}
+          dashed
+        />
+      )}
+    </section>
   );
 };
 

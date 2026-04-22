@@ -69,21 +69,24 @@ const ConfirmationPopup = ({
   const returnPage = useReturnPage(navBackOnCancel);
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${option} confirmation`}
       className={`${options[option].position} fixed translate-x-[-50%] left-1/2 z-50 duration-200 ${isOpen ? "translate-y-0 opacity-100 blur-none" : "translate-y-10 opacity-0 blur-md pointer-events-none"}`}
     >
       <div className="flex flex-col bg-[#02131f] w-min max-xs:w-max max-xs:max-w-[95vw] rounded-lg border border-gray-400/15">
         <div className="flex flex-col gap-1 bg-[#02131f] rounded-t-lg py-3 px-5 border-b border-gray-400/15">
-          <span className={`${options[option].txtClr} noto-sans font-semibold`}>
+          <h2 className={`${options[option].txtClr} noto-sans font-semibold`}>
             {option} Confirmation
-          </span>
+          </h2>
 
           <p
             className={`text-(--gray) text-sm noto-sans ${option === "Erase" ? "w-185 max-md:w-full" : "w-fit max-xs:w-full"}`}
           >
             Are you sure you want to {options[option].action}{" "}
-            <span className="font-bold arvo">
+            <strong className="font-bold arvo">
               {secret.slice(0, 5).toLowerCase()}
-            </span>
+            </strong>
             ? {option === "View" && <br />} {options[option].details}
           </p>
           {isOwner && (
@@ -95,20 +98,27 @@ const ConfirmationPopup = ({
 
         {option === "Erase" && (
           <div className="border-b border-gray-400/15">
-            <p className="bg-red-400/15 text-red-400 noto-sans m-4 py-3 px-4 rounded-sm text-[12.5px]">
-              <span className="font-bold">Warning:</span> This action cannot be
-              undone.
-            </p>
+            <aside
+              role="alert"
+              className="bg-red-400/15 text-red-400 noto-sans m-4 py-3 px-4 rounded-sm text-[12.5px]"
+            >
+              <strong className="font-bold">Warning:</strong> This action cannot
+              be undone.
+            </aside>
           </div>
         )}
 
         <div className="flex flex-col w-fit ml-auto max-xs:m-0 max-xs:w-full">
           {showPasswordField && setPassword && (
             <div className="px-2 mt-3 ml-auto w-full">
-              <p className="max-xs:text-sm text-base text-center mb-0.5 electrolize text-(--main-light-blue) w-full">
+              <label
+                htmlFor="popup-password"
+                className="max-xs:text-sm text-base text-center mb-0.5 electrolize text-(--main-light-blue) w-full"
+              >
                 Viewing this secret requires a password:
-              </p>
+              </label>
               <input
+                id="popup-password"
                 type="text"
                 name="password"
                 placeholder="Enter password"

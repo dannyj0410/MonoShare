@@ -11,6 +11,7 @@ const ToastSuccessIcon = memo(function ToastSuccessIcon() {
       width="20"
       xmlns="http://www.w3.org/2000/svg"
       className="mr-2"
+      aria-hidden="true"
     >
       <path
         strokeLinecap="round"
