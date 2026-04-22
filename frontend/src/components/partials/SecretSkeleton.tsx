@@ -6,7 +6,7 @@ const SecretSkeleton = ({ view }: { view?: boolean }) => {
   return (
     <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210 max-md:w-full max-md:px-0 max-md:min-w-auto max-md:pt-30">
       <div className="flex items-center justify-center">
-        <div className="text-(--gray) electrolize font-bold absolute top-25 flex items-center gap-2">
+        <div className="text-(--gray) electrolize font-bold absolute top-20 flex items-center gap-2">
           Loading
           <Spinner size="size-3.5" thickness="border-2" />
         </div>

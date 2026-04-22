@@ -8,7 +8,7 @@ const AuthCTA = memo(function AuthCTA({
   isAuthenticated: boolean;
 }) {
   return (
-    <div className="flex max-xs:flex-col-reverse max-sm gap-5 items-center justify-between w-140 max-md:w-[90vw] my-10">
+    <div className="flex max-xs:flex-col-reverse max-sm gap-5 items-center justify-between w-140 max-md:w-[90vw] my-8">
       {!isAuthenticated ? (
         <Link
           to="/sign-in"

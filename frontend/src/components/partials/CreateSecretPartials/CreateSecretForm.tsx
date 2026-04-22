@@ -111,7 +111,7 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
       className="flex flex-col items-center mb-50 w-140 max-md:max-w-[90vw] noto-sans"
       ref={ref}
     >
-      <h2 className="text-3xl mb-6 arvo max-sm:text-2xl">Create Your Secret</h2>
+      <h2 className="text-3xl mb-8 arvo max-sm:text-2xl">Create Your Secret</h2>
       <form
         onSubmit={onSubmit}
         className="flex flex-col gap-3 max-sm:gap-2 max-md:max-w-[90vw]"
