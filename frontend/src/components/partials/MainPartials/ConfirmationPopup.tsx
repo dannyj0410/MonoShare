@@ -113,7 +113,7 @@ const ConfirmationPopup = ({
             <div className="px-2 mt-3 ml-auto w-full">
               <label
                 htmlFor="popup-password"
-                className="max-xs:text-sm text-base text-center mb-0.5 electrolize text-(--main-light-blue) w-full"
+                className="block max-xs:text-sm text-base text-center mb-0.5 electrolize text-(--main-light-blue) w-full"
               >
                 Viewing this secret requires a password:
               </label>
