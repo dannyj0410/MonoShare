@@ -5,9 +5,9 @@
   --electrolize: "Electrolize", sans-serif;
   --arvo: "Arvo", serif;
   --bg: #111111;
-  /* apply this white to everything that should have it */
   --white: #eef2f6;
-  --gray: #babbbd;
+  --gray: #a9b2ba;
+
   --main-light-blue: #76c4ff;
   --main-dark-blue: rgb(29, 64, 92);
   --main-dark-blue-40: rgba(29, 64, 92, 0.4);

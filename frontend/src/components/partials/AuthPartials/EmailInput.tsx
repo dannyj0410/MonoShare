@@ -24,13 +24,12 @@ const EmailInput = ({
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#a1a1a1"
           strokeLinecap="round"
           strokeLinejoin="round"
           id="Mail--Streamline-Tabler"
           height="20"
           width="20"
-          className={`group-focus-within:stroke-(--main-light-blue) ${error && "stroke-red-500"}`}
+          className={`group-focus-within:stroke-(--main-light-blue) stroke-(--gray) ${error && "stroke-red-500"}`}
         >
           <desc>Mail Streamline Icon: https://streamlinehq.com</desc>
           <path

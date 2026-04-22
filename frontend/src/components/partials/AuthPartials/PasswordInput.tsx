@@ -42,8 +42,7 @@ const PasswordInput = ({
           id="Key-Line--Streamline-Majesticons"
           height="20"
           width="20"
-          stroke="#a1a1a1"
-          className={`group-focus-within:stroke-(--main-light-blue) ${error && "stroke-red-500"}`}
+          className={`group-focus-within:stroke-(--main-light-blue) stroke-(--gray) ${error && "stroke-red-500"}`}
         >
           <path
             strokeLinecap="round"
@@ -63,12 +62,12 @@ const PasswordInput = ({
           onFocus={onFocus}
         />
         <ShowPasswordIcon
-          className={`fill-[#a1a1a1] size-5 ${showPassword ? "visible" : "hidden"}`}
+          className={`fill-(--gray) size-5 ${showPassword ? "visible" : "hidden"}`}
           setShowPassword={setShowPassword}
           showPassword={showPassword}
         />
         <HidePasswordIcon
-          className={`fill-[#a1a1a1] size-5 ${!showPassword ? "visible" : "hidden"}`}
+          className={`fill-(--gray) size-5 ${!showPassword ? "visible" : "hidden"}`}
           setShowPassword={setShowPassword}
           showPassword={showPassword}
         />

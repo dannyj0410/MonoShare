@@ -46,12 +46,12 @@ const SecretPasswordField = memo(function SecretPasswordField({
 
       <div className="flex items-center">
         <ShowPasswordIcon
-          className={`fill-[#eee] size-4 ${showPassword ? "visible" : "hidden"}`}
+          className={`fill-(--white) size-4 ${showPassword ? "visible" : "hidden"}`}
           setShowPassword={setShowPassword}
           showPassword={showPassword}
         />
         <HidePasswordIcon
-          className={`fill-[#eee] size-4 ${!showPassword ? "visible" : "hidden"}`}
+          className={`fill-(--white) size-4 ${!showPassword ? "visible" : "hidden"}`}
           setShowPassword={setShowPassword}
           showPassword={showPassword}
         />
