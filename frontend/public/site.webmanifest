@@ -11,7 +11,7 @@
   "icons": [
     {
       "src": "/M-logo.webp",
-      "sizes": "any",
+      "sizes": "28x26",
       "type": "image/webp",
       "purpose": "any maskable"
     }

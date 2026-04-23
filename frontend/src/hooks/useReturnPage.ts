@@ -6,7 +6,6 @@ const useReturnPage = (navback = true, fallbackPath = "/") => {
 
   const returnPage = () => {
     if (navback === true) {
-      console.log("happens");
       if (window.history.length > 1 && location.key !== "default") {
         navigate(-1);
         setTimeout(() => {
