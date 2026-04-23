@@ -1,7 +1,20 @@
 User-agent: *
-Disallow: /secret/
-Disallow: /details/
-Disallow: /my-secrets
+ 
+# Allow public-facing pages
+Allow: /$
+Allow: /terms-of-service
+Allow: /privacy-policy
+ 
+# Block auth pages (no SEO value, thin content)
 Disallow: /sign-in
 Disallow: /create-account
-Allow: /
+ 
+# Block private/user pages
+Disallow: /my-secrets
+Disallow: /secret/
+Disallow: /details/
+ 
+# Block API
+Disallow: /api/
+ 
+Sitemap: https://YOUR_DOMAIN/sitemap.xml

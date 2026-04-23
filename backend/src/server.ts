@@ -24,7 +24,7 @@ app.use(
     credentials: true,
     origin:
       process.env.NODE_ENV === "production"
-        ? "https://localhost:9000"
+        ? process.env.FRONTEND_URL
         : "http://localhost:9000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -53,8 +53,20 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'",
+    [
+      "default-src 'self'",
+      "script-src 'self'",
+      "style-src 'self' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data:",
+      "connect-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join("; "),
   );
+
+  // no index private routes
   if (privateRoutes.some((route) => req.path.startsWith(route))) {
     res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
@@ -73,11 +85,44 @@ app.all("/api/*", (req, res) => {
 if (process.env.NODE_ENV === "production") {
   const publicPath = path.join(__dirname, "public");
 
-  app.use(express.static(publicPath));
+  app.use(
+    express.static(publicPath, {
+      // long cache for immutable assets, short for SEO files
+      setHeaders(res, filePath) {
+        if (
+          filePath.endsWith("robots.txt") ||
+          filePath.endsWith("sitemap.xml") ||
+          filePath.endsWith("site.webmanifest")
+        ) {
+          res.setHeader("Cache-Control", "public, max-age=86400"); // max age 1 day
+        } else if (filePath.includes("/assets/")) {
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        }
+      },
+    }),
+  );
+
+  // SEO files with explicit Cache-Control
+  app.get("/robots.txt", (req, res) => {
+    res.setHeader("Content-Type", "text/plain");
+    res.setHeader("Cache-Control", "public, max-age=86400");
+    res.sendFile(path.join(publicPath, "robots.txt"));
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    res.setHeader("Content-Type", "application/xml");
+    res.setHeader("Cache-Control", "public, max-age=86400");
+    res.sendFile(path.join(publicPath, "sitemap.xml"));
+  });
+
+  app.get("/site.webmanifest", (req, res) => {
+    res.setHeader("Content-Type", "application/manifest+json");
+    res.setHeader("Cache-Control", "public, max-age=86400");
+    res.sendFile(path.join(publicPath, "site.webmanifest"));
+  });
 
   app.get("*", (req, res) => {
     const frontendRoutes = ["/", "/sign-in", "/create-account", "/my-secrets"];
-
     const isDynamicRoute =
       req.path.startsWith("/secret/") || req.path.startsWith("/details/");
 

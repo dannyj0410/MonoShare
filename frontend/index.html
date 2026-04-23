@@ -7,31 +7,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer">
 
+  <!-- primary -->
+  <title>MonoShare - Secure One-Time Secret Sharing With Zero-Knowledge Encryption</title>
+  <meta name="description"
+    content="Easily share passwords, tokens, API keys and private messages with zero-knowledge encryption. Self-erasing links automatically deleted after one view. No account required." />
+  <meta name="keywords"
+    content="secure secret sharing, one-time link, password sharing, zero-knowledge encryption, self-erasing link, end-to-end encrypted, API key sharing, private message" />
+  <meta name="author" content="Daniel Jenkins" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <!-- <link rel="canonical" href="https://domain"> -->
+
+  <!-- Open Graph for link previews -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MonoShare" />
+  <meta property="og:title" content="MonoShare" />
+  <meta property="og:description"
+    content="Easily share passwords, tokens, API keys and private messages with zero-knowledge encryption. Self-erasing links automatically deleted after one view. No account required." />
+  <!-- <meta property="og:url" content="https://yourdomain.com" /> -->
+  <!-- <meta property="og:image" content="https://yourdomain.com/public/monoshare-og.webp" /> -->
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="MonoShare — encrypted one-time secret sharing" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="bg_BG" />
+
+  <!-- Twitter/X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MonoShare — Secure One-Time Secret Sharing" />
+  <meta name="twitter:description" content="Zero-knowledge encrypted secret sharing. Self-erasing links." />
+  <!-- <meta name="twitter:image" content="https://yourdomain.com/og-image.png" /> -->
+  <meta name="twitter:image:alt" content="MonoShare — encrypted one-time secret sharing" />
+
+
+  <!-- Theme / PWA -->
+  <meta name="theme-color" content="#06141f">
+  <meta name="color-scheme" content="dark" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Electrolize&family=Noto+Sans:wght@300;400;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- <meta name="google-site-verification" content="" /> -->
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
   {
   "@type": "WebApplication",
-  "@id": "https://#website",
+  "@id": "https://domain/#website",
   "name": "MonoShare",
-  "url": "https://",
-  "description": "MonoShare — Share passwords, tokens, and private messages with zero-knowledge encryption. Self-erasing links automatically deleted after one view.",
+  "url": "https://domain/",
+  "description": "MonoShare is a privacy-first, zero-knowledge secret sharing platform. Share passwords, API keys, tokens, and private messages via self-erasing one-time links — fully encrypted in your browser before the data ever leaves your device.",
   "applicationCategory": "SecurityApplication",
   "applicationSubCategory": "Encryption Tool",
   "operatingSystem": "Any",
+  "browserRequirements": "Requires a modern browser with Web Crypto API support",
   "offers": {
         "@type": "Offer",
         "price": "0",
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
   },
   "featureList": [
         "Secret Sharing",
-        "Zero-knowledge encryption",
-        "Self-erasing links",
-        "Password protection",
+        "Zero-knowledge AES-128-GCM client-side encryption",
+        "Self-erasing one-time links",
+        "Optional password protection",
         "Recipient email restriction",
-        "Expiration time control"
+        "Configurable expiration (1 hour, 1 day, 7 days)",
+        "Secret management dashboard for registered users",
+        "No account required for basic use"
       ],
   "inLanguage": "en",
   "author": {
@@ -39,7 +88,12 @@
     "name": "Daniel Jenkins",
     "url": "https://daniel-jenkins-portfolio.onrender.com"
   },
-  "keywords": "secure password sharing, zero-knowledge encryption, self-erasing links, private message share",
+  "creator": {
+          "@type": "Person",
+          "name": "Daniel Jenkins",
+          "url": "https://daniel-jenkins-portfolio.onrender.com"
+  },
+  "keywords": "secure secret sharing, zero-knowledge encryption, one-time link, self-erasing link, password sharing, API key sharing",
   "sameAs": [
         "https://github.com/dannyj0410",
         "https://daniel-jenkins-portfolio.onrender.com"
@@ -48,9 +102,14 @@
   {
       "@type": "HowTo",
       "name": "How to Share a Secret Securely with MonoShare",
-      "mainEntityOfPage": { "@id": "https://#website" },
       "description": "Share sensitive information like passwords and tokens using zero-knowledge encryption in three simple steps.",
+      "mainEntityOfPage": { "@id": "https://#website" },
       "totalTime": "PT2M",
+      "estimatedCost": {
+          "@type": "MonetaryAmount",
+          "currency": "USD",
+          "value": "0"
+        },
       "step": [
         {
           "@type": "HowToStep",
@@ -119,50 +178,21 @@
           }
         }
       ]
-    }
+    },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://YOUR_DOMAIN/"
+          }
+        ]
+      }
   ]
 }
 </script>
-
-  <!-- base -->
-
-  <meta name="robots" content="index, follow" />
-
-  <!-- Open Graph (for link previews in Slack, iMessage, etc.) -->
-  <meta property="og:title" content="MonoShare — Secure One-Time Secret Sharing" />
-  <meta property="og:description"
-    content="Share sensitive data with end-to-end encryption. Your secret auto-erased after one view." />
-  <!-- <meta property="og:url" content="https://yourdomain.com" /> -->
-  <meta property="og:type" content="website" />
-  <!-- <meta property="og:image" content="https://yourdomain.com/public/monoshare-og.webp" /> -->
-
-  <!-- Twitter/X card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MonoShare — Secure One-Time Secret Sharing" />
-  <meta name="twitter:description" content="Zero-knowledge encrypted secret sharing. Self-erasing links." />
-  <!-- <meta name="twitter:image" content="https://yourdomain.com/og-image.png" /> -->
-
-  <!-- <link rel="canonical" href="https://"> -->
-  <meta name="description"
-    content="Easily share passwords, tokens, and private messages with zero-knowledge encryption. Self-erasing links that delete themselves after one view. All for free!" />
-  <meta name="author" content="Daniel Jenkins" />
-  <meta name="keywords"
-    content="MonoShare, secure, share, private, sensitive, data, information, privately, tokens, secret, secrets, one-time, erase, delete, automatically, after, view, encryption" />
-  <!-- <meta property="og:url" content="https://" /> -->
-  <meta property="og:site_name" content="MonoShare" />
-  <meta property="og:locale" content="en_US" />
-  <meta property="og:locale:alternate" content="bg_BG" />
-  <!-- <link rel="alternate" href="https://example.com/" hreflang="x-default" />
-  <link rel="alternate" href="https://example.com/bg" hreflang="bg-bg" /> -->
-  <meta name="theme-color" content="#06141f">
-  <!-- <meta name="google-site-verification" content="" /> -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Electrolize&family=Noto+Sans:wght@300;400;600;700&display=swap"
-    rel="stylesheet" />
-  <title>MonoShare</title>
-
 </head>
 
 <body>

@@ -1,0 +1,19 @@
+{
+  "name": "MonoShare — Secure Secret Sharing",
+  "short_name": "MonoShare",
+  "description": "Share passwords and secrets via self-erasing, zero-knowledge encrypted one-time links.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06141f",
+  "theme_color": "#06141f",
+  "lang": "en",
+  "categories": ["utilities", "productivity", "security"],
+  "icons": [
+    {
+      "src": "/M-logo.webp",
+      "sizes": "any",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}
