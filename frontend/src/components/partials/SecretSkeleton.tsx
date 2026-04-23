@@ -4,7 +4,7 @@ import BackButton from "./MainPartials/BackButton";
 
 const SecretSkeleton = ({ view }: { view?: boolean }) => {
   return (
-    <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210 max-md:w-full max-md:px-0 max-md:min-w-auto max-md:pt-30">
+    <div className="flex flex-col mx-auto pt-45 p-5 max-w-180 max-md:w-full max-md:px-0 max-md:min-w-auto max-md:pt-30">
       <div className="flex items-center justify-center">
         <div className="text-(--gray) electrolize font-bold absolute top-20 flex items-center gap-2">
           Loading
@@ -51,7 +51,7 @@ const SecretSkeleton = ({ view }: { view?: boolean }) => {
       {/* timeline items */}
       {!view && (
         <>
-          <BoxSkeleton className="w-25 h-6 ml-4 mt-13 mb-5" />
+          <BoxSkeleton className="w-25 h-6 ml-4 mt-15 mb-5" />
           <div className="flex ml-4 gap-3 items-center opacity-60">
             <BoxSkeleton
               className="w-17 h-17 border-4 border-gray-500/20 rounded-3xl!"
