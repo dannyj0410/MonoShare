@@ -44,10 +44,12 @@ const SecretDetails = () => {
   }
 
   return (
-    <div className="flex flex-col mx-auto pt-20 p-5 w-fit min-w-180 max-w-200 max-md:w-full max-md:min-w-auto max-md:px-0 max-md:pt-30">
+    <div className="flex flex-col mx-auto pt-20 p-5 w-fit min-w-180 max-w-200 max-md:w-full max-md:min-w-auto max-md:px-0">
       <title>Secret Details | MonoShare</title>
       <meta name="robots" content="noindex" />
-      <h1 className="electrolize mx-auto mb-20 font-bold">Secret Details</h1>
+      <h1 className="electrolize mx-auto mb-20 max-md:mb-5 font-bold">
+        Secret Details
+      </h1>
       <div className="flex items-center justify-between w-full relative mb-5 max-md:max-w-full">
         <BackButton />
         <span

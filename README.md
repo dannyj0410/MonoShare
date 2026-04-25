@@ -55,12 +55,14 @@ The answer: a link that destroys itself.
 ## Features
 
 ### For Everyone (No Account Required)
+
 - Create encrypted secrets up to **1,000 characters**
 - Choose expiration: **1 hour**, **1 day**, or **7 days**
 - Optional **password protection** (Argon2-hashed server-side)
 - Secrets auto-erase on view or expiration
 
 ### For Registered Users
+
 - Secrets up to **10,000 characters**
 - Personal **My Secrets dashboard** (Active / Viewed / Expired)
 - Restrict access to a **specific recipient email address**
@@ -69,6 +71,7 @@ The answer: a link that destroys itself.
 - Secret detail pages with share link and status tracking
 
 ### Security
+
 - Zero-knowledge architecture — plaintext never reaches the server
 - AES-128-GCM client-side encryption
 - HMAC-SHA256 session token hashing
@@ -83,29 +86,31 @@ The answer: a link that destroys itself.
 ## Tech Stack
 
 ### Frontend
-| Tool | Purpose |
-|------|---------|
-| React 19 | UI framework |
-| TypeScript | Type safety |
-| Vite 7 | Build tool |
-| Tailwind CSS v4 | Styling |
+
+| Tool              | Purpose                 |
+| ----------------- | ----------------------- |
+| React 19          | UI framework            |
+| TypeScript        | Type safety             |
+| Vite 7            | Build tool              |
+| Tailwind CSS v4   | Styling                 |
 | TanStack Query v5 | Server state management |
-| Framer Motion | Animations |
-| Axios | HTTP client |
-| React Router v7 | Client-side routing |
-| Web Crypto API | AES-128-GCM encryption |
+| Framer Motion     | Animations              |
+| Axios             | HTTP client             |
+| React Router v7   | Client-side routing     |
+| Web Crypto API    | AES-128-GCM encryption  |
 
 ### Backend
-| Tool | Purpose |
-|------|---------|
-| Node.js + Express | HTTP server |
-| TypeScript | Type safety |
-| Prisma 6 | ORM |
-| MongoDB | Database |
-| Argon2 | Password hashing |
-| nanoid | Secure slug generation |
-| lru-cache | In-memory session caching |
-| express-rate-limit | Rate limiting |
+
+| Tool               | Purpose                   |
+| ------------------ | ------------------------- |
+| Node.js + Express  | HTTP server               |
+| TypeScript         | Type safety               |
+| Prisma 6           | ORM                       |
+| MongoDB            | Database                  |
+| Argon2             | Password hashing          |
+| nanoid             | Secure slug generation    |
+| lru-cache          | In-memory session caching |
+| express-rate-limit | Rate limiting             |
 
 ---
 
@@ -156,6 +161,7 @@ The answer: a link that destroys itself.
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 20+
 - MongoDB instance (local or Atlas)
 - npm or yarn
@@ -213,8 +219,8 @@ The app will be available at `http://localhost:9000`.
 # Build frontend
 cd frontend && npm run build
 
-# Copy built files to backend/src/public
-cp -r dist/* ../backend/src/public/
+# Copy built files to backend/built/public
+cp -r dist/* ../backend/built/public/
 
 # Start backend in production
 cd ../backend
@@ -229,13 +235,13 @@ The backend will serve the frontend statically in production mode.
 
 ### Backend (`backend/.env`)
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `DATABASE_URL` | ✅ | MongoDB connection string |
-| `SESSION_SECRET` | ✅ | Secret key used for HMAC-SHA256 session token hashing |
-| `FRONTEND_URL` | ✅ | Frontend origin (used for CORS and share URL generation) |
-| `PORT` | ❌ | Server port (default: `5000`) |
-| `NODE_ENV` | ❌ | `development` or `production` |
+| Variable         | Required | Description                                              |
+| ---------------- | -------- | -------------------------------------------------------- |
+| `DATABASE_URL`   | ✅       | MongoDB connection string                                |
+| `SESSION_SECRET` | ✅       | Secret key used for HMAC-SHA256 session token hashing    |
+| `FRONTEND_URL`   | ✅       | Frontend origin (used for CORS and share URL generation) |
+| `PORT`           | ❌       | Server port (default: `5000`)                            |
+| `NODE_ENV`       | ❌       | `development` or `production`                            |
 
 ---
 
@@ -245,31 +251,31 @@ All routes are prefixed with `/api`.
 
 ### Auth — `/api/auth`
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| `POST` | `/register` | Public | Create a new account |
-| `POST` | `/signin` | Public | Sign in and receive session cookie |
-| `POST` | `/logout` | Required | Invalidate current session |
-| `GET` | `/user-check` | Required | Verify session and get current user |
+| Method | Endpoint      | Auth     | Description                         |
+| ------ | ------------- | -------- | ----------------------------------- |
+| `POST` | `/register`   | Public   | Create a new account                |
+| `POST` | `/signin`     | Public   | Sign in and receive session cookie  |
+| `POST` | `/logout`     | Required | Invalidate current session          |
+| `GET`  | `/user-check` | Required | Verify session and get current user |
 
 ### Secrets — `/api/secret`
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| `POST` | `/create` | Optional | Create a new encrypted secret |
-| `GET` | `/my-secrets` | Required | List all secrets owned by current user |
-| `GET` | `/details/:secretid` | Required | Get full metadata for a specific secret |
-| `GET` | `/metadata/:secretid` | Optional | Check if secret is accessible (password-protected, expired, etc.) |
-| `POST` | `/view/:secretid` | Optional | View and permanently erase a secret |
-| `DELETE` | `/delete/:secretid` | Required | Manually delete a secret |
+| Method   | Endpoint              | Auth     | Description                                                       |
+| -------- | --------------------- | -------- | ----------------------------------------------------------------- |
+| `POST`   | `/create`             | Optional | Create a new encrypted secret                                     |
+| `GET`    | `/my-secrets`         | Required | List all secrets owned by current user                            |
+| `GET`    | `/details/:secretid`  | Required | Get full metadata for a specific secret                           |
+| `GET`    | `/metadata/:secretid` | Optional | Check if secret is accessible (password-protected, expired, etc.) |
+| `POST`   | `/view/:secretid`     | Optional | View and permanently erase a secret                               |
+| `DELETE` | `/delete/:secretid`   | Required | Manually delete a secret                                          |
 
 ### Rate Limits
 
-| Endpoint | Limit | Window |
-|----------|-------|--------|
-| `/auth/register` | 3 requests | 10 min |
-| `/auth/signin` | 10 requests | 10 min |
-| `/secret/create` | 20 requests | 10 min |
+| Endpoint             | Limit        | Window |
+| -------------------- | ------------ | ------ |
+| `/auth/register`     | 3 requests   | 10 min |
+| `/auth/signin`       | 10 requests  | 10 min |
+| `/secret/create`     | 20 requests  | 10 min |
 | All other API routes | 100 requests | 10 min |
 
 ---
@@ -277,18 +283,22 @@ All routes are prefixed with `/api`.
 ## Security Model
 
 ### What we CAN'T read
+
 The plaintext content of any secret. Ever. The AES-128-GCM key is generated locally and stored exclusively in the URL hash fragment — which browsers do not transmit in HTTP requests. We store only the encrypted ciphertext and IV. Without the key (which lives only in the shareable URL), the stored data is cryptographically meaningless.
 
 ### What we CAN see
+
 Secret metadata: slugs, creation timestamps, expiration timestamps, optional recipient email addresses, and account email addresses. This metadata is not zero-knowledge protected.
 
 ### Session security
+
 - Session tokens are 32 random bytes from `crypto.randomBytes`
 - Only the HMAC-SHA256 hash of the token is stored in the database
 - Cookies are HttpOnly, Secure, and SameSite=Strict
 - Sessions expire after 7 days with sliding expiry
 
 ### Password hashing
+
 Both account passwords and optional secret access passwords are hashed with **Argon2** (a memory-hard algorithm). Plaintext passwords are never stored.
 
 ---

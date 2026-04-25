@@ -18,6 +18,7 @@ import { authRouter } from "./routers/auth.router";
 import { globalErrorHandler } from "./middleware/error.middleware";
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(cookieParser());
 app.use(
   cors({
@@ -71,6 +72,10 @@ app.use((req, res, next) => {
     res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
   next();
+});
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
 });
 
 app.use("/api/auth", authRouter);
