@@ -1,4 +1,4 @@
-import { ComputedStatus } from "../dtos/secret.dto";
+import { ComputedStatus } from "../dtos/secret.dto.js";
 
 export const computeSecretStatus = (secret: {
   viewedAt: Date | null;

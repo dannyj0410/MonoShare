@@ -6,7 +6,7 @@ import {
   HTTP_CONTENT_TOO_LARGE,
   HTTP_INTERNAL_SERVER_ERROR,
   HTTP_NOT_FOUND,
-} from "../constants/http_status";
+} from "../constants/http_status.js";
 
 export const globalErrorHandler = (
   err: any,

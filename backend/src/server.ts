@@ -1,5 +1,8 @@
 import dotenv from "dotenv";
 import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
@@ -13,9 +16,9 @@ if (!process.env.SESSION_SECRET) {
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { secretRouter } from "./routers/secret.router";
-import { authRouter } from "./routers/auth.router";
-import { globalErrorHandler } from "./middleware/error.middleware";
+import { secretRouter } from "./routers/secret.router.js";
+import { authRouter } from "./routers/auth.router.js";
+import { globalErrorHandler } from "./middleware/error.middleware.js";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -88,7 +91,7 @@ app.all("/api/*", (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  const publicPath = path.join(__dirname, "public");
+  const publicPath = path.join(__dirname, "..", "public");
 
   app.use(
     express.static(publicPath, {

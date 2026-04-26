@@ -4,13 +4,13 @@ import {
   createUser,
   logoutUser,
   signinUser,
-} from "../controllers/auth.controller";
-import { requireAuth } from "../middleware/auth.middleware";
-import { rateLimiter } from "../middleware/rateLimit.middleware";
+} from "../controllers/auth.controller.js";
+import { requireAuth } from "../middleware/auth.middleware.js";
+import { rateLimiter } from "../middleware/rateLimit.middleware.js";
 import {
   registerLimiterMessage,
   signInLimiterMessage,
-} from "../constants/limiter_messages";
+} from "../constants/limiter_messages.js";
 
 const router = express.Router();
 

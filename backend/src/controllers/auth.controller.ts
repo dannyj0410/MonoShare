@@ -1,18 +1,18 @@
 import asyncHandler from "express-async-handler";
 import argon2 from "argon2";
 import { Request, Response } from "express";
-import { prisma } from "../../prisma/prisma-client";
-import { AuthBase, AuthDto, UserResponse } from "../dtos/auth.dto";
-import { AuthService } from "../services/auth.service";
-import { AppError } from "../utils/AppError";
+import { prisma } from "../../prisma/prisma-client.js";
+import { AuthBase, AuthDto, UserResponse } from "../dtos/auth.dto.js";
+import { AuthService } from "../services/auth.service.js";
+import { AppError } from "../utils/AppError.js";
 import {
   HTTP_BAD_REQUEST,
   HTTP_CONFLICT,
   HTTP_CREATED,
   HTTP_SUCCESS,
   HTTP_UNAUTHORIZED,
-} from "../constants/http_status";
-import { invalidateCachedSession } from "../lib/sessionCache";
+} from "../constants/http_status.js";
+import { invalidateCachedSession } from "../lib/sessionCache.js";
 
 //* CREATE
 export const createUser = asyncHandler(

@@ -1,5 +1,5 @@
 import rateLimit from "express-rate-limit";
-import { HTTP_TOO_MANY_REQ } from "../constants/http_status";
+import { HTTP_TOO_MANY_REQ } from "../constants/http_status.js";
 
 export const rateLimiter = (
   message: string,

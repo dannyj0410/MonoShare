@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../../prisma/prisma-client";
-import { AuthService } from "../services/auth.service";
-import { getCachedSession, setCachedSession } from "../lib/sessionCache";
+import { prisma } from "../../prisma/prisma-client.js";
+import { AuthService } from "../services/auth.service.js";
+import { getCachedSession, setCachedSession } from "../lib/sessionCache.js";
 
 export const userCheck = async (
   req: Request,

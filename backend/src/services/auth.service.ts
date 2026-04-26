@@ -1,8 +1,8 @@
 import argon2 from "argon2";
 import crypto from "crypto";
-import { AuthDto } from "../dtos/auth.dto";
-import { HTTP_BAD_REQUEST } from "../constants/http_status";
-import { AppError } from "../utils/AppError";
+import { AuthDto } from "../dtos/auth.dto.js";
+import { HTTP_BAD_REQUEST } from "../constants/http_status.js";
+import { AppError } from "../utils/AppError.js";
 
 export const AuthService = {
   async hashPassword(password: string) {

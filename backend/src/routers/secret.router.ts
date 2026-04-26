@@ -6,11 +6,11 @@ import {
   getSecretDetails,
   getSecretMetadata,
   viewSecret,
-} from "../controllers/secret.controller";
-import { requireAuth } from "../middleware/auth.middleware";
-import { userCheck } from "../middleware/user-check.middleware";
-import { apiLimiter, rateLimiter } from "../middleware/rateLimit.middleware";
-import { createSecretLimiterMessage } from "../constants/limiter_messages";
+} from "../controllers/secret.controller.js";
+import { requireAuth } from "../middleware/auth.middleware.js";
+import { userCheck } from "../middleware/user-check.middleware.js";
+import { apiLimiter, rateLimiter } from "../middleware/rateLimit.middleware.js";
+import { createSecretLimiterMessage } from "../constants/limiter_messages.js";
 
 const router = Router();
 

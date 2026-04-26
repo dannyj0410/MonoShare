@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@property --grad-stop {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 70%;
+}
+
 @theme {
   --noto-sans: "Noto Sans", sans-serif;
   --electrolize: "Electrolize", sans-serif;
@@ -86,11 +92,6 @@
 
 @layer utilities {
   /* ── Footer ─────────────────────────────────────────────────── */
-  @property --grad-stop {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 70%;
-  }
 
   .footer-root {
     background: linear-gradient(

@@ -1,12 +1,16 @@
 import argon2 from "argon2";
 import { customAlphabet } from "nanoid";
-import { ONE_DAY_MS, ONE_HOUR_MS, SEVEN_DAYS_MS } from "../constants/days_ms";
-import { HTTP_BAD_REQUEST } from "../constants/http_status";
+import {
+  ONE_DAY_MS,
+  ONE_HOUR_MS,
+  SEVEN_DAYS_MS,
+} from "../constants/days_ms.js";
+import { HTTP_BAD_REQUEST } from "../constants/http_status.js";
 import {
   CreateSecretValidation,
   SecretExpirationOptions,
-} from "../dtos/secret.dto";
-import { AppError } from "../utils/AppError";
+} from "../dtos/secret.dto.js";
+import { AppError } from "../utils/AppError.js";
 
 export const SecretService = {
   isValidExpiration(value: string): value is SecretExpirationOptions {

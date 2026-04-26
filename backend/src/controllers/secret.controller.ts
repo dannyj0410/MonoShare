@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import { prisma } from "../../prisma/prisma-client";
+import { prisma } from "../../prisma/prisma-client.js";
 import {
   ComputedStatus,
   CreateSecretDto,
@@ -9,7 +9,7 @@ import {
   GetSecretMetadataResponse,
   MySecretsReponse,
   ViewSecretResponse,
-} from "../dtos/secret.dto";
+} from "../dtos/secret.dto.js";
 import {
   HTTP_BAD_REQUEST,
   HTTP_CREATED,
@@ -18,10 +18,10 @@ import {
   HTTP_NOT_FOUND,
   HTTP_SUCCESS,
   HTTP_UNAUTHORIZED,
-} from "../constants/http_status";
-import { SecretService } from "../services/secret.service";
-import { AppError } from "../utils/AppError";
-import { computeSecretStatus } from "../helper/computeSecretStatus";
+} from "../constants/http_status.js";
+import { SecretService } from "../services/secret.service.js";
+import { AppError } from "../utils/AppError.js";
+import { computeSecretStatus } from "../helper/computeSecretStatus.js";
 
 export const createSecret = asyncHandler(
   async (req: Request, res: Response<CreateSecretResponse>) => {
