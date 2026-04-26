@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../../prisma/prisma-client.js";
+import { prisma } from "../lib/prisma-client.js";
 import { AuthService } from "../services/auth.service.js";
 import { getCachedSession, setCachedSession } from "../lib/sessionCache.js";
 

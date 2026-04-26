@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import { prisma } from "../../prisma/prisma-client.js";
+import { prisma } from "../lib/prisma-client.js";
 import {
   ComputedStatus,
   CreateSecretDto,

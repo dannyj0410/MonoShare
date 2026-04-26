@@ -2,8 +2,9 @@
   "compilerOptions": {
     "typeRoots": ["./node_modules/@types", "./src/@types", "./src/types"],
     "module": "Node16",
-    "moduleResolution": "node16",
+    "moduleResolution": "Node16",
     "strict": true,
+    "rootDir": "src",
     "outDir": "./built",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

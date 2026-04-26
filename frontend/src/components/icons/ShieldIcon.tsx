@@ -1,6 +1,10 @@
 import { memo } from "react";
 
-const ShieldIcon = memo(function ShieldIcon() {
+const ShieldIcon = memo(function ShieldIcon({
+  className,
+}: {
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +13,7 @@ const ShieldIcon = memo(function ShieldIcon() {
       height="18"
       width="18"
       aria-hidden="true"
+      className={`${className}`}
     >
       <g id="Shield">
         <path
