@@ -13,8 +13,6 @@ dist-ssr
 *.local
 MonoShare.fig
 todo.md
-.env.development
-.env.production
 
 # Editor directories and files
 .vscode/*
