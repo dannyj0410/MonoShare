@@ -91,14 +91,14 @@ const SecretDetails = () => {
       {/* Secret Link */}
       {created && (
         <div className="mb-5 flex flex-col w-full max-md:w-full">
+          {/*//* SECRET URL */}
           <div
-            className={`flex w-max min-w-180 max-w-200 max-md:w-full max-md:min-w-full max-md:rounded-none max-md:border-2 items-center justify-between rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
+            className={`flex w-full min-w-180 max-w-200 max-md:w-full max-md:min-w-full max-md:rounded-none max-md:border-2 items-center justify-between rounded-md border-3 mb-2 transition-all duration-600 ease-in-out ${
               copyClicked
                 ? "border-green-500 bg-green-500/15"
                 : "border-(--main-dark-blue-40) bg-blue-300/5"
             } h-fit`}
           >
-            {/*//* SECRET URL */}
             <p className="arvo w-max text-nowrap overflow-x-auto no-scrollbar text-[9px] xs:text-xs sm:text-sm md:text-base h-fit px-5 max-md:px-1.5 bg-transparent">
               {secret.shareUrl}#{secret.key}
             </p>

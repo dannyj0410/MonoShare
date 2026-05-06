@@ -60,7 +60,7 @@ const UseCaseDropdown = () => {
       <div className="relative">
         <button
           type="button"
-          className={`flex cursor-pointer items-center justify-between w-full bg-(--white) rounded-md px-4 py-3 text-black hover:bg-(--gray) transition-colors ${showDropdown && "outline-1 outline-offset-2 outline-(--white)"}`}
+          className={`flex cursor-pointer items-center justify-between w-full bg-(--white) rounded-md px-4 py-3 text-black hover:bg-(--gray) transition-colors ${showDropdown && "outline outline-offset-2 outline-(--white)"}`}
           onClick={() => setShowDropdown(!showDropdown)}
         >
           <span className="text-sm">{useCases[selectedCase].title}</span>
