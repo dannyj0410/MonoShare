@@ -69,11 +69,11 @@ const MySecretsItem = memo(function MySecretsItem({
       <li
         className={`ml-8 py-2 px-4 h-fit grid grid-cols-[230px_220px_210px_20px] max-md:grid-cols-[38vw_46vw_4vw_5vw] max-md:h-10 max-md:ml-0 items-center gap-4 max-md:gap-1 rounded-sm cursor-pointer transition-colors duration-200  ${
           secret.status === "ACTIVE"
-            ? `md:hover:bg-blue-200/10 md:border-t-2 border-white/0 md:hover:border-white/5 ${isEven ? "max-md:bg-blue-200/6" : "max-md:bg-blue-200/2"}`
+            ? `md:hover:bg-blue-200/10 md:border-t-2 border-(--white)/0 md:hover:border-(--white)/5 ${isEven ? "max-md:bg-blue-200/6" : "max-md:bg-blue-200/2"}`
             : secret.status === "VIEWED"
-              ? `hover:bg-green-200/10 border-t-2 border-white/0 hover:border-white/5 ${isEven ? "max-md:bg-emerald-200/6" : "max-md:bg-emerald-200/2"}`
+              ? `hover:bg-green-200/10 border-t-2 border-(--white)/0 hover:border-(--white)/5 ${isEven ? "max-md:bg-emerald-200/6" : "max-md:bg-emerald-200/2"}`
               : secret.status === "EXPIRED"
-                ? `hover:bg-red-400/10 border-t-2 border-white/0 hover:border-white/5 ${isEven ? "max-md:bg-red-400/6" : "max-md:bg-red-400/3"}`
+                ? `hover:bg-red-400/10 border-t-2 border-(--white)/0 hover:border-(--white)/5 ${isEven ? "max-md:bg-red-400/6" : "max-md:bg-red-400/3"}`
                 : ""
         }`}
       >

@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 import { useAuthCheck } from "../../hooks/authHooks/useAuthCheck";
-import SpotlightGlow from "../partials/MainPartials/SpotlightGlow";
-import Hero from "../partials/MainPartials/Hero";
+import SpotlightGlow from "../partials/HomePartials/SpotlightGlow";
+import Hero from "../partials/HomePartials/Hero";
 
-import CreateSecretForm from "../partials/CreateSecretPartials/CreateSecretForm";
-import InfoSection from "../partials/InfoPartials/InfoSection";
-import Features from "../partials/Features";
-import Process from "../partials/ProcessPartials/Process";
+import CreateSecretForm from "../partials/HomePartials/CreateSecretPartials/CreateSecretForm";
+import InfoSection from "../partials/HomePartials/InfoSectionPartials/InfoSection";
+import Features from "../partials/HomePartials/FeaturesSection";
 import { useLocation } from "react-router-dom";
-import Footer from "../partials/MainPartials/Footer";
+import Process from "../partials/HomePartials/ProcessSectionPartials/Process";
+import Footer from "../layouts/Footer";
 
 const Home = () => {
   const location = useLocation();
@@ -30,7 +30,7 @@ const Home = () => {
 
   return (
     <main className="flex flex-col items-center">
-      {/* <link rel="canonical" href="https://yourdomain.com/" /> */}
+      <link rel="canonical" href="https://monoshare.site" />
       <SpotlightGlow />
       <Hero scroll={scrollToCreateForm} />
       <CreateSecretForm

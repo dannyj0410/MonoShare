@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signin } from "../../lib/auth";
 import { useHandleResponse } from "../useHandleResponse";
 import type { ToastType } from "../../interfaces/toast.interface";
+import { signin } from "../../api/auth.api";
 
 export const useSignin = () => {
   const handleResponse = useHandleResponse();

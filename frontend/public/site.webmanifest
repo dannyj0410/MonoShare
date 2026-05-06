@@ -10,8 +10,8 @@
   "categories": ["utilities", "productivity", "security"],
   "icons": [
     {
-      "src": "/M-logo.webp",
-      "sizes": "28x26",
+      "src": "/monoshare-icon.png",
+      "sizes": "96x96",
       "type": "image/webp",
       "purpose": "any maskable"
     }

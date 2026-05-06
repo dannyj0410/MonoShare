@@ -27,7 +27,7 @@ export interface IHydratedSecret extends ISecret {
 export interface ICreateSecretFormData {
   receiverEmail: string;
   secret: string;
-  password: string;
+  secretKey: string;
   timeTillExpiration: ExpirationTimeOptions;
 }
 
@@ -35,7 +35,7 @@ export interface ICreateSecretRequest {
   receiverEmail: string;
   encryptedText: string;
   encryptionIV: string;
-  password: string;
+  secretKey: string;
   timeTillExpiration: ExpirationTimeOptions;
 }
 

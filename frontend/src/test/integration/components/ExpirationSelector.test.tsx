@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import ExpirationSelector from "../../../components/partials/CreateSecretPartials/ExpirationSelector";
+import ExpirationSelector from "../../../components/partials/HomePartials/CreateSecretPartials/ExpirationSelector";
 
 describe("ExpirationSelector", () => {
   it("renders all three expiration options", () => {

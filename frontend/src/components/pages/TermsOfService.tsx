@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import BackButton from "../partials/MainPartials/BackButton";
+import BackButton from "../partials/CommonPartials/BackButton";
 
 const TermsOfService = () => {
   const version = "1.0";
@@ -105,8 +105,14 @@ const TermsOfService = () => {
           <ul>
             <li>
               <strong>"Service"</strong> means the MonoShare web application
-              accessible at [your domain], including all related APIs, features,
-              and content.
+              accessible at{" "}
+              <a
+                className="text-(--white)/90 hover:text-(--white) underline underline-offset-2"
+                href="https://monoshare.site"
+              >
+                https://monoshare.site
+              </a>
+              , including all related APIs, features, and content.
             </li>
             <li>
               <strong>"Operator" / "we" / "us" / "our"</strong> means the

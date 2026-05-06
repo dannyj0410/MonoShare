@@ -17,4 +17,4 @@ Disallow: /details/
 # Block API
 Disallow: /api/
  
-Sitemap: https://YOUR_DOMAIN/sitemap.xml
+Sitemap: https://monoshare.site/sitemap.xml

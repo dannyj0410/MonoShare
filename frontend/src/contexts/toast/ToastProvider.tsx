@@ -2,7 +2,7 @@ import { useCallback, useRef, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ToastOptions, ToastType } from "../../interfaces/toast.interface";
 import { ToastContext } from "./ToastContext";
-import ToastPopup from "../../components/partials/MainPartials/Toast";
+import ToastPopup from "../../components/partials/CommonPartials/Toast";
 
 const ToastProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();

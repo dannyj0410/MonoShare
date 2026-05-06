@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import BackButton from "../../partials/MainPartials/BackButton";
+import BackButton from "../../partials/CommonPartials/BackButton";
 import {
   validateEmail,
   validatePassword,
@@ -70,7 +70,7 @@ const SignIn = () => {
     <div className="w-full min-h-screen pt-45 max-xs:pt-35">
       <title>Sign In | MonoShare</title>
       <meta name="robots" content="noindex, follow" />
-      <div className="max-xs:w-full max-xs:rounded-none max-xs:border-l-0 max-xs:border-r-0 max-xs:px-4 relative flex flex-col w-md h-fit rounded-xl m-auto py-8 px-8 z-10 bg-white/3 border-gray-400/20 border">
+      <div className="max-xs:w-full max-xs:rounded-none max-xs:border-l-0 max-xs:border-r-0 max-xs:px-4 relative flex flex-col w-md h-fit rounded-xl m-auto py-8 px-8 z-10 bg-(--white)/3 border-gray-400/20 border">
         <div className="absolute -top-15 left-0 opacity-70 hover:opacity-100">
           <BackButton />
         </div>
@@ -108,7 +108,7 @@ const SignIn = () => {
             }
           />
           <button
-            className={`${formErrors.email || formErrors.password ? "bg-red-400/70 text-white/80" : "bg-(--white) text-black"} flex items-center justify-center mt-2 noto-sans w-full h-10.5 text-sm font-medium cursor-pointer rounded-lg transition-colors duration-300 ease-in-out`}
+            className={`${formErrors.email || formErrors.password ? "bg-red-400/70 text-(--white)/80" : "bg-(--white) text-black"} flex items-center justify-center mt-2 noto-sans w-full h-10.5 text-sm font-medium cursor-pointer rounded-lg transition-colors duration-300 ease-in-out`}
           >
             {isSigningIn ? (
               <Spinner size="size-4.5" thickness="border-2" clr="text-black" />

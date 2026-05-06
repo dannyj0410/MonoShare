@@ -22,7 +22,7 @@ model Secret {
   encryptedText String
   encryptionIV  String
   receiverEmail String?
-  passwordHash  String?
+  secretKeyHash String?
   creatorId     String?   @db.ObjectId
   creator       User?     @relation("UserSecrets", fields: [creatorId], references: [id])
   createdAt     DateTime  @default(now())

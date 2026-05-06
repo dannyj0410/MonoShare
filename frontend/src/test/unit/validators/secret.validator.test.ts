@@ -1,6 +1,6 @@
 import {
   invalidReceiverEmail,
-  invalidSecretPassword,
+  invalidSecretKey,
   invalidSecretText,
 } from "../../../utils/validators/secret.validator";
 
@@ -21,25 +21,25 @@ describe("invalidReceiverEmail", () => {
   });
 });
 
-describe("invalidSecretPassword", () => {
+describe("invalidSecretKey", () => {
   it("returns false (valid) when no password is provided", () => {
-    expect(invalidSecretPassword("")).toBe(false);
+    expect(invalidSecretKey("")).toBe(false);
   });
 
   it("returns true (invalid) when the password is too short", () => {
-    expect(invalidSecretPassword("ab")).toBe(true);
+    expect(invalidSecretKey("ab")).toBe(true);
   });
 
   it("returns true (invalid) when the password contains spaces", () => {
-    expect(invalidSecretPassword("bad pass")).toBe(true);
+    expect(invalidSecretKey("bad pass")).toBe(true);
   });
 
   it("returns false (valid) for a valid password", () => {
-    expect(invalidSecretPassword("ok123")).toBe(false);
+    expect(invalidSecretKey("ok123")).toBe(false);
   });
 
   it("returns false (valid) for a password exactly 3 characters long", () => {
-    expect(invalidSecretPassword("abc")).toBe(false);
+    expect(invalidSecretKey("abc")).toBe(false);
   });
 });
 

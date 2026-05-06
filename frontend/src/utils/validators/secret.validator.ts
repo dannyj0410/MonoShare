@@ -6,11 +6,11 @@ export const invalidReceiverEmail = (email: string): boolean => {
   return false;
 };
 
-export const invalidSecretPassword = (password: string): boolean => {
-  const hasSpaces = /\s/.test(password);
+export const invalidSecretKey = (secretKey: string): boolean => {
+  const hasSpaces = /\s/.test(secretKey);
 
-  if (!password) return false;
-  if (hasSpaces || password.length < 3) {
+  if (!secretKey) return false;
+  if (hasSpaces || secretKey.length < 3) {
     return true;
   }
 

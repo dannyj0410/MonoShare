@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSecretMetadata } from "../../lib/secret";
+import { getSecretMetadata } from "../../api/secret.api";
 import { useToast } from "../useToast";
 import { useEffect } from "react";
 import { type ToastType } from "../../interfaces/toast.interface";

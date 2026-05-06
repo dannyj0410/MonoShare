@@ -28,7 +28,7 @@ const NotFound = () => {
           </Link>
           <Link
             to={linkLocation}
-            className="noto-sans text-sm px-2.25 py-1 font-medium rounded-lg border text-(--white)/90 border-(--gray)/30 bg-white/10 hover:text-(--white) hover:bg-white/12"
+            className="noto-sans text-sm px-2.25 py-1 font-medium rounded-lg border text-(--white)/90 border-(--gray)/30 bg-(--white)/10 hover:text-(--white) hover:bg-(--white)/12"
           >
             {linkText}
           </Link>

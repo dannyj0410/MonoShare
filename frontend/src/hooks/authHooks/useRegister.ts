@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { register } from "../../lib/auth";
 import { type ToastType } from "../../interfaces/toast.interface";
 import { useHandleResponse } from "../useHandleResponse";
+import { register } from "../../api/auth.api";
 
 export const useRegister = () => {
   const handleResponse = useHandleResponse();

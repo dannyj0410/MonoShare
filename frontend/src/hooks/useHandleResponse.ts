@@ -29,7 +29,7 @@ export const useHandleResponse = () => {
       }
 
       showToast(message, type, { redirect: redirect, duration: duration });
-      console.log("Response:", { message, statusCode });
+      // console.log("Response:", { message, statusCode });
     },
     [showToast],
   );

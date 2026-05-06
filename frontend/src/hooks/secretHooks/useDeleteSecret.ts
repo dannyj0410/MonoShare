@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteSecret } from "../../lib/secret";
+import { deleteSecret } from "../../api/secret.api";
 import { type ToastType } from "../../interfaces/toast.interface";
 import useReturnPage from "../useReturnPage";
 import { useHandleResponse } from "../useHandleResponse";

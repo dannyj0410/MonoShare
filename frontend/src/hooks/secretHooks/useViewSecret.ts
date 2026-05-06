@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { viewSecret } from "../../lib/secret";
+import { viewSecret } from "../../api/secret.api";
 import { useLocation } from "react-router-dom";
 import { useToast } from "../useToast";
 import { useEffect, useRef } from "react";
@@ -8,7 +8,7 @@ import { useHandleResponse } from "../useHandleResponse";
 
 export const useViewSecret = (
   id: string,
-  password: string | null,
+  secretKey: string | null,
   options = {},
 ) => {
   const handleResponse = useHandleResponse();
@@ -19,7 +19,7 @@ export const useViewSecret = (
 
   const query = useQuery({
     queryKey: ["secret", id, urlHash],
-    queryFn: ({ signal }) => viewSecret(id, password, signal),
+    queryFn: ({ signal }) => viewSecret(id, secretKey, signal),
     ...options,
     gcTime: 0,
     staleTime: 0,

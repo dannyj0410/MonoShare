@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import CharCounter from "../../../components/partials/CreateSecretPartials/CharCounter";
+import CharCounter from "../../../components/partials/HomePartials/CreateSecretPartials/CharCounter";
 
 describe("CharCounter", () => {
   it("displays the current character count and limit", () => {

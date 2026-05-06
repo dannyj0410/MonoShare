@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import BackButton from "../partials/MainPartials/BackButton";
+import BackButton from "../partials/CommonPartials/BackButton";
 
 const PrivacyPolicy = () => {
   const version = "1.0";

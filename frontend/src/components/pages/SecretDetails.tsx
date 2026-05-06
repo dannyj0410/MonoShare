@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import BackButton from "../partials/MainPartials/BackButton";
+import BackButton from "../partials/CommonPartials/BackButton";
 import { useSecretDetails } from "../../hooks/secretHooks/useSecretDetails";
 import { useLocation, useParams } from "react-router-dom";
-import Timeline from "../partials/Timeline";
-import SecretTextArea from "../partials/SecretTextArea";
-import SecretSkeleton from "../partials/SecretSkeleton";
+import SecretTextArea from "../partials/SecretDetailsPartials/SecretTextArea";
+import SecretSkeleton from "../loaders/SecretSkeleton";
 import ShareSecretIcon from "../icons/ShareSecretIcon";
 import KeyIcon from "../icons/KeyIcon";
 import SecretCreatedCheckmark from "../icons/SecretCreatedCheckmark";
 import ShieldIcon from "../icons/ShieldIcon";
 import CopySecretUrlIcon from "../icons/CopySecretUrlIcon";
 import CopiedSecretUrlIcon from "../icons/CopiedSecretUrlIcon";
+import Timeline from "../partials/SecretDetailsPartials/Timeline";
 
 const SecretDetails = () => {
   const { id } = useParams();
   const location = useLocation();
-  const created = location.state?.secret.created || false;
+  const created = location.state?.secret?.created ?? false;
   const [copyClicked, setCopyClicked] = useState(false);
 
   useEffect(() => {
@@ -39,7 +39,6 @@ const SecretDetails = () => {
   const { data: fetchedSecret, isPending } = useSecretDetails(id!, {
     enabled: !hasState,
   });
-
   const secret = stateSecret || fetchedSecret;
   if (!secret && isPending) {
     return <SecretSkeleton />;
@@ -48,7 +47,6 @@ const SecretDetails = () => {
   if (!secret) {
     return null;
   }
-
   return (
     <div className="flex flex-col mx-auto pt-20 p-5 w-fit min-w-180 max-w-200 max-md:w-full max-md:min-w-auto max-md:px-0">
       <title>Secret Details | MonoShare</title>

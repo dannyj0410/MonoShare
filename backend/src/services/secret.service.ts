@@ -34,7 +34,7 @@ export const SecretService = {
     encryptionIV,
     timeTillExpiration,
     receiverEmail,
-    password,
+    secretKey,
   }: CreateSecretValidation) {
     if (!encryptedText) {
       throw new AppError("Secret text field cannot be empty", HTTP_BAD_REQUEST);
@@ -88,8 +88,8 @@ export const SecretService = {
       }
     }
 
-    if (password) {
-      if (password.length < 3) {
+    if (secretKey) {
+      if (secretKey.length < 3) {
         throw new AppError(
           "Password must be atleast 3 characters long.",
           HTTP_BAD_REQUEST,
@@ -99,14 +99,14 @@ export const SecretService = {
     return { success: true };
   },
 
-  async hashPassword(password: string | undefined) {
-    if (!password) return null;
-    const passwordHash = await argon2.hash(password);
-    return passwordHash;
+  async hashSecretKey(secretKey: string | undefined) {
+    if (!secretKey) return null;
+    const secretKeyHash = await argon2.hash(secretKey);
+    return secretKeyHash;
   },
 
-  async verifyPassword(hash: string, password: string): Promise<boolean> {
-    return argon2.verify(hash, password);
+  async verifySecretKey(hash: string, secretKey: string): Promise<boolean> {
+    return argon2.verify(hash, secretKey);
   },
 
   generateSlug() {

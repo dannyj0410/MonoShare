@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { useDeleteSecret } from "../../hooks/secretHooks/useDeleteSecret";
 import { useMySecrets } from "../../hooks/secretHooks/useMySecrets";
 import ActiveSectionIcon from "../icons/ActiveSectionIcon";
@@ -5,11 +6,10 @@ import ExpiredSectionIcon from "../icons/ExpiredSectionIcon";
 import ViewedSectionIcon from "../icons/ViewedSectionIcon";
 import BoxSkeleton from "../loaders/BoxSkeleton";
 import Spinner from "../loaders/Spinner";
-import BackButton from "../partials/MainPartials/BackButton";
-import ConfirmationPopup from "../partials/MainPartials/ConfirmationPopup";
+import BackButton from "../partials/CommonPartials/BackButton";
+import ConfirmationPopup from "../partials/CommonPartials/ConfirmationPopup";
 import MySecretsEmptyList from "../partials/MySecretsPartials/MySecretsEmptyList";
 import MySecretsItem from "../partials/MySecretsPartials/MySecretsItem";
-import { useMemo, useState } from "react";
 
 const MySecrets = () => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -33,7 +33,7 @@ const MySecrets = () => {
 
   return (
     <main className="min-h-screen w-full pb-20 bg-[#01090f]">
-      <title>My Secrets Dashboard | MonoShare</title>
+      <title>Secrets Dashboard | MonoShare</title>
       <meta name="robots" content="noindex" />
       <ConfirmationPopup
         option="Erase"

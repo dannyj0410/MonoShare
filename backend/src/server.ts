@@ -63,7 +63,7 @@ app.use((req, res, next) => {
       "style-src 'self' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data:",
-      "connect-src 'self'",
+      "connect-src *",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -137,6 +137,7 @@ if (process.env.NODE_ENV === "production") {
     if (frontendRoutes.includes(req.path) || isDynamicRoute) {
       res.sendFile(path.join(publicPath, "index.html"));
     } else {
+      console.log("404");
       res.status(404).sendFile(path.join(publicPath, "index.html"));
     }
   });

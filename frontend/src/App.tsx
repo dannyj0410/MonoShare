@@ -1,26 +1,28 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import { LazyMotion, domAnimation } from "framer-motion";
+import { LazyMotion, domMax } from "framer-motion";
 
 import AuthGuard from "./components/guards/AuthGuard";
 
 import Home from "./components/pages/Home";
-import Header from "./components/partials/MainPartials/Header";
+import Header from "./components/layouts/Header";
 import SignIn from "./components/pages/AuthPages/SignIn";
 import CreateAccount from "./components/pages/AuthPages/CreateAccount";
 import ViewSecret from "./components/pages/ViewSecret";
-import UserAndLogout from "./components/partials/MainPartials/UserAndLogout";
+import UserAndLogout from "./components/partials/CommonPartials/UserAndLogout";
 import PageLoader from "./components/loaders/PageLoader";
 import NotFound from "./components/pages/NotFound";
 import TermsOfService from "./components/pages/TermsOfService";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
+import useScrollToTop from "./hooks/useScrollToTop";
 
 const SecretDetails = lazy(() => import("./components/pages/SecretDetails"));
 const MySecrets = lazy(() => import("./components/pages/MySecrets"));
 
 function App() {
+  useScrollToTop();
   return (
-    <LazyMotion features={domAnimation} strict>
+    <LazyMotion features={domMax} strict>
       <div className="app-container">
         <Header />
         <UserAndLogout />
@@ -28,7 +30,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/secret/:id" element={<ViewSecret />} />
-            <Route path="/details/:id" element={<SecretDetails />} />
+            <Route
+              path="/details/:id"
+              element={
+                <AuthGuard mode="protected">
+                  <SecretDetails />
+                </AuthGuard>
+              }
+            />
             <Route
               path="/my-secrets"
               element={

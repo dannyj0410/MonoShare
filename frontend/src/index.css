@@ -180,7 +180,7 @@
   .create-btn::before {
     content: "";
     z-index: -2;
-    background-size: 360% 360%;
+    background-size: 320% 380%;
     @apply absolute bg-[url("/clrbg.webp")] scale-x-[-1] -inset-0.75 max-lg:-inset-1 rounded-lg transition-all duration-200 ease-in-out animate-move-bg;
   }
 
@@ -386,7 +386,7 @@
   }
 
   .glow-white {
-    @apply top-[-10%] w-10 h-40 bg-white/90 absolute mix-blend-screen;
+    @apply top-[-10%] w-10 h-40 bg-(--white)/90 absolute mix-blend-screen;
     transform: rotate(20deg);
     animation: spotlight-glow-white 10s ease-in-out infinite alternate;
     filter: blur(70px);

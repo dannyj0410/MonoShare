@@ -1,21 +1,21 @@
 import { useLocation, useParams } from "react-router-dom";
-import ConfirmationPopup from "../partials/MainPartials/ConfirmationPopup";
+import ConfirmationPopup from "../partials/CommonPartials/ConfirmationPopup";
 import { useEffect, useState } from "react";
 import { useSecretMetadata } from "../../hooks/secretHooks/useSecretMetadata";
-import SecretTextArea from "../partials/SecretTextArea";
+import SecretTextArea from "../partials/SecretDetailsPartials/SecretTextArea";
 import { useViewSecret } from "../../hooks/secretHooks/useViewSecret";
-import BackButton from "../partials/MainPartials/BackButton";
+import BackButton from "../partials/CommonPartials/BackButton";
 import {
   decryptSecret,
   importKeyFromString,
 } from "../../utils/encryption/crypto";
-import SecretSkeleton from "../partials/SecretSkeleton";
+import SecretSkeleton from "../loaders/SecretSkeleton";
 
 const ViewSecret = () => {
   const { id } = useParams();
   const { hash } = useLocation();
   const [viewUnconfirmed, setViewUnconfirmed] = useState(true);
-  const [password, setPassword] = useState("");
+  const [secretKey, setSecretKey] = useState("");
   const [secretText, setSecretText] = useState("...");
   const { data: metadata, isPending: metadataPending } = useSecretMetadata(
     id!,
@@ -23,7 +23,7 @@ const ViewSecret = () => {
   );
   const { data: secret, isLoading: secretLoading } = useViewSecret(
     id!,
-    password,
+    secretKey,
     {
       enabled: !viewUnconfirmed,
     },
@@ -60,16 +60,18 @@ const ViewSecret = () => {
   return (
     <div className="flex flex-col mx-auto pt-40 p-5 w-188 min-w-120 max-w-210 max-md:w-full max-md:min-w-auto max-md:px-0 max-md:pt-30 max-sm:pb-20">
       <title>View Secret | MonoShare</title>
-      <ConfirmationPopup
-        option="View"
-        secret={id!}
-        isOpen={viewUnconfirmed}
-        setOpen={setViewUnconfirmed}
-        showPasswordField={!!metadata?.passwordProtected}
-        isOwner={metadata?.isOwner}
-        password={password}
-        setPassword={setPassword}
-      />
+      {viewUnconfirmed && (
+        <ConfirmationPopup
+          option="View"
+          secret={id!}
+          isOpen={viewUnconfirmed}
+          setOpen={setViewUnconfirmed}
+          showSecretKeyField={!!metadata?.passwordProtected}
+          isOwner={metadata?.isOwner}
+          secretKey={secretKey}
+          setSecretKey={setSecretKey}
+        />
+      )}
 
       {!viewUnconfirmed && secret && (
         <>

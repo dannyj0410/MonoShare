@@ -22,7 +22,7 @@ export interface CreateSecretDto {
   encryptionIV: string;
   timeTillExpiration: SecretExpirationOptions;
   receiverEmail?: string;
-  password?: string;
+  secretKey?: string;
 }
 
 export interface CreateSecretValidation extends CreateSecretDto {

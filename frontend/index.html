@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/webp" href="/M-logo.webp">
+  <link rel="icon" type="image/webp" href="/monoshare-icon.png">
+  <link rel="apple-touch-icon" href="/monoshare-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer">
 
@@ -15,7 +16,7 @@
     content="secure secret sharing, one-time link, password sharing, zero-knowledge encryption, self-erasing link, end-to-end encrypted, API key sharing, private message" />
   <meta name="author" content="Daniel Jenkins" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <!-- <link rel="canonical" href="https://domain"> -->
+  <link rel="canonical" href="https://monoshare.site">
 
   <!-- Open Graph for link previews -->
   <meta property="og:type" content="website" />
@@ -23,8 +24,8 @@
   <meta property="og:title" content="MonoShare" />
   <meta property="og:description"
     content="Easily share passwords, tokens, API keys and private messages with zero-knowledge encryption. Self-erasing links automatically deleted after one view. No account required." />
-  <!-- <meta property="og:url" content="https://yourdomain.com" /> -->
-  <!-- <meta property="og:image" content="https://yourdomain.com/public/monoshare-og.webp" /> -->
+  <meta property="og:url" content="https://monoshare.site" />
+  <meta property="og:image" content="https://monoshare.site/monoshare-og.webp" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="MonoShare — encrypted one-time secret sharing" />
@@ -35,7 +36,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="MonoShare — Secure One-Time Secret Sharing" />
   <meta name="twitter:description" content="Zero-knowledge encrypted secret sharing. Self-erasing links." />
-  <!-- <meta name="twitter:image" content="https://yourdomain.com/og-image.png" /> -->
+  <meta name="twitter:image" content="https://monoshare.site/monoshare-og.webp" />
   <meta name="twitter:image:alt" content="MonoShare — encrypted one-time secret sharing" />
 
 
@@ -58,9 +59,9 @@
   "@graph": [
   {
   "@type": "WebApplication",
-  "@id": "https://domain/#website",
+  "@id": "https://monoshare.site/#website",
   "name": "MonoShare",
-  "url": "https://domain/",
+  "url": "https://monoshare.site",
   "description": "MonoShare is a privacy-first, zero-knowledge secret sharing platform. Share passwords, API keys, tokens, and private messages via self-erasing one-time links — fully encrypted in your browser before the data ever leaves your device.",
   "applicationCategory": "SecurityApplication",
   "applicationSubCategory": "Encryption Tool",
@@ -103,7 +104,7 @@
       "@type": "HowTo",
       "name": "How to Share a Secret Securely with MonoShare",
       "description": "Share sensitive information like passwords and tokens using zero-knowledge encryption in three simple steps.",
-      "mainEntityOfPage": { "@id": "https://#website" },
+      "mainEntityOfPage": { "@id": "https://monoshare.site/#website" },
       "totalTime": "PT2M",
       "estimatedCost": {
           "@type": "MonetaryAmount",
@@ -116,21 +117,21 @@
           "position": 1,
           "name": "Create your secret",
           "text": "Enter your secret text, choose an expiration time (1 hour, 1 day, or 7 days), and optionally add a password or restrict access to a specific email address. Your secret is encrypted entirely in your browser before leaving your device.",
-          "image": "https://yourdomain.com/clrbg.webp"
+          "image": "https://monoshare.site/clrbg.webp"
         },
         {
           "@type": "HowToStep",
           "position": 2,
           "name": "Share the generated link",
           "text": "Copy the unique one-time link generated for your secret. The decryption key is stored only in the URL fragment and never sent to our servers. Paste the link into any messenger, email, or ticket system.",
-          "image": "https://yourdomain.com/my-secrets.webp"
+          "image": "https://monoshare.site/my-secrets.webp"
         },
         {
           "@type": "HowToStep",
           "position": 3,
           "name": "Secret is automatically erased",
           "text": "Once the recipient opens the link, the secret is displayed once and permanently deleted from our servers. If the link expires before being viewed, the secret is also automatically erased.",
-          "image": "https://yourdomain.com/M-logo.webp"
+          "image": "https://monoshare.site/monoshare-icon.png"
         }
       ]
     },
@@ -186,7 +187,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://YOUR_DOMAIN/"
+            "item": "https://monoshare.site"
           }
         ]
       }
