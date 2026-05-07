@@ -5,6 +5,17 @@ export interface ToastOptions {
   duration?: number;
 }
 
+export type ToastState = {
+  message: string | null;
+  type: ToastType;
+  isVisible: boolean;
+};
+
+export type ToastAction =
+  | { type: "SHOW"; payload: { message: string; toastType: ToastType } }
+  | { type: "HIDE" }
+  | { type: "CLEAR" };
+
 export interface ToastContextType {
   showToast: (message: string, type: ToastType, options?: ToastOptions) => void;
   clearToast: () => void;

@@ -1,58 +1,79 @@
-import { useCallback, useRef, useState, type ReactNode } from "react";
+import { useCallback, useReducer, useRef, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import type { ToastOptions, ToastType } from "../../interfaces/toast.interface";
+import type {
+  ToastOptions,
+  ToastType,
+  ToastState,
+  ToastAction,
+} from "../../interfaces/toast.interface";
 import { ToastContext } from "./ToastContext";
 import ToastPopup from "../../components/partials/CommonPartials/Toast";
 
+const toastReducer = (state: ToastState, action: ToastAction): ToastState => {
+  switch (action.type) {
+    case "SHOW":
+      return {
+        message: action.payload.message,
+        type: action.payload.toastType,
+        isVisible: true,
+      };
+    case "HIDE":
+      return { ...state, isVisible: false };
+    case "CLEAR":
+      return { ...state, message: null };
+    default:
+      return state;
+  }
+};
+
+const initialState: ToastState = {
+  message: null,
+  type: "error",
+  isVisible: false,
+};
+
 const ToastProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState<string | null>(null);
-  const [type, setType] = useState<ToastType>("error");
-  const [isVisible, setIsVisible] = useState(false);
+
+  const [state, dispatch] = useReducer(toastReducer, initialState);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cleanupRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearToast = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    dispatch({ type: "HIDE" });
+    cleanupRef.current = setTimeout(() => {
+      dispatch({ type: "CLEAR" });
+    }, 400);
+  }, []);
 
   const showToast = useCallback(
-    (message: string, type: ToastType, options: ToastOptions = {}) => {
-      const { redirect = false, duration = 4000 } = options;
-
+    (message: string, toastType: ToastType, options: ToastOptions = {}) => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
+      if (cleanupRef.current) clearTimeout(cleanupRef.current);
 
-      setMessage(message);
-      setType(type);
-      setIsVisible(true);
-
-      if (redirect) {
-        navigate("/");
-      }
+      dispatch({ type: "SHOW", payload: { message, toastType } });
 
       timerRef.current = setTimeout(() => {
-        setIsVisible(false);
-        setTimeout(() => setMessage(null), 400);
-        timerRef.current = null;
-      }, duration);
-    },
-    [navigate],
-  );
+        clearToast();
+      }, options.duration ?? 4000);
 
-  const clearToast = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-    setIsVisible(false);
-    setTimeout(() => setMessage(null), 400);
-  }, []);
+      if (options.redirect) navigate("/");
+    },
+    [navigate, clearToast],
+  );
 
   return (
     <ToastContext.Provider value={{ showToast, clearToast }}>
       {children}
-      {message && (
+      {state.message && (
         <ToastPopup
-          message={message}
-          isVisible={isVisible}
+          message={state.message}
+          isVisible={state.isVisible}
           onClose={clearToast}
-          type={type}
+          type={state.type}
         />
       )}
     </ToastContext.Provider>
