@@ -1,19 +1,28 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { useAuthCheck } from "../../hooks/authHooks/useAuthCheck";
 import SpotlightGlow from "../partials/HomePartials/SpotlightGlow";
 import Hero from "../partials/HomePartials/Hero";
 
 import CreateSecretForm from "../partials/HomePartials/CreateSecretPartials/CreateSecretForm";
-import InfoSection from "../partials/HomePartials/InfoSectionPartials/InfoSection";
-import Features from "../partials/HomePartials/FeaturesSection";
 import { useLocation } from "react-router-dom";
-import Process from "../partials/HomePartials/ProcessSectionPartials/Process";
 import Footer from "../layouts/Footer";
+import { useInViewOnce } from "../../hooks/useInViewOnce";
+
+const InfoSection = lazy(
+  () => import("../partials/HomePartials/InfoSectionPartials/InfoSection"),
+);
+const Process = lazy(
+  () => import("../partials/HomePartials/ProcessSectionPartials/Process"),
+);
+const Features = lazy(() => import("../partials/HomePartials/FeaturesSection"));
 
 const Home = () => {
   const location = useLocation();
   const { isAuthenticated } = useAuthCheck();
   const createFormRef = useRef<HTMLDivElement>(null);
+  const { ref: belowFoldRef, isVisible } = useInViewOnce<HTMLDivElement>({
+    rootMargin: "400px",
+  });
 
   const scrollToCreateForm = () => {
     createFormRef.current?.scrollIntoView({
@@ -38,10 +47,17 @@ const Home = () => {
         ref={createFormRef}
       />
 
-      <InfoSection />
-      <Process />
-      <Features />
-      <Footer />
+      <div ref={belowFoldRef} />
+      {isVisible ? (
+        <Suspense fallback={<div className="h-700" />}>
+          <InfoSection />
+          <Process />
+          <Features />
+          <Footer />
+        </Suspense>
+      ) : (
+        <div className="h-700"></div>
+      )}
     </main>
   );
 };

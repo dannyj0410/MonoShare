@@ -8,18 +8,18 @@ import Home from "./components/pages/Home";
 import Header from "./components/layouts/Header";
 import SignIn from "./components/pages/AuthPages/SignIn";
 import CreateAccount from "./components/pages/AuthPages/CreateAccount";
-import ViewSecret from "./components/pages/ViewSecret";
 import UserAndLogout from "./components/partials/CommonPartials/UserAndLogout";
 import PageLoader from "./components/loaders/PageLoader";
-import NotFound from "./components/pages/NotFound";
-import TermsOfService from "./components/pages/TermsOfService";
-import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import useScrollToTop from "./hooks/useScrollToTop";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./components/pages/ErrorPage";
 
 const SecretDetails = lazy(() => import("./components/pages/SecretDetails"));
 const MySecrets = lazy(() => import("./components/pages/MySecrets"));
+const ViewSecret = lazy(() => import("./components/pages/ViewSecret"));
+const TermsOfService = lazy(() => import("./components/pages/TermsOfService"));
+const PrivacyPolicy = lazy(() => import("./components/pages/PrivacyPolicy"));
+const NotFound = lazy(() => import("./components/pages/NotFound"));
 
 function App() {
   const location = useLocation();
