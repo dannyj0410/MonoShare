@@ -86,7 +86,7 @@ const Process = () => {
       <m.section
         viewport={{ once: true, amount: 0.1 }}
         onViewportEnter={() => setHasEnteredView(true)}
-        className="flex flex-col items-center mt-30 mb-40 w-full"
+        className="flex flex-col items-center mt-30 mb-40 w-full max-md:my-0"
       >
         <h2 className="text-4xl max-sm:text-2xl mb-3 arvo text-center">
           How it's done.

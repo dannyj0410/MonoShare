@@ -28,7 +28,7 @@ const ProcessExplanation = ({
       dragElastic={0.2}
       dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
       variants={additionalVariants}
-      className="max-lg:ml-20 max-lg:mr-10 max-sm:ml-10 max-xs:mx-0 max-w-150 h-150 max-xs:mt-20 flex flex-col"
+      className="max-lg:ml-20 max-lg:mr-10 max-sm:ml-10 max-xs:mx-0 max-w-150 h-150 max-md:h-120 flex flex-col"
     >
       <div className="md:sticky max-md:my-auto will-change-transform md:top-80 bg-[#1a2c4130] border border-[#1a2c4180] rounded-xl p-8 ease-in-out">
         <h2

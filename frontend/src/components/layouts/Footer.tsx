@@ -73,7 +73,7 @@ const Footer = () => {
           className="flex flex-col items-center gap-6"
         >
           <span
-            className="hero-text-glow text-6xl
+            className="hero-text-glow text-6xl max-xs:text-4xl
 font-bold text-(--main-light-blue) arvo select-none"
           >
             MonoShare
