@@ -9,7 +9,6 @@ import type {
 import { axiosInstance } from "./axios";
 
 export const createSecret = async (payload: ICreateSecretRequest) => {
-  console.log(payload);
   const res = await axiosInstance.post<ICreateSecretResponse>(
     "/secret/create",
     payload,

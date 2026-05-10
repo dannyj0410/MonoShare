@@ -43,6 +43,12 @@ export const createUser = asyncHandler(
         data: { email: normalizedEmail, passwordHash },
       });
 
+      const existingToken = req.cookies.session;
+      if (existingToken) {
+        const existingTokenHash = AuthService.hashSessionToken(existingToken);
+        invalidateCachedSession(existingTokenHash);
+      }
+
       const token = AuthService.generateSessionToken();
       const tokenHash = AuthService.hashSessionToken(token);
       const session = await tx.session.create({
@@ -95,6 +101,12 @@ export const signinUser = asyncHandler(
       : false;
     if (!user || !verifiedPassword) {
       throw new AppError("Incorrect email or password", HTTP_UNAUTHORIZED);
+    }
+
+    const existingToken = req.cookies.session;
+    if (existingToken) {
+      const existingTokenHash = AuthService.hashSessionToken(existingToken);
+      invalidateCachedSession(existingTokenHash);
     }
 
     const token = AuthService.generateSessionToken();
