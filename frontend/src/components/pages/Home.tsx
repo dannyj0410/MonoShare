@@ -47,18 +47,15 @@ const Home = () => {
         ref={createFormRef}
       />
 
-      <div ref={belowFoldRef}>
-        {isVisible ? (
-          <Suspense fallback={<div className="h-700" />}>
-            <InfoSection />
-            <Process />
-            <Features />
-            <Footer />
-          </Suspense>
-        ) : (
-          <div className="h-700"></div>
-        )}
-      </div>
+      <div ref={belowFoldRef} className={!isVisible ? "min-h-700" : "hidden"} />
+      {isVisible && (
+        <Suspense fallback={<div className="h-700" />}>
+          <InfoSection />
+          <Process />
+          <Features />
+          <Footer />
+        </Suspense>
+      )}
     </main>
   );
 };
