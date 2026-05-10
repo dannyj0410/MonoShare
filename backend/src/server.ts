@@ -131,14 +131,22 @@ if (process.env.NODE_ENV === "production") {
   });
 
   app.get("*", (req, res) => {
-    const frontendRoutes = ["/", "/sign-in", "/create-account", "/my-secrets"];
+    const knownRoutes = [
+      "/",
+      "/sign-in",
+      "/create-account",
+      "/my-secrets",
+      "/terms-of-service",
+      "/privacy-policy",
+      "/not-found",
+    ];
+
     const isDynamicRoute =
       req.path.startsWith("/secret/") || req.path.startsWith("/details/");
 
-    if (frontendRoutes.includes(req.path) || isDynamicRoute) {
+    if (knownRoutes.includes(req.path) || isDynamicRoute) {
       res.sendFile(path.join(publicPath, "index.html"));
     } else {
-      console.log("404");
       res.status(404).sendFile(path.join(publicPath, "index.html"));
     }
   });
