@@ -37,14 +37,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/secret/:id" element={<ViewSecret />} />
-              <Route
-                path="/details/:id"
-                element={
-                  <AuthGuard mode="protected">
-                    <SecretDetails />
-                  </AuthGuard>
-                }
-              />
+              <Route path="/details/:id" element={<SecretDetails />} />
               <Route
                 path="/my-secrets"
                 element={
