@@ -192,13 +192,6 @@ export const getSecretMetadata = asyncHandler(
   async (req: Request, res: Response<GetSecretMetadataResponse>) => {
     const user = req.user;
 
-    if (!user) {
-      throw new AppError(
-        "You are unauthenticated. Please sign in.",
-        HTTP_UNAUTHORIZED,
-      );
-    }
-
     const slug = req.params.secretid;
     const hasHash = req.query.hasHash === "true";
 
@@ -260,13 +253,6 @@ export const getSecretMetadata = asyncHandler(
 export const viewSecret = asyncHandler(
   async (req: Request, res: Response<ViewSecretResponse>) => {
     const user = req.user;
-
-    if (!user) {
-      throw new AppError(
-        "You are unauthenticated. Please sign in.",
-        HTTP_UNAUTHORIZED,
-      );
-    }
 
     const slug = req.params.secretid;
     const { secretKey } = req.body;

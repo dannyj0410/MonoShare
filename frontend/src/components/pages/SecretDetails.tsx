@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import BackButton from "../partials/CommonPartials/BackButton";
 import { useSecretDetails } from "../../hooks/secretHooks/useSecretDetails";
-import { useLocation, useParams } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import SecretTextArea from "../partials/SecretDetailsPartials/SecretTextArea";
 import SecretSkeleton from "../loaders/SecretSkeleton";
 import ShareSecretIcon from "../icons/ShareSecretIcon";
@@ -11,10 +11,12 @@ import ShieldIcon from "../icons/ShieldIcon";
 import CopySecretUrlIcon from "../icons/CopySecretUrlIcon";
 import CopiedSecretUrlIcon from "../icons/CopiedSecretUrlIcon";
 import Timeline from "../partials/SecretDetailsPartials/Timeline";
+import { useAuthCheck } from "../../hooks/authHooks/useAuthCheck";
 
 const SecretDetails = () => {
   const { id } = useParams();
   const location = useLocation();
+  const { isAuthenticated, isFetching: isFetchingAuth } = useAuthCheck();
   const created = location.state?.secret?.created ?? false;
   const [copyClicked, setCopyClicked] = useState(false);
 
@@ -40,13 +42,14 @@ const SecretDetails = () => {
     enabled: !hasState,
   });
   const secret = stateSecret || fetchedSecret;
-  if (!secret && isPending) {
+  if ((!secret && isPending) || (!hasState && isFetchingAuth)) {
     return <SecretSkeleton />;
   }
 
-  if (!secret) {
-    return null;
+  if (!hasState && !isAuthenticated) {
+    return <Navigate to="/" replace />;
   }
+
   return (
     <div className="flex flex-col mx-auto pt-20 p-5 w-fit min-w-180 max-w-200 max-md:w-full max-md:min-w-auto max-md:px-0">
       <title>Secret Details | MonoShare</title>
