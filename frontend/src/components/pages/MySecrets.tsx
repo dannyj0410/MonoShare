@@ -10,10 +10,18 @@ import BackButton from "../partials/CommonPartials/BackButton";
 import ConfirmationPopup from "../partials/CommonPartials/ConfirmationPopup";
 import MySecretsEmptyList from "../partials/MySecretsPartials/MySecretsEmptyList";
 import MySecretsItem from "../partials/MySecretsPartials/MySecretsItem";
+import HideSectionIcon from "../icons/HideSectionIcon";
+
+type SectionState = Record<"active" | "viewed" | "expired", boolean>;
 
 const MySecrets = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedSecretId, setSelectedSecretId] = useState<string>("");
+  const [hiddenSections, setHiddenSections] = useState<SectionState>({
+    active: false,
+    viewed: false,
+    expired: false,
+  });
   const { data: mySecrets, isPending: pendingSecrets } = useMySecrets();
   const { mutateAsync: deleteSecretMutate, isPending: deletePending } =
     useDeleteSecret();
@@ -31,6 +39,13 @@ const MySecrets = () => {
     [mySecrets],
   );
 
+  const hideSection = (sectionName: keyof SectionState) => {
+    setHiddenSections((prev) => ({
+      ...prev,
+      [sectionName]: !prev[sectionName],
+    }));
+  };
+
   return (
     <main className="min-h-screen w-full pb-20 bg-[#01090f]">
       <title>Secrets Dashboard | MonoShare</title>
@@ -44,19 +59,26 @@ const MySecrets = () => {
         actionPending={deletePending}
       />
 
-      <div className="flex flex-col justify-center items-center gap-20 max-md:gap-8 max-md:mx-2">
-        <h1 className="mt-20 electrolize font-bold">My Secrets</h1>
+      <div className="flex flex-col justify-center items-center max-md:gap-8 max-md:mx-2">
+        <h1 className="my-20 electrolize font-bold">My Secrets</h1>
 
-        {/*//* Active */}
+        {/*//* Active Section */}
         <section
           aria-labelledby="active-heading"
-          className="lg:relative flex flex-col w-200 items-center max-md:w-full"
+          className={`lg:relative flex flex-col w-200 items-center max-md:w-full duration-300 ${hiddenSections.active ? "mb-1" : "mb-10"}`}
         >
           <div className="absolute -left-40 -top-3 max-lg:right-0 max-lg:left-auto max-lg:top-4 max-md:scale-90 opacity-70 hover:opacity-100">
             <BackButton />
           </div>
-          <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]">
-            <div className="flex items-center gap-2">
+          <div
+            onClick={() => hideSection("active")}
+            className={`group hover:bg-(--main-light-blue)/10 ${hiddenSections.active && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]`}
+          >
+            <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
+              <HideSectionIcon
+                hideSection={hiddenSections.active}
+                iconClr="text-(--main-light-blue)"
+              />
               <ActiveSectionIcon aria-hidden="true" />
               <h2
                 id="active-heading"
@@ -82,7 +104,9 @@ const MySecrets = () => {
             </output>
           </div>
           {/* //*Active Secrets */}
-          <ul className="flex flex-col w-full items-center">
+          <ul
+            className={`flex flex-col w-full items-center ${hiddenSections.active && "hidden"}`}
+          >
             {pendingSecrets ? (
               <li aria-label="Loading active secrets" className="w-full">
                 <BoxSkeleton
@@ -112,13 +136,20 @@ const MySecrets = () => {
           </ul>
         </section>
 
-        {/*//// Viewed Secrets */}
+        {/*//// Viewed Section */}
         <section
-          className="flex flex-col w-200 items-center max-md:w-full"
+          className={`lg:relative flex flex-col w-200 items-center max-md:w-full duration-300 ${hiddenSections.viewed ? "mb-1" : "mb-10"}`}
           aria-labelledby="viewed-heading"
         >
-          <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-green-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]">
-            <div className="flex items-center gap-2">
+          <div
+            onClick={() => hideSection("viewed")}
+            className={`group hover:bg-green-500/5 ${hiddenSections.viewed && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-green-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]`}
+          >
+            <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
+              <HideSectionIcon
+                hideSection={hiddenSections.viewed}
+                iconClr="text-green-500"
+              />
               <ViewedSectionIcon aria-hidden="true" />
               <h2
                 id="viewed-heading"
@@ -143,7 +174,10 @@ const MySecrets = () => {
               )}
             </output>
           </div>
-          <ul className="flex flex-col w-full items-center">
+          {/* //// Viewed Secrets */}
+          <ul
+            className={`flex flex-col w-full items-center ${hiddenSections.viewed && "hidden"}`}
+          >
             {pendingSecrets ? (
               <li aria-label="Loading viewed secrets" className="w-full">
                 <BoxSkeleton
@@ -173,13 +207,20 @@ const MySecrets = () => {
           </ul>
         </section>
 
-        {/*//! Expired */}
+        {/*//! Expired Section*/}
         <section
           className="flex flex-col w-200 items-center max-md:w-full"
           aria-labelledby="expired-heading"
         >
-          <div className="flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]">
-            <div className="flex items-center gap-2">
+          <div
+            onClick={() => hideSection("expired")}
+            className={`group hover:bg-red-500/5 ${hiddenSections.expired && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]`}
+          >
+            <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
+              <HideSectionIcon
+                hideSection={hiddenSections.expired}
+                iconClr="text-red-500"
+              />
               <ExpiredSectionIcon aria-hidden="true" />
               <h2
                 id="expired-heading"
@@ -204,7 +245,10 @@ const MySecrets = () => {
               )}
             </output>
           </div>
-          <ul className="flex flex-col w-full items-center">
+          {/* //! Expired Secrets */}
+          <ul
+            className={`flex flex-col w-full items-center ${hiddenSections.expired && "hidden"}`}
+          >
             {pendingSecrets ? (
               <li aria-label="Loading expired secrets" className="w-full">
                 <BoxSkeleton
