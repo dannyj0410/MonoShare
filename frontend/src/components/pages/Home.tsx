@@ -21,7 +21,7 @@ const Home = () => {
   const { isAuthenticated } = useAuthCheck();
   const createFormRef = useRef<HTMLDivElement>(null);
   const { ref: belowFoldRef, isVisible } = useInViewOnce<HTMLDivElement>({
-    rootMargin: "400px",
+    rootMargin: "500px",
   });
 
   const scrollToCreateForm = () => {
@@ -36,6 +36,18 @@ const Home = () => {
       scrollToCreateForm();
     }
   }, [location]);
+
+  useEffect(() => {
+    const id = requestIdleCallback(
+      () => {
+        import("../partials/HomePartials/InfoSectionPartials/InfoSection");
+        import("../partials/HomePartials/ProcessSectionPartials/Process");
+        import("../partials/HomePartials/FeaturesSection");
+      },
+      { timeout: 3000 },
+    );
+    return () => cancelIdleCallback(id);
+  }, []);
 
   return (
     <main className="flex flex-col items-center">
