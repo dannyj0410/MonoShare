@@ -70,8 +70,11 @@ const MySecrets = () => {
           <div className="absolute -left-40 -top-3 max-lg:right-0 max-lg:left-auto max-lg:top-4 max-md:scale-90 opacity-70 hover:opacity-100">
             <BackButton />
           </div>
-          <div
+          <button
+            type="button"
             onClick={() => hideSection("active")}
+            aria-expanded={!hiddenSections.active}
+            aria-controls="active-secrets-list"
             className={`group hover:bg-(--main-light-blue)/10 ${hiddenSections.active && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
@@ -102,9 +105,10 @@ const MySecrets = () => {
                 activeSecrets.length
               )}
             </output>
-          </div>
+          </button>
           {/* //*Active Secrets */}
           <ul
+            id="active-secrets-list"
             className={`flex flex-col w-full items-center ${hiddenSections.active && "hidden"}`}
           >
             {pendingSecrets ? (
@@ -141,8 +145,11 @@ const MySecrets = () => {
           className={`lg:relative flex flex-col w-200 items-center max-md:w-full duration-300 ${hiddenSections.viewed ? "mb-1" : "mb-10"}`}
           aria-labelledby="viewed-heading"
         >
-          <div
+          <button
+            type="button"
             onClick={() => hideSection("viewed")}
+            aria-expanded={!hiddenSections.viewed}
+            aria-controls="viewed-secrets-list"
             className={`group hover:bg-green-500/5 ${hiddenSections.viewed && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-green-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
@@ -173,9 +180,10 @@ const MySecrets = () => {
                 viewedSecrets.length
               )}
             </output>
-          </div>
+          </button>
           {/* //// Viewed Secrets */}
           <ul
+            id="viewed-secrets-list"
             className={`flex flex-col w-full items-center ${hiddenSections.viewed && "hidden"}`}
           >
             {pendingSecrets ? (
@@ -212,8 +220,11 @@ const MySecrets = () => {
           className="flex flex-col w-200 items-center max-md:w-full"
           aria-labelledby="expired-heading"
         >
-          <div
+          <button
+            type="button"
             onClick={() => hideSection("expired")}
+            aria-expanded={!hiddenSections.expired}
+            aria-controls="expired-secrets-list"
             className={`group hover:bg-red-500/5 ${hiddenSections.expired && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
@@ -244,9 +255,10 @@ const MySecrets = () => {
                 expiredSecrets.length
               )}
             </output>
-          </div>
+          </button>
           {/* //! Expired Secrets */}
           <ul
+            id="expired-secrets-list"
             className={`flex flex-col w-full items-center ${hiddenSections.expired && "hidden"}`}
           >
             {pendingSecrets ? (
