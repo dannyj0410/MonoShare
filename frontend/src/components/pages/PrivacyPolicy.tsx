@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import BackButton from "../partials/CommonPartials/BackButton";
 
 const PrivacyPolicy = () => {
-  const version = "1.0";
+  const version = "1.1";
   return (
     <div className="legal-wrapper scroll-smooth">
       <title>Privacy Policy | MonoShare</title>
@@ -607,28 +607,27 @@ const PrivacyPolicy = () => {
           </p>
           <h3>7.2 Infrastructure Providers</h3>
           <p>
-            To operate the Service, we rely on third-party infrastructure
-            providers (hosting, database, CDN). These providers act as{" "}
-            <strong>data processors</strong> under Article 28 GDPR and process
-            data only on our instruction and in accordance with data processing
-            agreements. They do not have independent access to or rights over
-            your data. Current categories of providers include:
+            To operate the Service, we rely on third-party infrastructure and
+            hosting providers. These providers act as{" "}
+            <strong>data processors</strong> under Article 28 GDPR, process data
+            only on our instruction, and do not have independent access to or
+            rights over your data. Current categories of providers include:
           </p>
           <ul>
             <li>
-              <strong>Cloud hosting / deployment platform</strong> (e.g.,
-              Render, Fly.io, or similar);
+              <strong>Virtual Private Server (VPS) Hosting</strong> (e.g.,
+              DigitalOcean, Hetzner, or equivalent);
             </li>
             <li>
               <strong>Managed database provider</strong> (MongoDB Atlas or
-              equivalent);
-            </li>
-            <li>
-              <strong>Font delivery</strong> (Google Fonts — served via standard
-              CDN; only font files are requested, no tracking data is sent to
-              Google from MonoShare's backend).
+              equivalent).
             </li>
           </ul>
+          <p>
+            All fonts and static assets are self-hosted and served directly from
+            our own infrastructure. No third-party font or asset delivery
+            networks are used.
+          </p>
           <p>
             A full list of sub-processors is available upon request by
             contacting us at the details in Section 13.
@@ -796,8 +795,13 @@ const PrivacyPolicy = () => {
               exposure on repeated requests;
             </li>
             <li>
-              <strong>Request payload size limits</strong> (100kb JSON limit) to
-              prevent denial-of-service attacks;
+              <strong>Request payload size limits</strong> to prevent
+              denial-of-service attacks;
+            </li>
+            <li>
+              <strong>Self-hosted static assets</strong> — all fonts and assets
+              are served from our own infrastructure, eliminating third-party
+              resource requests;
             </li>
             <li>
               <strong>X-Robots-Tag headers</strong> on private routes to prevent
@@ -1045,7 +1049,7 @@ const PrivacyPolicy = () => {
         </section>
 
         <footer className="doc-footer">
-          <p>MonoShare &nbsp;·&nbsp; Privacy Policy &nbsp;·&nbsp; v1.0</p>
+          <p>MonoShare &nbsp;·&nbsp; Privacy Policy &nbsp;·&nbsp; v{version}</p>
           <p>
             In compliance with GDPR (EU) 2016/679 as applicable under Bulgarian
             law.
