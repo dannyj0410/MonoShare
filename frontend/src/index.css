@@ -207,7 +207,7 @@
   .create-btn::after {
     content: "";
     z-index: -1;
-    @apply absolute bg-[#000a13] rounded-lg inset-0 duration-300;
+    @apply absolute bg-[#000a13] max-sm:bg-[#02192c] rounded-lg inset-0 duration-300 max-sm:inset-px;
   }
 
   .create-btn:hover::after {
@@ -814,6 +814,22 @@
     }
     50% {
       background-position: 30% 10%;
+    }
+  }
+
+  @keyframes move-bg-mobile {
+    0%,
+    100% {
+      background-position: 5% 10%;
+    }
+    50% {
+      background-position: 10% 5%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    :root {
+      --animate-move-bg: move-bg-mobile 20s ease-in-out infinite; /* Slower speed */
     }
   }
 

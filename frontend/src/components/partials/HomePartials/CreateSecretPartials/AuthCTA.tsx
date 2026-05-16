@@ -14,7 +14,7 @@ export default AuthCTA;
 
 const CreateAccountLink = () => {
   return (
-    <span className=" flex items-center justify-center bg-(--white) noto-sans text-black font-semibold text-xs h-8 w-30 rounded-sm absolute left-full max-sm:left-34 bottom-1 z-30 group-hover:left-35 group-active:scale-85 duration-200">
+    <span className=" flex items-center justify-center bg-(--white) noto-sans text-black font-semibold text-xs h-8 w-30 rounded-sm absolute left-full max-sm:left-1 bottom-1 z-30 group-hover:left-35 group-active:scale-85 duration-200">
       Create Account
     </span>
   );
