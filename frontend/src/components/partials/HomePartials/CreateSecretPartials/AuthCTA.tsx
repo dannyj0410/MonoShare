@@ -40,7 +40,7 @@ const CTAContent = () => {
         </div>
       </div>
       <div className="bg-[#01020396] z-10 absolute rounded-lg w-full h-full top-0 left-0 group-hover:bg-[#010203bd] duration-200" />
-      <button className="flex items-center justify-center relative overflow-hidden py-3.5 w-40 bg-[#3f67e17a] cursor-pointer rounded-sm">
+      <span className="flex items-center justify-center relative overflow-hidden py-3.5 w-40 bg-[#3f67e17a] cursor-pointer rounded-sm">
         <span className="electrolize font-bold tracking-wider ml-2.5">
           My Secrets
         </span>
@@ -57,7 +57,7 @@ const CTAContent = () => {
         >
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
-      </button>
+      </span>
       <div className="flex flex-col opacity-85 mr-1">
         <div className="flex items-center gap-0.5">
           <CheckmarkIcon className="stroke-[#02a30f] size-4" />

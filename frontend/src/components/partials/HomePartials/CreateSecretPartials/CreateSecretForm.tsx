@@ -66,9 +66,9 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
   const onChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
-      setSecretFormData({ ...secretFormData, [name]: value });
+      setSecretFormData((prev) => ({ ...prev, [name]: value }));
     },
-    [secretFormData],
+    [],
   );
 
   const onExpirationChangeHandler = (
