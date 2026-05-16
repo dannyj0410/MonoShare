@@ -5,7 +5,7 @@ import { useCreateSecret } from "../../../../hooks/secretHooks/useCreateSecret";
 import ReceiverEmailInputField from "./ReceiverEmailInput";
 import SecretKeyField from "./SecretKeyField";
 import ExpirationSelector from "./ExpirationSelector";
-import AuthCTA from "./AuthCTA";
+import ActionRow from "./ActionRow";
 
 import {
   invalidReceiverEmail,
@@ -179,7 +179,7 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
       </form>
 
       {/* Sign in, Login features */}
-      <AuthCTA isAuthenticated={isAuthenticated} />
+      <ActionRow isAuthenticated={isAuthenticated} />
     </div>
   );
 });
