@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { forwardRef, useCallback, useState } from "react";
 import { useAuthCheck } from "../../../../hooks/authHooks/useAuthCheck";
 import { useCreateSecret } from "../../../../hooks/secretHooks/useCreateSecret";
-import ReceiverEmailInputField from "./ReceiverEmailInput";
-import SecretKeyField from "./SecretKeyField";
+import ReceiverEmailInput from "./ReceiverEmailInput";
+import SecretKeyInput from "./SecretKeyInput";
 import ExpirationSelector from "./ExpirationSelector";
 import ActionRow from "./ActionRow";
 
@@ -118,7 +118,7 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
       >
         {/* Email */}
         {isAuthenticated && (
-          <ReceiverEmailInputField
+          <ReceiverEmailInput
             receiverEmail={secretFormData.receiverEmail}
             error={emailError}
             onChange={onChangeHandler}
@@ -147,7 +147,7 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
         {/* Secret Key, Expiration Time, Create Button */}
         <div className="flex gap-4 max-sm:gap-2 w-140 max-md:w-[90vw] max-sm:flex-col">
           {/* Secret Key */}
-          <SecretKeyField
+          <SecretKeyInput
             secretKey={secretFormData.secretKey}
             error={secretKeyError}
             onChange={onChangeHandler}

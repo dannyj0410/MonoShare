@@ -8,7 +8,7 @@ interface ReceiverEmailInputProps {
   onClear: (fieldName: string) => void;
 }
 
-const ReceiverEmailInputField = memo(function ReceiverEmailInputField({
+const ReceiverEmailInput = memo(function ReceiverEmailInputField({
   receiverEmail,
   error,
   onChange,
@@ -49,4 +49,4 @@ const ReceiverEmailInputField = memo(function ReceiverEmailInputField({
   );
 });
 
-export default ReceiverEmailInputField;
+export default ReceiverEmailInput;

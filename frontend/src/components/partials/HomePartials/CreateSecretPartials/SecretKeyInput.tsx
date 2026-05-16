@@ -3,19 +3,19 @@ import CheckmarkIcon from "../../../icons/CheckmarkIcon";
 import ShowPasswordIcon from "../../../icons/ShowPasswordIcon";
 import HidePasswordIcon from "../../../icons/HidePasswordIcon";
 
-interface SecretKeyFieldProps {
+interface SecretKeyInputProps {
   secretKey: string;
   error?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClear: (fieldName: string) => void;
+  onClear: (inputName: string) => void;
 }
 
-const SecretKeyField = memo(function SecretKeyField({
+const SecretKeyInput = memo(function SecretKeyInput({
   secretKey,
   error,
   onChange,
   onClear,
-}: SecretKeyFieldProps) {
+}: SecretKeyInputProps) {
   const [showSecretKey, setShowSecretKey] = useState(false);
 
   return (
@@ -61,4 +61,4 @@ const SecretKeyField = memo(function SecretKeyField({
   );
 });
 
-export default SecretKeyField;
+export default SecretKeyInput;
