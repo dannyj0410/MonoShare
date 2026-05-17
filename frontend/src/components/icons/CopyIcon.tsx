@@ -1,4 +1,6 @@
-const CopySecretUrlIcon = ({ className }: { className: string }) => {
+import { memo } from "react";
+
+const CopyIcon = memo(function CopyIcon({ className }: { className: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,6 +24,6 @@ const CopySecretUrlIcon = ({ className }: { className: string }) => {
       </g>
     </svg>
   );
-};
+});
 
-export default CopySecretUrlIcon;
+export default CopyIcon;

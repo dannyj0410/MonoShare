@@ -10,7 +10,7 @@ import BackButton from "../partials/CommonPartials/BackButton";
 import ConfirmationPopup from "../partials/CommonPartials/ConfirmationPopup";
 import MySecretsEmptyList from "../partials/MySecretsPartials/MySecretsEmptyList";
 import MySecretsItem from "../partials/MySecretsPartials/MySecretsItem";
-import HideSectionIcon from "../icons/HideSectionIcon";
+import ThinSimpleArrowIcon from "../icons/ThinSimpleArrowIcon";
 
 type SectionState = Record<"active" | "viewed" | "expired", boolean>;
 
@@ -78,9 +78,10 @@ const MySecrets = () => {
             className={`group hover:bg-(--main-light-blue)/10 ${hiddenSections.active && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
-              <HideSectionIcon
-                hideSection={hiddenSections.active}
-                iconClr="text-(--main-light-blue)"
+              <ThinSimpleArrowIcon
+                className="size-4 duration-200 group-hover:opacity-100 opacity-0 absolute -left-5 ease-in-out text-(--main-light-blue)"
+                isActive={hiddenSections.active}
+                rotate="-rotate-180"
               />
               <ActiveSectionIcon aria-hidden="true" />
               <h2
@@ -153,9 +154,10 @@ const MySecrets = () => {
             className={`group hover:bg-green-500/5 ${hiddenSections.viewed && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-green-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
-              <HideSectionIcon
-                hideSection={hiddenSections.viewed}
-                iconClr="text-green-500"
+              <ThinSimpleArrowIcon
+                className="size-4 duration-200 group-hover:opacity-100 opacity-0 absolute -left-5 ease-in-out text-green-500"
+                isActive={hiddenSections.viewed}
+                rotate="-rotate-180"
               />
               <ViewedSectionIcon aria-hidden="true" />
               <h2
@@ -228,9 +230,10 @@ const MySecrets = () => {
             className={`group hover:bg-red-500/5 ${hiddenSections.expired && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6">
-              <HideSectionIcon
-                hideSection={hiddenSections.expired}
-                iconClr="text-red-500"
+              <ThinSimpleArrowIcon
+                className="size-4 duration-200 group-hover:opacity-100 opacity-0 absolute -left-5 ease-in-out text-red-500"
+                isActive={hiddenSections.expired}
+                rotate="-rotate-180"
               />
               <ExpiredSectionIcon aria-hidden="true" />
               <h2

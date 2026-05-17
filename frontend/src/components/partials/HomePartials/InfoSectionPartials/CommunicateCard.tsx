@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TypingInput from "./TypingInput";
 import { m, type Variants } from "framer-motion";
+import ThinSimpleArrowIcon from "../../../icons/ThinSimpleArrowIcon";
 
 const cardVariants: Variants = {
   initial: {
@@ -65,20 +66,10 @@ const CommunicateCard = () => {
         <div className="mask-[linear-gradient(to_bottom,black_20%,transparent_100%)] max-xs:hidden">
           <div className="flex mx-12 mt-3 electrolize gap-3 items-center opacity-90">
             <div className="p-1.5 rounded-full bg-[#042741] hover:bg-[#042741a6] hover:rotate-90 duration-300">
-              <svg
-                className="w-3 h-3 -rotate-90"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="4"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
+              <ThinSimpleArrowIcon
+                className="size-3 -rotate-90"
+                strokeWidth="4"
+              />
             </div>
             <p className="hover:bg-(--gray)/30 w-16 text-center rounded-sm">
               This

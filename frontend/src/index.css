@@ -190,7 +190,7 @@
   }
 
   .create-btn-mobile {
-    @apply max-sm:w-full max-sm:h-13;
+    @apply max-md:w-full max-md:h-13;
   }
 
   .create-btn::before {
@@ -207,7 +207,7 @@
   .create-btn::after {
     content: "";
     z-index: -1;
-    @apply absolute bg-[#000a13] max-sm:bg-[#02192c] rounded-lg inset-0 duration-300 max-sm:inset-px;
+    @apply absolute bg-[#000a13] max-md:bg-[#02192c] rounded-lg inset-0 duration-300 max-md:inset-px;
   }
 
   .create-btn:hover::after {

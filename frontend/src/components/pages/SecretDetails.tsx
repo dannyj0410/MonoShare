@@ -8,8 +8,8 @@ import ShareSecretIcon from "../icons/ShareSecretIcon";
 import KeyIcon from "../icons/KeyIcon";
 import SecretCreatedCheckmark from "../icons/SecretCreatedCheckmark";
 import ShieldIcon from "../icons/ShieldIcon";
-import CopySecretUrlIcon from "../icons/CopySecretUrlIcon";
-import CopiedSecretUrlIcon from "../icons/CopiedSecretUrlIcon";
+import CopyIcon from "../icons/CopyIcon";
+import CopiedIcon from "../icons/CopiedIcon";
 import Timeline from "../partials/SecretDetailsPartials/Timeline";
 import { useAuthCheck } from "../../hooks/authHooks/useAuthCheck";
 
@@ -117,13 +117,13 @@ const SecretDetails = () => {
               }
             `}
             >
-              <CopySecretUrlIcon
+              <CopyIcon
                 className={`max-xs:size-4 max-sm:size-5 text-[#eee] ${
                   copyClicked ? "hidden" : "inline-block"
                 } group-hover:opacity-70`}
               />
 
-              <CopiedSecretUrlIcon
+              <CopiedIcon
                 className={`max-xs:size-4 max-sm:size-5 text-[#eee] ${
                   copyClicked ? "inline-block" : "hidden"
                 }`}

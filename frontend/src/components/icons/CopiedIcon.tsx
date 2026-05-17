@@ -1,4 +1,10 @@
-const CopiedSecretUrlIcon = ({ className }: { className: string }) => {
+import { memo } from "react";
+
+const CopiedIcon = memo(function CopiedSecretUrlIcon({
+  className,
+}: {
+  className: string;
+}) {
   return (
     <svg
       stroke="currentColor"
@@ -18,6 +24,6 @@ const CopiedSecretUrlIcon = ({ className }: { className: string }) => {
       ></path>
     </svg>
   );
-};
+});
 
-export default CopiedSecretUrlIcon;
+export default CopiedIcon;

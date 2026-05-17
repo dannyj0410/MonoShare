@@ -1,4 +1,5 @@
 import { m, type Variants } from "framer-motion";
+import ThickSimpleArrowIcon from "../../icons/ThickSimpleArrowIcon";
 
 const containerVariants: Variants = {
   initial: { opacity: 0 },
@@ -92,21 +93,7 @@ const Hero = ({ scroll }: { scroll: () => void }) => {
           <span className="electrolize font-bold tracking-wider max-md:text-sm">
             Launch
           </span>
-          <svg
-            stroke="currentColor"
-            fill="none"
-            strokeWidth="3"
-            viewBox="0 0 24 24"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-
+          <ThickSimpleArrowIcon />
           <div
             className="absolute inset-0 flex h-full w-full justify-center transition-transform duration-300 transform -translate-x-full group-hover:translate-x-full"
             aria-hidden="true"

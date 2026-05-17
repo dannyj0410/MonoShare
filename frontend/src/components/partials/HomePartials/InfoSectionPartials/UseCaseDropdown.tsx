@@ -1,5 +1,6 @@
 import { m, type Variants } from "framer-motion";
 import { useState } from "react";
+import ThinSimpleArrowIcon from "../../../icons/ThinSimpleArrowIcon";
 
 const secretTextVariants: Variants = {
   initial: {
@@ -64,20 +65,11 @@ const UseCaseDropdown = () => {
           onClick={() => setShowDropdown(!showDropdown)}
         >
           <span className="text-sm">{useCases[selectedCase].title}</span>
-          <svg
-            className={`w-4 h-4 text-black duration-200 ${showDropdown ? "rotate-180" : ""}`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
-          </svg>
+          <ThinSimpleArrowIcon
+            className="size-4 text-black duration-200"
+            isActive={showDropdown}
+            rotate="rotate-180"
+          />
         </button>
 
         <ul
