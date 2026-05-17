@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import CheckmarkIcon from "../../../icons/CheckmarkIcon";
+import ThickSimpleArrowIcon from "../../../icons/ThickSimpleArrowIcon";
 
 const AuthCTA = () => {
   return (
@@ -44,19 +45,7 @@ const CTAContent = () => {
         <span className="electrolize font-bold tracking-wider ml-2.5">
           My Secrets
         </span>
-        <svg
-          stroke="currentColor"
-          fill="none"
-          strokeWidth="3"
-          viewBox="0 0 24 24"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          height="1em"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
+        <ThickSimpleArrowIcon />
       </span>
       <div className="flex flex-col opacity-85 mr-1">
         <div className="flex items-center gap-0.5">

@@ -71,6 +71,10 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
     [],
   );
 
+  const setGeneratedKey = (generatedPassword: string) => {
+    setSecretFormData((prev) => ({ ...prev, secretKey: generatedPassword }));
+  };
+
   const onExpirationChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -145,13 +149,14 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
         </div>
 
         {/* Secret Key, Expiration Time, Create Button */}
-        <div className="flex gap-4 max-sm:gap-2 w-140 max-md:w-[90vw] max-sm:flex-col">
+        <div className="flex gap-4 max-sm:gap-2 w-140 max-md:w-[90vw] max-md:flex-col">
           {/* Secret Key */}
           <SecretKeyInput
             secretKey={secretFormData.secretKey}
             error={secretKeyError}
             onChange={onChangeHandler}
             onClear={handleClear}
+            setGeneratedKey={setGeneratedKey}
           />
 
           {/* Expiration Time */}
