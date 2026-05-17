@@ -118,13 +118,13 @@ const SecretDetails = () => {
             `}
             >
               <CopyIcon
-                className={`max-xs:size-4 max-sm:size-5 text-[#eee] ${
+                className={`max-xs:size-4 max-sm:size-5 text-(--white) ${
                   copyClicked ? "hidden" : "inline-block"
                 } group-hover:opacity-70`}
               />
 
               <CopiedIcon
-                className={`max-xs:size-4 max-sm:size-5 text-[#eee] ${
+                className={`max-xs:size-4 max-sm:size-5 text-(--white) ${
                   copyClicked ? "inline-block" : "hidden"
                 }`}
               />
@@ -136,6 +136,29 @@ const SecretDetails = () => {
               Share this link privately with the intended recipient.
             </p>
           </div>
+
+          {secret.secretKey && (
+            <div className="flex justify-end mr-2 relative group">
+              <button
+                type="button"
+                onClick={() => navigator.clipboard.writeText(secret.secretKey)}
+                className="flex gap-0.5 items-center"
+              >
+                <CopyIcon
+                  className={`size-4 text-(--gray) group-active:text-green-500 group-hover:text-(--white) cursor-pointer`}
+                />
+                <span className="electrolize underline underline-offset-3 group-hover:underline-offset-2 group-active:text-green-500 duration-200 group-hover:text-(--white) text-(--gray) text-xs sm:text-sm cursor-pointer">
+                  Copy password
+                </span>
+              </button>
+
+              <p className="pointer-events-none absolute top-5.5 text-xs max-xs:text-[10px] font-light noto-sans text-right bg-(--white)/10 backdrop-blur-xs py-1 px-2 rounded-sm opacity-0 group-hover:opacity-90 duration-300">
+                For maximum safety, send the link and the password using two
+                different apps <br />
+                (e.g., Email for the link, WhatsApp for the password).
+              </p>
+            </div>
+          )}
         </div>
       )}
       <SecretTextArea

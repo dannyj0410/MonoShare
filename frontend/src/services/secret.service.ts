@@ -34,5 +34,6 @@ export const createEncryptedSecret = async (
     key: urlKeyAsString,
     text: formData.secret,
     shareUrl: res.shareUrl,
+    secretKey: formData.secretKey,
   };
 };
