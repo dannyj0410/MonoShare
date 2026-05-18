@@ -30,7 +30,7 @@ const ActionRow = memo(function ActionRow({
 }) {
   return (
     <m.div
-      variants={actionVariants}
+      variants={!isAuthenticated ? actionVariants : undefined}
       initial="initial"
       whileInView="show"
       viewport={{ once: true, amount: 0.3 }}

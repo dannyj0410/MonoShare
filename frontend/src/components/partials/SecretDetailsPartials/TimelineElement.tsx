@@ -69,11 +69,11 @@ const TimelineElement = ({
             : "";
 
   const getFillHeight = () => {
-    if (timelinePoint === "expired" || timelinePoint === "viewed")
-      return "100%";
-    if (timelinePoint === "expires" || timelinePoint === "wouldExpire")
-      return `${Number(timePassedPercent) + 5}%`;
-    return "0%";
+    console.log(Number(timePassedPercent));
+    if (timelinePoint === "expires" || timelinePoint === "wouldExpire") {
+      if (Number(timePassedPercent) === 0) return "100%";
+      return `${100 - (Number(timePassedPercent) + 5)}%`;
+    } else return "100%";
   };
 
   return (
@@ -98,13 +98,13 @@ const TimelineElement = ({
                 ${
                   (timelinePoint === "expires" ||
                     timelinePoint === "wouldExpire") &&
-                  Number(timePassedPercent) < 99 &&
+                  Number(timePassedPercent) > 1 &&
                   "wave-animation"
                 }`}
               style={
                 (timelinePoint === "expires" ||
                   timelinePoint === "wouldExpire") &&
-                Number(timePassedPercent) < 99
+                Number(timePassedPercent) > 1
                   ? { clipPath: WAVE_CLIP_PATH, height: getFillHeight() }
                   : { height: getFillHeight() }
               }
