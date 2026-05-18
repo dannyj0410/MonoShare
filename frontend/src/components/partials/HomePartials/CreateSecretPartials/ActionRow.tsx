@@ -2,19 +2,44 @@ import { memo } from "react";
 import { Link } from "react-router-dom";
 import AuthActions from "./AuthActions";
 import ThickSimpleArrowIcon from "../../../icons/ThickSimpleArrowIcon";
+import { m, type Variants } from "framer-motion";
 
-// extract & memoize dropdown svg used in multiple places
+const actionVariants: Variants = {
+  initial: {
+    scale: "80%",
+    y: 30,
+  },
+  show: {
+    scale: "100%",
+    y: 0,
+    filter: "brightness(100%)",
+    transition: {
+      duration: 3,
+      type: "spring",
+      stiffness: 200,
+      damping: 13,
+      ease: "easeInOut",
+    },
+  },
+};
+
 const ActionRow = memo(function ActionRow({
   isAuthenticated,
 }: {
   isAuthenticated: boolean;
 }) {
   return (
-    <div className="flex max-xs:flex-col-reverse max-sm gap-5 items-center justify-between w-140 max-md:w-[90vw] my-8">
+    <m.div
+      variants={actionVariants}
+      initial="initial"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.3 }}
+      className="flex max-xs:flex-col-reverse max-sm gap-5 items-center justify-between w-140 max-md:w-[90vw] my-8"
+    >
       {isAuthenticated && <MySecretsLink />}
 
       {!isAuthenticated && <AuthActions />}
-    </div>
+    </m.div>
   );
 });
 
