@@ -105,7 +105,8 @@ const UseCaseDropdown = () => {
           <m.div
             variants={secretTextVariants}
             initial="initial"
-            animate="show"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
             className="absolute w-full h-full bg-(--white) top-0 left-0 px-4 py-3 shadow-md rounded-md overflow-hidden z-10"
           >
             <span className="text-sm noto-sans font-bold text-black blur-[0.75px]">

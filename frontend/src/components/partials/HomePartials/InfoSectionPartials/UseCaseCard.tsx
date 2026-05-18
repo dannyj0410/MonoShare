@@ -56,7 +56,8 @@ const UseCaseCard = () => {
         <m.ul
           variants={containerVariants}
           initial={"initial"}
-          animate={"show"}
+          whileInView={"show"}
+          viewport={{ once: true, amount: 0.3 }}
           className="space-y-4"
         >
           {[

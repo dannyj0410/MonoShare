@@ -2,10 +2,11 @@ import { m, type Variants } from "framer-motion";
 import type { IProcessStep } from "../../../../interfaces/process.interface";
 
 const additionalVariants: Variants = {
-  hidden: { opacity: 0, y: 100 },
+  hidden: { opacity: 0, y: 100, filter: "blur(10px)" },
   show: {
     opacity: 1,
     y: 0,
+    filter: "blur(0px)",
     transition: {
       duration: 1.2,
       ease: "easeInOut",
@@ -22,7 +23,8 @@ const ProcessExplanation = ({
   return (
     <m.div
       initial="hidden"
-      animate="show"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.3 }}
       drag={isMobile ? false : true}
       dragSnapToOrigin={true}
       dragElastic={0.2}
