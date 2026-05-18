@@ -9,13 +9,13 @@ git pull
 
 echo "Installing backend dependencies..."
 cd $APP_DIR/backend
-npm install
+npm ci
 npx prisma generate
 npm run build
 
 echo "Building frontend..."
 cd $APP_DIR/frontend
-npm install
+npm ci
 npm run build
 
 echo "Copying frontend to server..."
