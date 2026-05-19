@@ -3,7 +3,6 @@ import * as Sentry from "@sentry/react";
 export const initSentry = () => {
   if (import.meta.env.MODE === "development") return;
 
-  console.log("Sentry DSN:", import.meta.env.VITE_SENTRY_DSN);
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: import.meta.env.MODE,
@@ -22,5 +21,4 @@ export const initSentry = () => {
     replaysSessionSampleRate: 0.05,
     replaysOnErrorSampleRate: 1.0,
   });
-  console.log("Sentry initialised");
 };

@@ -49,7 +49,6 @@ const Home = () => {
     return () => cancelIdleCallback(id);
   }, []);
 
-  throw new Error("Sentry test error");
   return (
     <main className="flex flex-col items-center">
       <link rel="canonical" href="https://monoshare.site" />

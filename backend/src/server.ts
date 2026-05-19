@@ -12,6 +12,9 @@ dotenv.config({
 import { initSentry } from "./lib/sentry.js";
 initSentry();
 
+if (process.env.NODE_ENV === "production" && !process.env.SENTRY_DSN) {
+  console.warn("Warning: SENTRY_DSN not set. Error monitoring disabled.");
+}
 if (!process.env.FRONTEND_URL) {
   throw new Error("FRONTEND_URL is not set");
 }
@@ -87,10 +90,6 @@ app.use((req, res, next) => {
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok" });
-});
-
-app.get("/api/sentry-test", () => {
-  throw new Error("Sentry backend test - remove me");
 });
 
 app.use("/api/auth", authRouter);
