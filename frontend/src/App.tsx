@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react";
 import { lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { LazyMotion, domMax } from "framer-motion";
@@ -11,7 +12,6 @@ import CreateAccount from "./components/pages/AuthPages/CreateAccount";
 import UserAndLogout from "./components/partials/CommonPartials/UserAndLogout";
 import PageLoader from "./components/loaders/PageLoader";
 import useScrollToTop from "./hooks/useScrollToTop";
-import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./components/pages/ErrorPage";
 
 const SecretDetails = lazy(() => import("./components/pages/SecretDetails"));
@@ -30,9 +30,9 @@ function App() {
         <Header />
         <UserAndLogout />
         <Suspense fallback={<PageLoader />}>
-          <ErrorBoundary
+          <Sentry.ErrorBoundary
             fallback={<ErrorPage />}
-            resetKeys={[location.pathname]}
+            key={location.pathname}
           >
             <Routes>
               <Route path="/" element={<Home />} />
@@ -67,7 +67,7 @@ function App() {
               <Route path="/not-found" element={<NotFound />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </ErrorBoundary>
+          </Sentry.ErrorBoundary>
         </Suspense>
       </div>
     </LazyMotion>
