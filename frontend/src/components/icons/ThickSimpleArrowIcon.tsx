@@ -1,5 +1,4 @@
 const ThickSimpleArrowIcon = () => {
-  console.log("rerender2");
   return (
     <svg
       stroke="currentColor"

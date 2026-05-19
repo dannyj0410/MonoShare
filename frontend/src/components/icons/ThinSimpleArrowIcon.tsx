@@ -11,7 +11,6 @@ const ThinSimpleArrowIcon = memo(function ThinSimpleArrowIcon({
   rotate?: string;
   strokeWidth?: string;
 }) {
-  console.log("rerender");
   return (
     <svg
       className={`${className} ${isActive ? `${rotate}` : ""}`}

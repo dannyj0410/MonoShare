@@ -69,7 +69,6 @@ const TimelineElement = ({
             : "";
 
   const getFillHeight = () => {
-    console.log(Number(timePassedPercent));
     if (timelinePoint === "expires" || timelinePoint === "wouldExpire") {
       if (Number(timePassedPercent) === 0) return "100%";
       return `${100 - (Number(timePassedPercent) + 5)}%`;
