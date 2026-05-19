@@ -88,6 +88,10 @@ app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.get("/api/sentry-test", () => {
+  throw new Error("Sentry backend test - remove me");
+});
+
 app.use("/api/auth", authRouter);
 app.use("/api/secret", secretRouter);
 app.all("/api/*", (req, res) => {
