@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
+import * as Sentry from "@sentry/node";
 import { Prisma } from "@prisma/client";
 import {
   HTTP_BAD_REQUEST,
   HTTP_CONFLICT,
   HTTP_CONTENT_TOO_LARGE,
   HTTP_INTERNAL_SERVER_ERROR,
-  HTTP_NOT_FOUND,
 } from "../constants/http_status.js";
 
 export const globalErrorHandler = (
@@ -16,6 +16,10 @@ export const globalErrorHandler = (
 ) => {
   let statusCode = err.statusCode || HTTP_INTERNAL_SERVER_ERROR;
   let message = err.message || "Internal Server Error";
+
+  if (process.env.NODE_ENV === "production" && statusCode >= 500) {
+    Sentry.captureException(err);
+  }
 
   // express errors
   if (err.type === "entity.too.large") {
