@@ -2,10 +2,12 @@ import * as Sentry from "@sentry/react";
 
 export const initSentry = () => {
   if (import.meta.env.MODE === "development") return;
+  if (!import.meta.env.VITE_SENTRY_DSN) return;
 
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: import.meta.env.MODE,
+    release: import.meta.env.VITE_RELEASE,
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration({

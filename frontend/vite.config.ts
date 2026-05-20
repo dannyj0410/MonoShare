@@ -1,16 +1,26 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    react(),
+    tailwindcss(),
+    sentryVitePlugin({
+      org: "danieljenkins",
+      project: "monoshare-frontend",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      telemetry: false,
+    }),
+  ],
   server: {
     port: 9000,
   },
   build: {
     // Generate source maps for better debugging (fixes Lighthouse warning)
-    sourcemap: false, // keep false in prod, set true only for debugging
+    sourcemap: mode === "production",
     // Increase chunk warning limit
     chunkSizeWarningLimit: 600,
     rollupOptions: {
@@ -39,4 +49,4 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react", "react-dom", "react-router-dom", "framer-motion"],
   },
-});
+}));

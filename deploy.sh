@@ -16,7 +16,7 @@ npm run build
 echo "Building frontend..."
 cd $APP_DIR/frontend
 npm ci
-npm run build
+VITE_RELEASE=$(git rev-parse --short HEAD) npm run build
 
 echo "Copying frontend to server..."
 mkdir -p $APP_DIR/backend/built/public
