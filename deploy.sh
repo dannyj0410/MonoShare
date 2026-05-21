@@ -11,6 +11,7 @@ echo "Installing backend dependencies..."
 cd $APP_DIR/backend
 npm ci
 npx prisma generate
+rm -rf built
 npm run build
 
 echo "Building frontend..."
