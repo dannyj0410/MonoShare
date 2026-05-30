@@ -32,7 +32,7 @@ const Header = () => {
             isActive
               ? "bg-gray-500/15 cursor-default"
               : "bg-none cursor-pointer"
-          } text-center mt-7 tracking-wider text-sm text-(--white) blur-[0.5px] z-50 px-2 py-0.5 rounded-lg hover:bg-gray-500/15 transition-colors duration-400 `
+          } text-center mt-7 tracking-wider text-sm text-(--white)/80 z-50 px-2 py-0.5 rounded-lg hover:bg-gray-500/15 transition-colors duration-400 `
         }
       >
         MonoShare
