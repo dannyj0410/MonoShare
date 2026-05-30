@@ -62,7 +62,7 @@ const Footer = () => {
   return (
     <footer className="footer-root relative w-full overflow-hidden pt-40 pb-3 px-8 rounded-t-[7vw]">
       {/* overlay to keep top half dark */}
-      {/* <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_120%,transparent_40%,#000407_100%)] pointer-events-none z-0" /> */}
+      {/* <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_120%,transparent_40%,#010b14_100%)] pointer-events-none z-0" /> */}
 
       <div className="relative z-10 max-w-6xl mx-auto flex flex-col items-center gap-14">
         <m.div

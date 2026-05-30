@@ -47,7 +47,7 @@ const MySecrets = () => {
   };
 
   return (
-    <main className="min-h-screen w-full pb-20 bg-[#01090f]">
+    <main className="min-h-screen w-full pb-20 bg-(--bg)">
       <title>Secrets Dashboard | MonoShare</title>
       <meta name="robots" content="noindex" />
       <ConfirmationPopup
@@ -75,7 +75,7 @@ const MySecrets = () => {
             onClick={() => hideSection("active")}
             aria-expanded={!hiddenSections.active}
             aria-controls="active-secrets-list"
-            className={`group hover:bg-(--main-light-blue)/10 ${hiddenSections.active && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]`}
+            className={`group hover:bg-(--main-light-blue)/5 ${hiddenSections.active && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6 max-md:ml-5">
               <ThinSimpleArrowIcon
@@ -227,7 +227,7 @@ const MySecrets = () => {
             onClick={() => hideSection("expired")}
             aria-expanded={!hiddenSections.expired}
             aria-controls="expired-secrets-list"
-            className={`group hover:bg-red-500/5 ${hiddenSections.expired && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]`}
+            className={`group hover:bg-red-500/10 ${hiddenSections.expired && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6 max-md:ml-5">
               <ThinSimpleArrowIcon

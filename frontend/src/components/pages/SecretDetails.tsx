@@ -218,15 +218,15 @@ const CopyPasswordButton = ({ secretKey }: { secretKey: string }) => {
         className="flex gap-0.5 items-center"
       >
         <CopyIcon
-          className={`size-4 text-(--gray) group-active:text-green-500 group-hover:text-(--white) cursor-pointer`}
+          className={`size-4 text-(--gray) group-active:text-green-500 group-hover:text-(--white) cursor-pointer duration-200`}
         />
         <span className="electrolize underline underline-offset-3 group-hover:underline-offset-2 group-active:text-green-500 duration-200 group-hover:text-(--white) text-(--gray) text-xs sm:text-sm cursor-pointer">
           Copy password
         </span>
       </button>
 
-      <p className="pointer-events-none absolute top-5.5 text-xs max-xs:text-[10px] font-light noto-sans text-right bg-(--white)/10 backdrop-blur-xs py-1 px-2 rounded-sm opacity-0 group-hover:opacity-90 duration-300">
-        For maximum safety, send the link and the password using two different
+      <p className="pointer-events-none absolute top-5.5 text-xs max-xs:text-[10px] font-light noto-sans text-right border-t border-(--white)/10 bg-(--white)/10 backdrop-blur-xs py-1 px-2 rounded-sm opacity-0 group-hover:opacity-90 duration-300">
+        For maximum security, send the link and the password using two different
         apps <br />
         (e.g., Email for the link, WhatsApp for the password).
       </p>
