@@ -9,7 +9,7 @@ export const useUser = () => {
     staleTime: 5 * 60 * 1000,
     gcTime: 5 * 60 * 1000,
     refetchOnWindowFocus: true,
-    refetchOnMount: true,
+    refetchOnMount: false,
     refetchOnReconnect: true,
   });
 };
