@@ -28,7 +28,7 @@ const VARIANT_STYLES: Record<
     shadow: "shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]",
     skeletonColor: "#76c4ff20",
     skeletonHighlight: "#76c4ff20",
-    skeletonBorderColor: "#76c4ff20",
+    skeletonBorderColor: "border-[#76c4ff20]",
   },
   viewed: {
     color: "text-green-500",
@@ -37,7 +37,7 @@ const VARIANT_STYLES: Record<
     shadow: "shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]",
     skeletonColor: "#22c55e20",
     skeletonHighlight: "#22c55e20",
-    skeletonBorderColor: "#22c55e20",
+    skeletonBorderColor: "border-[#22c55e20]",
   },
   expired: {
     color: "text-red-500",
@@ -46,7 +46,7 @@ const VARIANT_STYLES: Record<
     shadow: "shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]",
     skeletonColor: "#fb2c3620",
     skeletonHighlight: "#fb2c3610",
-    skeletonBorderColor: "#fb2c3620",
+    skeletonBorderColor: "border-[#fb2c3620]",
   },
 };
 
@@ -137,7 +137,7 @@ const MySecretsSection = ({
             className="w-full"
           >
             <BoxSkeleton
-              className={`w-full pr-7 h-10 mt-1 border-t-2 border-[${styles.skeletonBorderColor}]`}
+              className={`w-full pr-7 h-10 mt-1 border-t-2 ${styles.skeletonBorderColor}`}
               colour={styles.skeletonColor}
               highlightColour={styles.skeletonHighlight}
             />
