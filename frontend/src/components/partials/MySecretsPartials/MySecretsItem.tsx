@@ -18,7 +18,7 @@ import ExpiredItemIcon from "../../icons/ExpiredItemIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
 import MailIcon from "../../icons/MailIcon";
 
-type MySecretsItemProps = {
+export type MySecretsItemProps = {
   status: string;
   slug: string;
   receiverEmail?: string | null;
