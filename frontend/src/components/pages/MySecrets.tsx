@@ -47,7 +47,7 @@ const MySecrets = () => {
   };
 
   return (
-    <main className="min-h-screen w-full pb-20 bg-(--bg)">
+    <main className="min-h-screen w-full pb-20 bg-(--bg) overflow-x-hidden">
       <title>Secrets Dashboard | MonoShare</title>
       <meta name="robots" content="noindex" />
       <ConfirmationPopup
@@ -59,8 +59,8 @@ const MySecrets = () => {
         actionPending={deletePending}
       />
 
-      <div className="flex flex-col justify-center items-center max-md:gap-8 max-md:mx-2">
-        <h1 className="my-20 electrolize font-bold">My Secrets</h1>
+      <div className="flex flex-col justify-center items-center w-full max-md:gap-8 max-md:mx-0">
+        <h1 className="my-20 max-md:mb-0 electrolize font-bold">My Secrets</h1>
 
         {/*//* Active Section */}
         <section
@@ -75,7 +75,7 @@ const MySecrets = () => {
             onClick={() => hideSection("active")}
             aria-expanded={!hiddenSections.active}
             aria-controls="active-secrets-list"
-            className={`group hover:bg-(--main-light-blue)/5 ${hiddenSections.active && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]`}
+            className={`group hover:bg-(--main-light-blue)/5 ${hiddenSections.active && "grayscale-75"} hover:rounded-md max-md:pl-1 overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-cyan-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(6,182,212,0.15)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6 max-md:ml-5">
               <ThinSimpleArrowIcon
@@ -94,7 +94,7 @@ const MySecrets = () => {
             <output
               aria-live="polite"
               aria-label="Active secret count"
-              className="text-(--main-light-blue)"
+              className="text-(--main-light-blue) max-md:pr-2"
             >
               {!activeSecrets ? (
                 <Spinner
@@ -151,7 +151,7 @@ const MySecrets = () => {
             onClick={() => hideSection("viewed")}
             aria-expanded={!hiddenSections.viewed}
             aria-controls="viewed-secrets-list"
-            className={`group hover:bg-green-500/5 ${hiddenSections.viewed && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-green-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]`}
+            className={`group hover:bg-green-500/5 ${hiddenSections.viewed && "grayscale-75"} hover:rounded-md overflow-hidden max-md:pl-1 cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-green-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(34,197,94,0.15)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6 max-md:ml-5">
               <ThinSimpleArrowIcon
@@ -170,7 +170,7 @@ const MySecrets = () => {
             <output
               aria-live="polite"
               aria-label="Viewed secret count"
-              className="text-green-500"
+              className="text-green-500 max-md:pr-2"
             >
               {!viewedSecrets ? (
                 <Spinner
@@ -227,7 +227,7 @@ const MySecrets = () => {
             onClick={() => hideSection("expired")}
             aria-expanded={!hiddenSections.expired}
             aria-controls="expired-secrets-list"
-            className={`group hover:bg-red-500/10 ${hiddenSections.expired && "grayscale-75"} hover:rounded-md overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]`}
+            className={`group hover:bg-red-500/10 ${hiddenSections.expired && "grayscale-75"} hover:rounded-md max-md:pl-1 overflow-hidden cursor-pointer flex items-center h-fit justify-between mb-2 w-3xl max-md:w-full border-b-red-500/7 border-b max-xs:pr-0 pr-2 shadow-[0_15px_25px_-10px_rgba(239,68,68,0.3)]`}
           >
             <div className="flex items-center gap-2 ease-in-out duration-300 relative group-hover:ml-6 max-md:ml-5">
               <ThinSimpleArrowIcon
@@ -246,7 +246,7 @@ const MySecrets = () => {
             <output
               aria-live="polite"
               aria-label="Expired secret count"
-              className="text-red-500"
+              className="text-red-500 max-md:pr-2"
             >
               {!expiredSecrets ? (
                 <Spinner

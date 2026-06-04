@@ -68,7 +68,7 @@ const MySecretsItem = memo(function MySecretsItem({
     <li>
       <Link
         to={`/details/${secret.slug}`}
-        className={`ml-8 py-2 px-4 max-md:pr-2 max-md:pl-2 h-fit grid grid-cols-[230px_220px_210px_20px] max-md:grid-cols-[38vw_46vw_4vw_5vw] max-md:h-10 max-md:ml-0 items-center gap-4 max-md:gap-1 md:rounded-sm cursor-pointer transition-colors duration-200  ${
+        className={`ml-8 py-2 px-4 max-md:pr-2 max-md:pl-2 h-fit grid grid-cols-[230px_220px_210px_20px] max-md:grid-cols-[38svw_46svw_5svw_6svw] max-md:h-10 max-md:ml-0 items-center gap-4 max-md:gap-1 md:rounded-sm cursor-pointer transition-colors duration-200  ${
           secret.status === "ACTIVE"
             ? `md:hover:bg-blue-200/10 md:border-t-2 border-(--white)/0 md:hover:border-(--white)/5 ${isEven ? "max-md:bg-blue-200/6" : "max-md:bg-blue-200/2"}`
             : secret.status === "VIEWED"
