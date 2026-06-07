@@ -9,6 +9,7 @@ interface PasswordInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   onFocus: () => void;
+  reset?: boolean;
 }
 
 const PasswordInput = ({
@@ -18,6 +19,7 @@ const PasswordInput = ({
   onChange,
   onBlur,
   onFocus,
+  reset,
 }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const name = type.toLowerCase();
@@ -27,11 +29,18 @@ const PasswordInput = ({
       ? "enter password"
       : "confirm password";
 
+  let labelText = "";
+
+  if (type === "Password") {
+    labelText = reset ? "New Password" : "Password";
+  } else if (type === "Confirm") {
+    labelText = reset ? "Confirm New Password" : "Confirm Password";
+    // Note: Adjust the exact wording above based on your specific design needs!
+  }
+
   return (
     <div className="flex flex-col noto-sans gap-1">
-      <p className="font-light text-sm">
-        {type} {type === "Confirm" && "Password"}
-      </p>
+      <p className="font-light text-sm">{labelText}</p>
       <div
         className={`${error ? "border-red-400 outline-3 outline-red-600/25 hover:bg-red-500/5" : "border-gray-400/20 hover:border-gray-400/30 focus-within:bg-blue-300/10"} mb-px group flex gap-2 items-center border px-3 rounded-xl duration-200 focus-within:border-(--main-light-blue) focus-within:hover:border-(--main-light-blue) focus-within:outline-3 focus-within:outline-cyan-600/30`}
       >

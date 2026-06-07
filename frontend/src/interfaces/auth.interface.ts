@@ -1,5 +1,6 @@
 export interface IUser {
   email: string;
+  emailVerified?: boolean;
   createdAt?: string;
 }
 

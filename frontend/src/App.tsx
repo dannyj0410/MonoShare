@@ -13,6 +13,8 @@ import UserAndLogout from "./components/partials/CommonPartials/UserAndLogout";
 import PageLoader from "./components/loaders/PageLoader";
 import useScrollToTop from "./hooks/useScrollToTop";
 import ErrorPage from "./components/pages/ErrorPage";
+import VerificationBanner from "./components/partials/CommonPartials/VerificationBanner";
+import VerifyEmail from "./components/pages/AuthPages/VerifyEmail";
 
 const SecretDetails = lazy(() => import("./components/pages/SecretDetails"));
 const MySecrets = lazy(() => import("./components/pages/MySecrets"));
@@ -21,6 +23,13 @@ const TermsOfService = lazy(() => import("./components/pages/TermsOfService"));
 const PrivacyPolicy = lazy(() => import("./components/pages/PrivacyPolicy"));
 const NotFound = lazy(() => import("./components/pages/NotFound"));
 
+const ForgotPassword = lazy(
+  () => import("./components/pages/AuthPages/ForgotPassword"),
+);
+const ResetPassword = lazy(
+  () => import("./components/pages/AuthPages/ResetPassword"),
+);
+
 function App() {
   const location = useLocation();
   useScrollToTop();
@@ -28,6 +37,7 @@ function App() {
     <LazyMotion features={domMax} strict>
       <div className="app-container">
         <Header />
+        <VerificationBanner />
         <UserAndLogout />
         <Suspense fallback={<PageLoader />}>
           <Sentry.ErrorBoundary
@@ -36,6 +46,7 @@ function App() {
           >
             <Routes>
               <Route path="/" element={<Home />} />
+              {/* secrets */}
               <Route path="/secret/:id" element={<ViewSecret />} />
               <Route path="/details/:id" element={<SecretDetails />} />
               <Route
@@ -46,6 +57,7 @@ function App() {
                   </AuthGuard>
                 }
               />
+              {/* auth */}
               <Route
                 path="/sign-in"
                 element={
@@ -62,6 +74,12 @@ function App() {
                   </AuthGuard>
                 }
               />
+
+              <Route path="/verify-email" element={<VerifyEmail />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+
+              {/* misc */}
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/not-found" element={<NotFound />} />

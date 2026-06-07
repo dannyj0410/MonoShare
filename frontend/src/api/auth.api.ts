@@ -27,3 +27,32 @@ export const getUser = async () => {
   const res = await axiosInstance.get<IUserCheckResponse>("/auth/user-check");
   return res.data.user;
 };
+
+export const verifyEmail = async (token: string) => {
+  const res = await axiosInstance.post("/auth/verify-email", { token });
+  return res.data;
+};
+
+export const resendEmailVerification = async () => {
+  const res = await axiosInstance.post("/auth/resend-verification");
+  return res.data;
+};
+
+export const forgotPassword = async (email: string) => {
+  const res = await axiosInstance.post("/auth/forgot-password", { email });
+  return res.data;
+};
+
+export const resetPassword = async ({
+  token,
+  password,
+}: {
+  token: string;
+  password: string;
+}) => {
+  const res = await axiosInstance.post("/auth/reset-password", {
+    token,
+    password,
+  });
+  return res.data;
+}; //switch to payload rather than token password

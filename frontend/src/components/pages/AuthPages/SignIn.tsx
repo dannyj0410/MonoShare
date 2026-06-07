@@ -107,7 +107,20 @@ const SignIn = () => {
               }))
             }
           />
+
+          {/* Forgot password */}
+          <div className="flex justify-end">
+            <Link
+              to="/forgot-password"
+              className="noto-sans text-xs duration-0 text-(--gray) hover:text-(--white) transition-colors hover:underline underline-offset-2"
+            >
+              Forgot password?
+            </Link>
+          </div>
+
+          {/* submit button */}
           <button
+            disabled={isSigningIn}
             className={`${formErrors.email || formErrors.password ? "bg-red-400/70 text-(--white)/80" : "bg-(--white) text-black"} flex items-center justify-center mt-2 noto-sans w-full h-10.5 text-sm font-medium cursor-pointer rounded-lg transition-colors duration-300 ease-in-out`}
           >
             {isSigningIn ? (
@@ -117,6 +130,8 @@ const SignIn = () => {
             )}
           </button>
         </form>
+
+        {/* Create account cta */}
         <div className="m-auto mt-5">
           <p className="noto-sans text-sm font-normal text-(--gray)">
             New to MonoShare?{" "}

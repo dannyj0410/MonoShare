@@ -6,10 +6,11 @@ export interface AuthDto {
 export interface AuthBase {
   id: string;
   email: string;
+  emailVerified: boolean;
   createdAt: Date;
 }
 
-export type UserDto = Pick<AuthBase, "id" | "email">;
+export type UserDto = Pick<AuthBase, "id" | "email" | "emailVerified">;
 
 export type UserResponse =
   | { message: string }

@@ -16,6 +16,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.1061.0",
     "@prisma/client": "^6.19.0",
     "@sentry/node": "^10.53.1",
     "argon2": "^0.44.0",

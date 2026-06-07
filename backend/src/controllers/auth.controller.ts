@@ -13,6 +13,9 @@ import {
   HTTP_UNAUTHORIZED,
 } from "../constants/http_status.js";
 import { invalidateCachedSession } from "../lib/sessionCache.js";
+import { TokenService } from "../services/token.service.js";
+import { EmailService } from "../services/email.service.js";
+import { TokenType } from "@prisma/client";
 
 //* CREATE
 export const createUser = asyncHandler(
@@ -66,6 +69,12 @@ export const createUser = asyncHandler(
       throw new AppError("Error creating user or session", HTTP_BAD_REQUEST);
     }
 
+    // send verification email
+    const verificationToken = await TokenService.createEmailVerificationToken(
+      user.id,
+    );
+    await EmailService.sendVerificationEmail(user.email, verificationToken);
+
     res
       .status(HTTP_CREATED)
       .cookie("session", token, {
@@ -77,7 +86,11 @@ export const createUser = asyncHandler(
       })
       .json({
         message: "User registered successfully",
-        user: { email: user.email, id: user.id },
+        user: {
+          email: user.email,
+          id: user.id,
+          emailVerified: user.emailVerified,
+        },
       });
   },
 );
@@ -131,7 +144,11 @@ export const signinUser = asyncHandler(
       })
       .json({
         message: "Sign in successful",
-        user: { email: user.email, id: user.id },
+        user: {
+          email: user.email,
+          id: user.id,
+          emailVerified: user.emailVerified,
+        },
       });
   },
 );
@@ -167,7 +184,118 @@ export const checkUser = asyncHandler(async (req: Request, res: Response) => {
   });
 
   res.status(HTTP_SUCCESS).json({
-    user: { email: user.email, createdAt: user.createdAt },
+    user: {
+      email: user.email,
+      createdAt: user.createdAt,
+      emailVerified: user.emailVerified,
+    },
   });
   return;
+});
+
+// Email verification
+export const verifyEmail = asyncHandler(async (req, res) => {
+  const { token } = req.body;
+  if (!token) throw new AppError("Token is required", HTTP_BAD_REQUEST);
+
+  const record = await TokenService.validateToken(
+    token,
+    TokenType.EMAIL_VERIFICATION,
+  );
+  if (!record) {
+    throw new AppError(
+      "Invalid or expired verification link",
+      HTTP_BAD_REQUEST,
+    );
+  }
+
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: record.userId },
+      data: { emailVerified: true },
+    }),
+    prisma.token.update({
+      where: { tokenHash: TokenService.hashToken(token) },
+      data: { usedAt: new Date() },
+    }),
+  ]);
+
+  const tokenHash = req.session!.tokenHash;
+  if (tokenHash) {
+    invalidateCachedSession(tokenHash);
+  }
+
+  res.status(HTTP_SUCCESS).json({ message: "Email verified successfully" });
+});
+
+export const resendVerification = asyncHandler(async (req, res) => {
+  const user = req.user!;
+
+  if (user.emailVerified) {
+    throw new AppError("Email already verified", HTTP_BAD_REQUEST);
+  }
+
+  const token = await TokenService.createEmailVerificationToken(user.id);
+  await EmailService.sendVerificationEmail(user.email, token);
+
+  res.status(HTTP_SUCCESS).json({ message: "Verification email sent" });
+});
+
+// Password
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  if (!email) throw new AppError("Email is required", HTTP_BAD_REQUEST);
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const user = await prisma.user.findUnique({
+    where: { email: normalizedEmail },
+  });
+
+  if (user) {
+    const token = await TokenService.createPasswordResetToken(user.id);
+    await EmailService.sendPasswordResetEmail(user.email, token);
+  }
+  res.status(HTTP_SUCCESS).json({
+    message: "A reset link has been sent to that email",
+  });
+});
+
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { token, password } = req.body;
+
+  if (!token || !password) {
+    throw new AppError("Token and password are required", HTTP_BAD_REQUEST);
+  }
+
+  AuthService.validatePassword(password);
+
+  const record = await TokenService.validateToken(
+    token,
+    TokenType.PASSWORD_RESET,
+  );
+  if (!record) {
+    throw new AppError("Invalid or expired reset link", HTTP_BAD_REQUEST);
+  }
+
+  const passwordHash = await AuthService.hashPassword(password);
+  const tokenHash = TokenService.hashToken(token);
+
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: record.userId },
+      data: { passwordHash },
+    }),
+    prisma.token.update({
+      where: { tokenHash },
+      data: { usedAt: new Date() },
+    }),
+    // invalidate all old sessions
+    prisma.session.deleteMany({
+      where: { userId: record.userId },
+    }),
+  ]);
+
+  res
+    .status(HTTP_SUCCESS)
+    .json({ message: "Password reset successfully. Please sign in." });
 });

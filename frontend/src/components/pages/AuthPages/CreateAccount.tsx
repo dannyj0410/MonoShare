@@ -44,11 +44,13 @@ const CreateAccount = () => {
         break;
       case "password":
         error = validatePassword(value);
-        confirmError = validateConfirmPassword(value, createFormData.confirm);
-        setFormErrors((prev) => ({
-          ...prev,
-          confirm: confirmError,
-        }));
+        if (createFormData.confirm) {
+          confirmError = validateConfirmPassword(value, createFormData.confirm);
+          setFormErrors((prev) => ({
+            ...prev,
+            confirm: confirmError,
+          }));
+        }
         break;
       case "confirm":
         error = validateConfirmPassword(createFormData.password, value);
@@ -143,6 +145,7 @@ const CreateAccount = () => {
           />
 
           <button
+            disabled={isRegistering}
             className={`${formErrors.email || formErrors.password || formErrors.confirm ? "bg-red-400/70 text-(--white)/80" : "bg-(--white) text-black"} flex items-center justify-center mt-2 noto-sans w-full h-10.5 text-sm font-medium cursor-pointer rounded-lg transition-colors duration-300 ease-in-out`}
           >
             {isRegistering ? (

@@ -50,4 +50,19 @@ export const AuthService = {
 
     return { success: true };
   },
+
+  validatePassword(password: string) {
+    if (!password) {
+      throw new AppError("Password is required", HTTP_BAD_REQUEST);
+    }
+
+    if (password.length < 6) {
+      throw new AppError(
+        "Password must be at least 6 characters",
+        HTTP_BAD_REQUEST,
+      );
+    }
+
+    return { success: true };
+  },
 };

@@ -4,7 +4,7 @@ import {
   ONE_DAY_MS,
   ONE_HOUR_MS,
   SEVEN_DAYS_MS,
-} from "../constants/days_ms.js";
+} from "../constants/time_ms.js";
 import { HTTP_BAD_REQUEST } from "../constants/http_status.js";
 import {
   CreateSecretValidation,

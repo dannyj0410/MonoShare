@@ -2,8 +2,8 @@ interface EmailInputProps {
   email: string;
   error?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onFocus: () => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onFocus?: () => void;
 }
 
 const EmailInput = ({
@@ -14,7 +14,9 @@ const EmailInput = ({
   onFocus,
 }: EmailInputProps) => {
   return (
-    <div className="flex flex-col noto-sans mt-6 gap-1">
+    <div
+      className={`flex flex-col noto-sans ${onBlur ? "mt-6" : "mt-0"} gap-1`}
+    >
       <p className="font-light text-sm">Email</p>
 
       <div
