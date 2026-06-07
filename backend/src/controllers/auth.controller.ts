@@ -16,6 +16,7 @@ import { invalidateCachedSession } from "../lib/sessionCache.js";
 import { TokenService } from "../services/token.service.js";
 import { EmailService } from "../services/email.service.js";
 import { TokenType } from "@prisma/client";
+import { Sentry } from "../lib/sentry.js";
 
 //* CREATE
 export const createUser = asyncHandler(
@@ -252,8 +253,20 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    const token = await TokenService.createPasswordResetToken(user.id);
-    await EmailService.sendPasswordResetEmail(user.email, token);
+    // No await on purpose, runs in background to protect from timing attacks checking response times
+    TokenService.createPasswordResetToken(user.id)
+      .then((token) => EmailService.sendPasswordResetEmail(user.email, token))
+      .catch((error) => {
+        console.error(
+          `Forgot password background task failed for user ${user.id}:`,
+          error,
+        );
+
+        Sentry.captureException(error, {
+          tags: { mechanism: "background-task" },
+          user: { id: user.id, email: user.email },
+        });
+      });
   }
   res.status(HTTP_SUCCESS).json({
     message: "A reset link has been sent to that email",
