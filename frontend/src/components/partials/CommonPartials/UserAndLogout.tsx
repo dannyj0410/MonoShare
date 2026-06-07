@@ -15,7 +15,7 @@ const UserAndLogout = () => {
   return (
     <aside
       aria-label="User session"
-      className="max-md:left-2 max-md:p-2 max-md:bottom-3 max-md:h-fit max-md:w-fit max-lg:w-fit max-lg:h-fit h-35 w-80 fixed md:pl-7 md:pb-4 left-0 bottom-0 flex flex-col-reverse ease-in-out group z-40"
+      className={`max-md:left-2 max-md:p-2 max-md:bottom-3 ${!user?.emailVerified && "max-lg:bottom-6 max-md:bottom-8 max-xs:bottom-14 max-xs:left-0"} max-md:h-fit max-md:w-fit max-lg:w-fit max-lg:h-fit h-35 w-80 fixed md:pl-7 md:pb-4 left-0 bottom-0 flex flex-col-reverse ease-in-out group z-40`}
     >
       <div className="w-fit h-fit backdrop-blur-xs rounded-lg border border-(--white)/0 group-hover:border-(--white)/5 max-lg:border-(--white)/4 px-1 py-1 flex flex-col electrolize tracking-wider text-base text-(--gray) lg:blur-[0.5px] max-md:text-sm max-xs:text-xs">
         <button

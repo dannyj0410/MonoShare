@@ -13,7 +13,12 @@ export const useRegister = () => {
     onSuccess: (data) => {
       queryClient.setQueryData(["user"], data.user);
       const toastType: ToastType = "success";
-      handleResponse(toastType, "Account Created Successfully", null, 5000);
+      handleResponse(
+        toastType,
+        "Account Created Successfully. Please check your inbox for a verification email!",
+        null,
+        10000,
+      );
     },
 
     onError: (error) => {
