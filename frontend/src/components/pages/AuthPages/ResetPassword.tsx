@@ -152,7 +152,7 @@ const ResetPassword = () => {
             <p className="noto-sans text-(--gray)/90 text-sm">
               Remembered your password?{" "}
               <Link
-                to="/sign in"
+                to="/sign-in"
                 className="hover:text-(--white) hover: underline underline-offset-4 cursor-pointer"
               >
                 Back to Sign In

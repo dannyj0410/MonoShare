@@ -9,7 +9,7 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: logout,
     onMutate: async () => {
-      queryClient.setQueryData(["user"], null);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
     onSuccess: () => {
       queryClient.clear();

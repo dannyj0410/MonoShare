@@ -262,7 +262,6 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 
 export const resetPassword = asyncHandler(async (req, res) => {
   const { token, password } = req.body;
-
   if (!token || !password) {
     throw new AppError("Token and password are required", HTTP_BAD_REQUEST);
   }
@@ -280,22 +279,85 @@ export const resetPassword = asyncHandler(async (req, res) => {
   const passwordHash = await AuthService.hashPassword(password);
   const tokenHash = TokenService.hashToken(token);
 
-  await prisma.$transaction([
-    prisma.user.update({
+  const deletedSessions = await prisma.$transaction(async (tx) => {
+    // Gets all active user sessions
+    const userSessions = await tx.session.findMany({
+      where: { userId: record.userId },
+      select: { tokenHash: true },
+    });
+
+    // password update
+    await tx.user.update({
       where: { id: record.userId },
       data: { passwordHash },
-    }),
-    prisma.token.update({
+    });
+
+    // consume token
+    await tx.token.update({
       where: { tokenHash },
       data: { usedAt: new Date() },
-    }),
-    // invalidate all old sessions
-    prisma.session.deleteMany({
+    });
+
+    // delete sessions
+    await tx.session.deleteMany({
       where: { userId: record.userId },
-    }),
-  ]);
+    });
+
+    return userSessions;
+  });
+
+  // remove each active session of cache
+  for (const session of deletedSessions) {
+    console.log(session.tokenHash);
+    invalidateCachedSession(session.tokenHash);
+  }
+  // Clear current browser session cookie just in case
+  res.clearCookie("session", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+  });
 
   res
     .status(HTTP_SUCCESS)
     .json({ message: "Password reset successfully. Please sign in." });
 });
+
+// export const resetPassword = asyncHandler(async (req, res) => {
+//   const { token, password } = req.body;
+
+//   if (!token || !password) {
+//     throw new AppError("Token and password are required", HTTP_BAD_REQUEST);
+//   }
+
+//   AuthService.validatePassword(password);
+
+//   const record = await TokenService.validateToken(
+//     token,
+//     TokenType.PASSWORD_RESET,
+//   );
+//   if (!record) {
+//     throw new AppError("Invalid or expired reset link", HTTP_BAD_REQUEST);
+//   }
+
+//   const passwordHash = await AuthService.hashPassword(password);
+//   const tokenHash = TokenService.hashToken(token);
+//   await prisma.$transaction([
+//     prisma.user.update({
+//       where: { id: record.userId },
+//       data: { passwordHash },
+//     }),
+//     prisma.token.update({
+//       where: { tokenHash },
+//       data: { usedAt: new Date() },
+//     }),
+//     prisma.session.deleteMany({
+//       where: { userId: record.userId },
+//     }),
+//   ]);
+
+//   res
+//     .status(HTTP_SUCCESS)
+//     .json({ message: "Password reset successfully. Please sign in." });
+// });

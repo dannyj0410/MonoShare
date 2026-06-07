@@ -235,6 +235,12 @@ export const getSecretMetadata = asyncHandler(
           HTTP_UNAUTHORIZED,
         );
       }
+      if (!user.emailVerified) {
+        throw new AppError(
+          "Your email must be verified to view this secret",
+          HTTP_FORBIDDEN,
+        );
+      }
       if (secret.receiverEmail !== user.email) {
         throw new AppError(
           "You are not authorized to view this secret",
@@ -283,6 +289,12 @@ export const viewSecret = asyncHandler(
         if (!user) {
           throw new AppError(
             "Please sign in to view this secret",
+            HTTP_UNAUTHORIZED,
+          );
+        }
+        if (!user.emailVerified) {
+          throw new AppError(
+            "You must verify your email to view this secret",
             HTTP_UNAUTHORIZED,
           );
         }
