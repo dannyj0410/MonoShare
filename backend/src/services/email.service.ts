@@ -1,44 +1,32 @@
-import {
-  SESClient,
-  SendEmailCommand,
-  type SendEmailCommandInput,
-} from "@aws-sdk/client-ses";
+import { Resend } from "resend";
 
-const sesClient = new SESClient({
-  region: process.env.AWS_REGION ?? "eu-central-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM_ADDRESS = "MonoShare <noreply@monoshare.site>";
 
 const sendEmail = async (
   to: string,
   subject: string,
-  htmlBody: string,
-  textBody: string,
+  html: string,
+  text: string,
 ) => {
   if (process.env.NODE_ENV !== "production") {
     console.log(`[Email Dev] To: ${to} | Subject: ${subject}`);
-    console.log(`[Email Dev] Text: ${textBody}`);
-    return;
+    console.log(`[Email Dev] Text: ${text}`);
+    // return;
   }
 
-  const params: SendEmailCommandInput = {
-    Source: FROM_ADDRESS,
-    Destination: { ToAddresses: [to] },
-    Message: {
-      Subject: { Data: subject, Charset: "UTF-8" },
-      Body: {
-        Html: { Data: htmlBody, Charset: "UTF-8" },
-        Text: { Data: textBody, Charset: "UTF-8" },
-      },
-    },
-  };
+  const { error } = await resend.emails.send({
+    from: FROM_ADDRESS,
+    to,
+    subject,
+    html,
+    text,
+  });
 
-  await sesClient.send(new SendEmailCommand(params));
+  if (error) {
+    throw new Error(`Resend error: ${error.message}`);
+  }
 };
 
 export const EmailService = {

@@ -16,7 +16,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.1061.0",
     "@prisma/client": "^6.19.0",
     "@sentry/node": "^10.53.1",
     "argon2": "^0.44.0",
@@ -27,7 +26,8 @@
     "express-async-handler": "^1.2.0",
     "express-rate-limit": "^8.2.1",
     "lru-cache": "^11.2.7",
-    "nanoid": "^5.1.6"
+    "nanoid": "^5.1.6",
+    "resend": "^6.12.4"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
