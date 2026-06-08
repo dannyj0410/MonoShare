@@ -13,7 +13,7 @@ const sendEmail = async (
   if (process.env.NODE_ENV !== "production") {
     console.log(`[Email Dev] To: ${to} | Subject: ${subject}`);
     console.log(`[Email Dev] Text: ${text}`);
-    // return;
+    return;
   }
 
   const { error } = await resend.emails.send({
