@@ -1,4 +1,5 @@
 import { m, type Variants } from "framer-motion";
+import { memo } from "react";
 import { NavLink } from "react-router-dom";
 
 const MotionNavLink = m.create(NavLink);
@@ -18,7 +19,7 @@ const headerVariants: Variants = {
   },
 };
 
-const Header = () => {
+const Header = memo(function Header() {
   return (
     <header className="flex w-full items-center justify-center absolute">
       <MotionNavLink
@@ -39,6 +40,6 @@ const Header = () => {
       </MotionNavLink>
     </header>
   );
-};
+});
 
 export default Header;

@@ -42,7 +42,7 @@ const ReceiverEmailInput = memo(function ReceiverEmailInputField({
           setPlaceholderText("email@example.com");
         }}
         onBlur={() => {
-          setPlaceholderText("Require Account?");
+          setPlaceholderText("Require Verified Account?");
         }}
       />
     </div>
