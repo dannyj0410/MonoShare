@@ -215,6 +215,12 @@
     @apply lg:scale-x-[.98] lg:scale-y-[.98] inset-px;
   }
 
+  @supports (-moz-appearance: none) {
+    .create-btn:hover::after {
+      @apply lg:scale-x-[.99] lg:scale-y-[.99] inset-px;
+    }
+  }
+
   .create-btn.is-invalid::before {
     background-image:
       linear-gradient(rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0.5)),
