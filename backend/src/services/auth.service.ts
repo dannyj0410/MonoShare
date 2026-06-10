@@ -1,68 +1,100 @@
-import argon2 from "argon2";
-import crypto from "crypto";
-import { AuthDto } from "../dtos/auth.dto.js";
-import { HTTP_BAD_REQUEST } from "../constants/http_status.js";
+import {
+  HTTP_BAD_REQUEST,
+  HTTP_CONFLICT,
+  HTTP_UNAUTHORIZED,
+} from "../constants/http_status.js";
+import { prisma } from "../lib/prisma-client.js";
+import { invalidateCachedSession } from "../lib/sessionCache.js";
 import { AppError } from "../utils/AppError.js";
+import { AuthUtil } from "../utils/auth.util.js";
+import { EmailService } from "./email.service.js";
+import { TokenService } from "./token.service.js";
 
 export const AuthService = {
-  async hashPassword(password: string) {
-    const passwordHash = await argon2.hash(password);
-    return passwordHash;
-  },
-
-  async verifyPassword(hash: string, password: string): Promise<boolean> {
-    return argon2.verify(hash, password);
-  },
-
-  generateSessionToken(): string {
-    const sessionToken = crypto.randomBytes(32).toString("hex");
-    return sessionToken;
-  },
-
-  hashSessionToken(token: string): string {
-    const hashedSessionToken = crypto
-      .createHmac("sha256", process.env.SESSION_SECRET!)
-      .update(token)
-      .digest("hex");
-    return hashedSessionToken;
-  },
-
-  validateAuthPayload({ email, password, confirm }: AuthDto) {
-    if (!email || !password) {
-      throw new AppError("Email and password are required", HTTP_BAD_REQUEST);
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      throw new AppError("Invalid email", HTTP_BAD_REQUEST);
-    }
-
-    if (confirm && password !== confirm) {
-      throw new AppError("Passwords do not match", HTTP_BAD_REQUEST);
-    }
-
-    if (password.length < 6) {
+  // Create User
+  async createUser(email: string, password: string, existingToken: string) {
+    const normalizedEmail = email.trim().toLowerCase();
+    const userExists = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+    });
+    if (userExists) {
       throw new AppError(
-        "Password must be at least 6 characters",
-        HTTP_BAD_REQUEST,
+        "A user with that email already exists",
+        HTTP_CONFLICT,
       );
     }
 
-    return { success: true };
+    const passwordHash = await AuthUtil.hashPassword(password);
+    const expiresAt = new Date(Date.now() + 7 * 86400000); // 7 days ms
+    const [user, session, token] = await prisma.$transaction(async (tx) => {
+      const user = await tx.user.create({
+        data: { email: normalizedEmail, passwordHash },
+      });
+
+      if (existingToken) {
+        const existingTokenHash = AuthUtil.hashSessionToken(existingToken);
+        invalidateCachedSession(existingTokenHash);
+      }
+
+      const token = AuthUtil.generateSessionToken();
+      const tokenHash = AuthUtil.hashSessionToken(token);
+      const session = await tx.session.create({
+        data: {
+          userId: user.id,
+          tokenHash,
+          expiresAt,
+        },
+      });
+
+      return [user, session, token];
+    });
+
+    if (!user || !session) {
+      throw new AppError("Error creating user or session", HTTP_BAD_REQUEST);
+    }
+
+    // send verification email
+    const verificationToken = await TokenService.createEmailVerificationToken(
+      user.id,
+    );
+    await EmailService.sendVerificationEmail(user.email, verificationToken);
+
+    return { user, session, token };
   },
 
-  validatePassword(password: string) {
-    if (!password) {
-      throw new AppError("Password is required", HTTP_BAD_REQUEST);
+  // Sign In User
+  async signinUser(email: string, password: string, existingToken: string) {
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+    });
+    const verifiedPassword = user
+      ? await AuthUtil.verifyPassword(user.passwordHash, password)
+      : false;
+    if (!user || !verifiedPassword) {
+      throw new AppError("Incorrect email or password", HTTP_UNAUTHORIZED);
     }
 
-    if (password.length < 6) {
-      throw new AppError(
-        "Password must be at least 6 characters",
-        HTTP_BAD_REQUEST,
-      );
+    if (existingToken) {
+      const existingTokenHash = AuthUtil.hashSessionToken(existingToken);
+      invalidateCachedSession(existingTokenHash);
     }
 
-    return { success: true };
+    const token = AuthUtil.generateSessionToken();
+    const tokenHash = AuthUtil.hashSessionToken(token);
+    const expiresAt = new Date(Date.now() + 7 * 86400000); //7 days
+    const session = await prisma.session.create({
+      data: {
+        userId: user.id,
+        tokenHash,
+        expiresAt,
+      },
+    });
+
+    return { user, session, token };
+  },
+  async logoutUser(tokenHash: string) {
+    await prisma.session.delete({ where: { tokenHash } });
+    invalidateCachedSession(tokenHash);
   },
 };

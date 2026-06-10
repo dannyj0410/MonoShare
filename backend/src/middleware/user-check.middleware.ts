@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../lib/prisma-client.js";
-import { AuthService } from "../services/auth.service.js";
+import { AuthUtil } from "../utils/auth.util.js";
 import { getCachedSession, setCachedSession } from "../lib/sessionCache.js";
 
 export const userCheck = async (
@@ -13,7 +13,7 @@ export const userCheck = async (
     return next();
   }
 
-  const tokenHash = AuthService.hashSessionToken(token);
+  const tokenHash = AuthUtil.hashSessionToken(token);
 
   const cache = getCachedSession(tokenHash);
   if (cache) {
@@ -28,6 +28,12 @@ export const userCheck = async (
   });
 
   if (!session || session.expiresAt < new Date()) {
+    res.clearCookie("session", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+    });
     return res.status(401).json({ message: "Invalid session." });
   }
 

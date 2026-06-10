@@ -1,9 +1,8 @@
 import asyncHandler from "express-async-handler";
-import argon2 from "argon2";
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma-client.js";
-import { AuthBase, AuthDto, UserResponse } from "../dtos/auth.dto.js";
-import { AuthService } from "../services/auth.service.js";
+import { AuthDto, UserResponse } from "../dtos/auth.dto.js";
+import { AuthUtil } from "../utils/auth.util.js";
 import { AppError } from "../utils/AppError.js";
 import {
   HTTP_BAD_REQUEST,
@@ -17,64 +16,26 @@ import { TokenService } from "../services/token.service.js";
 import { EmailService } from "../services/email.service.js";
 import { TokenType } from "@prisma/client";
 import { Sentry } from "../lib/sentry.js";
+import { AuthService } from "../services/auth.service.js";
 
 //* CREATE
 export const createUser = asyncHandler(
   async (req: Request, res: Response<UserResponse>) => {
     const { email, password, confirm }: AuthDto = req.body;
 
-    AuthService.validateAuthPayload({
+    AuthUtil.validateAuthPayload({
       email,
       password,
       confirm,
     });
 
-    const normalizedEmail = email.trim().toLowerCase();
-    const userExists = await prisma.user.findUnique({
-      where: { email: normalizedEmail },
-    });
-    if (userExists) {
-      throw new AppError(
-        "A user with that email already exists",
-        HTTP_CONFLICT,
-      );
-    }
+    const existingToken = req.cookies.session;
 
-    const passwordHash = await AuthService.hashPassword(password);
-    const expiresAt = new Date(Date.now() + 7 * 86400000); //7 days ms
-    const [user, session, token] = await prisma.$transaction(async (tx) => {
-      const user = await tx.user.create({
-        data: { email: normalizedEmail, passwordHash },
-      });
-
-      const existingToken = req.cookies.session;
-      if (existingToken) {
-        const existingTokenHash = AuthService.hashSessionToken(existingToken);
-        invalidateCachedSession(existingTokenHash);
-      }
-
-      const token = AuthService.generateSessionToken();
-      const tokenHash = AuthService.hashSessionToken(token);
-      const session = await tx.session.create({
-        data: {
-          userId: user.id,
-          tokenHash,
-          expiresAt,
-        },
-      });
-
-      return [user, session, token];
-    });
-
-    if (!user || !session) {
-      throw new AppError("Error creating user or session", HTTP_BAD_REQUEST);
-    }
-
-    // send verification email
-    const verificationToken = await TokenService.createEmailVerificationToken(
-      user.id,
+    const { user, session, token } = await AuthService.createUser(
+      email,
+      password,
+      existingToken,
     );
-    await EmailService.sendVerificationEmail(user.email, verificationToken);
 
     res
       .status(HTTP_CREATED)
@@ -101,38 +62,17 @@ export const signinUser = asyncHandler(
   async (req: Request, res: Response<UserResponse>) => {
     const { email, password }: AuthDto = req.body;
 
-    AuthService.validateAuthPayload({
+    AuthUtil.validateAuthPayload({
       email,
       password,
     });
 
-    const normalizedEmail = email.trim().toLowerCase();
-    const user = await prisma.user.findUnique({
-      where: { email: normalizedEmail },
-    });
-    const verifiedPassword = user
-      ? await AuthService.verifyPassword(user.passwordHash, password)
-      : false;
-    if (!user || !verifiedPassword) {
-      throw new AppError("Incorrect email or password", HTTP_UNAUTHORIZED);
-    }
-
     const existingToken = req.cookies.session;
-    if (existingToken) {
-      const existingTokenHash = AuthService.hashSessionToken(existingToken);
-      invalidateCachedSession(existingTokenHash);
-    }
-
-    const token = AuthService.generateSessionToken();
-    const tokenHash = AuthService.hashSessionToken(token);
-    const expiresAt = new Date(Date.now() + 7 * 86400000); //7 days
-    const session = await prisma.session.create({
-      data: {
-        userId: user.id,
-        tokenHash,
-        expiresAt,
-      },
-    });
+    const { user, session, token } = await AuthService.signinUser(
+      email,
+      password,
+      existingToken,
+    );
 
     res
       .status(HTTP_SUCCESS)
@@ -158,8 +98,8 @@ export const signinUser = asyncHandler(
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   const tokenHash = req.session!.tokenHash;
 
-  await prisma.session.delete({ where: { tokenHash } });
-  invalidateCachedSession(tokenHash);
+  AuthService.logoutUser(tokenHash);
+
   res.clearCookie("session", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -167,13 +107,13 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
     path: "/",
   });
   res.status(HTTP_SUCCESS).json({ message: "Successfully logged out" });
+
   return;
 });
 
 //* USER CHECK
 export const checkUser = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
-
   if (!user) {
     throw new AppError("Unauthorized", HTTP_BAD_REQUEST);
   }
@@ -279,7 +219,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     throw new AppError("Token and password are required", HTTP_BAD_REQUEST);
   }
 
-  AuthService.validatePassword(password);
+  AuthUtil.validatePassword(password);
 
   const record = await TokenService.validateToken(
     token,
@@ -289,7 +229,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     throw new AppError("Invalid or expired reset link", HTTP_BAD_REQUEST);
   }
 
-  const passwordHash = await AuthService.hashPassword(password);
+  const passwordHash = await AuthUtil.hashPassword(password);
   const tokenHash = TokenService.hashToken(token);
 
   const deletedSessions = await prisma.$transaction(async (tx) => {
@@ -336,41 +276,3 @@ export const resetPassword = asyncHandler(async (req, res) => {
     .status(HTTP_SUCCESS)
     .json({ message: "Password reset successfully. Please sign in." });
 });
-
-// export const resetPassword = asyncHandler(async (req, res) => {
-//   const { token, password } = req.body;
-
-//   if (!token || !password) {
-//     throw new AppError("Token and password are required", HTTP_BAD_REQUEST);
-//   }
-
-//   AuthService.validatePassword(password);
-
-//   const record = await TokenService.validateToken(
-//     token,
-//     TokenType.PASSWORD_RESET,
-//   );
-//   if (!record) {
-//     throw new AppError("Invalid or expired reset link", HTTP_BAD_REQUEST);
-//   }
-
-//   const passwordHash = await AuthService.hashPassword(password);
-//   const tokenHash = TokenService.hashToken(token);
-//   await prisma.$transaction([
-//     prisma.user.update({
-//       where: { id: record.userId },
-//       data: { passwordHash },
-//     }),
-//     prisma.token.update({
-//       where: { tokenHash },
-//       data: { usedAt: new Date() },
-//     }),
-//     prisma.session.deleteMany({
-//       where: { userId: record.userId },
-//     }),
-//   ]);
-
-//   res
-//     .status(HTTP_SUCCESS)
-//     .json({ message: "Password reset successfully. Please sign in." });
-// });

@@ -69,11 +69,4 @@ export const TokenService = {
 
     return record;
   },
-
-  async consumeToken(tokenHash: string): Promise<void> {
-    await prisma.token.update({
-      where: { tokenHash },
-      data: { usedAt: new Date() },
-    });
-  },
 };

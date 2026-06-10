@@ -1,9 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import { prisma } from "../lib/prisma-client.js";
 import {
-  ComputedStatus,
-  CreateSecretDto,
   CreateSecretResponse,
   GetSecretDetailsResponse,
   GetSecretMetadataResponse,
@@ -13,72 +10,20 @@ import {
 import {
   HTTP_BAD_REQUEST,
   HTTP_CREATED,
-  HTTP_FORBIDDEN,
-  HTTP_GONE,
-  HTTP_NOT_FOUND,
   HTTP_SUCCESS,
   HTTP_UNAUTHORIZED,
 } from "../constants/http_status.js";
-import { SecretService } from "../services/secret.service.js";
 import { AppError } from "../utils/AppError.js";
-import { computeSecretStatus } from "../helper/computeSecretStatus.js";
+import { SecretService } from "../services/secret.service.js";
 
 export const createSecret = asyncHandler(
   async (req: Request, res: Response<CreateSecretResponse>) => {
-    const {
-      encryptedText,
-      encryptionIV,
-      timeTillExpiration,
-      receiverEmail,
-      secretKey,
-    }: CreateSecretDto = req.body;
+    const createdSecretResponse = await SecretService.createSecret(
+      req.body,
+      req.user,
+    );
 
-    const user = req.user;
-
-    SecretService.validateSecretPayload({
-      isAuthenticated: !!user,
-      encryptedText,
-      encryptionIV,
-      timeTillExpiration,
-      receiverEmail,
-      secretKey,
-    });
-
-    const secretKeyHash = await SecretService.hashSecretKey(secretKey);
-    const expiresAt = SecretService.setSecretExpirationDate(timeTillExpiration);
-    const slug = SecretService.generateSlug();
-
-    const secret = await prisma.secret.create({
-      data: {
-        slug,
-        encryptedText,
-        encryptionIV,
-        receiverEmail:
-          receiverEmail && user ? receiverEmail.trim().toLowerCase() : null,
-        secretKeyHash,
-        expiresAt: expiresAt!,
-        creatorId: user ? user.id : null,
-      },
-    });
-
-    const passwordProtected = !!secret.secretKeyHash;
-
-    res.status(HTTP_CREATED).json({
-      message: "Secret created successfully",
-      secret: {
-        id: secret.id,
-        slug: secret.slug,
-        creatorId: secret.creatorId,
-        createdAt: secret.createdAt,
-        updatedAt: secret.updatedAt,
-        expiresAt: secret.expiresAt,
-        viewedAt: secret.viewedAt,
-        receiverEmail: secret.receiverEmail,
-        passwordProtected,
-        status: "ACTIVE",
-      },
-      shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.slug}`,
-    });
+    res.status(HTTP_CREATED).json(createdSecretResponse);
   },
 );
 
@@ -93,48 +38,7 @@ export const getMySecrets = asyncHandler(
       );
     }
 
-    const userWithSecrets = await prisma.user.findUnique({
-      where: { id: user.id },
-      select: {
-        id: true,
-        ownedSecrets: {
-          select: {
-            id: true,
-            slug: true,
-            createdAt: true,
-            expiresAt: true,
-            viewedAt: true,
-            receiverEmail: true,
-            secretKeyHash: true,
-          },
-        },
-      },
-    });
-
-    if (!userWithSecrets) {
-      throw new AppError("Failure to find user and/or secrets", HTTP_NOT_FOUND);
-    }
-
-    const now = new Date();
-
-    const secrets = userWithSecrets.ownedSecrets.map((secret) => {
-      let computedStatus: ComputedStatus = "ACTIVE";
-
-      if (secret.viewedAt) {
-        computedStatus = "VIEWED";
-      } else if (secret.expiresAt <= now) {
-        computedStatus = "EXPIRED";
-      }
-
-      return {
-        id: secret.id,
-        slug: secret.slug,
-        receiverEmail: secret.receiverEmail,
-        createdAt: secret.createdAt,
-        status: computedStatus,
-        passwordProtected: !!secret.secretKeyHash,
-      };
-    });
+    const secrets = await SecretService.getMySecrets(user.id);
 
     res.status(HTTP_SUCCESS).json({
       userId: user.id,
@@ -155,36 +59,9 @@ export const getSecretDetails = asyncHandler(
       );
     }
 
-    const secret = await prisma.secret.findUnique({
-      where: { slug },
-      select: {
-        id: true,
-        slug: true,
-        receiverEmail: true,
-        creatorId: true,
-        createdAt: true,
-        updatedAt: true,
-        expiresAt: true,
-        viewedAt: true,
-        secretKeyHash: true,
-      },
-    });
+    const secretMetadata = await SecretService.getSecretDetails(slug, user.id);
 
-    if (!secret) {
-      throw new AppError("That secret does not exist", HTTP_NOT_FOUND);
-    }
-
-    if (secret.creatorId !== user.id) {
-      throw new AppError("Unauthorized to view this secret", HTTP_UNAUTHORIZED);
-    }
-
-    const { secretKeyHash, ...secretToReturn } = secret;
-
-    res.status(HTTP_SUCCESS).json({
-      ...secretToReturn,
-      status: computeSecretStatus(secret),
-      passwordProtected: !!secret.secretKeyHash,
-    });
+    res.status(HTTP_SUCCESS).json({ ...secretMetadata });
   },
 );
 
@@ -195,62 +72,11 @@ export const getSecretMetadata = asyncHandler(
     const slug = req.params.secretid;
     const hasHash = req.query.hasHash === "true";
 
-    if (!hasHash) {
-      throw new AppError("Incorrect secret link", HTTP_UNAUTHORIZED);
-    }
-
-    const secret = await prisma.secret.findUnique({
-      where: { slug },
-      select: {
-        secretKeyHash: true,
-        expiresAt: true,
-        viewedAt: true,
-        creatorId: true,
-        receiverEmail: true,
-      },
-    });
-
-    if (!secret) {
-      throw new AppError("Secret doesn't exist", HTTP_NOT_FOUND);
-    }
-
-    const status = computeSecretStatus(secret);
-    const isOwner = user ? user.id === secret.creatorId : false;
-
-    if (status === "VIEWED") {
-      throw new AppError("Secret has already been viewed", HTTP_GONE);
-    }
-
-    if (status === "EXPIRED") {
-      throw new AppError(
-        "This secret has expired and is no longer available",
-        HTTP_GONE,
-      );
-    }
-
-    if (secret.receiverEmail) {
-      if (!user) {
-        throw new AppError(
-          "Please sign in to view this secret",
-          HTTP_UNAUTHORIZED,
-        );
-      }
-      if (!user.emailVerified) {
-        throw new AppError(
-          "Your email must be verified to view this secret",
-          HTTP_FORBIDDEN,
-        );
-      }
-      if (secret.receiverEmail !== user.email) {
-        throw new AppError(
-          "You are not authorized to view this secret",
-          HTTP_FORBIDDEN,
-        );
-      }
-    }
+    const { passwordProtected, isOwner } =
+      await SecretService.getSecretMetadata(slug, hasHash, user);
 
     res.status(HTTP_SUCCESS).json({
-      passwordProtected: !!secret.secretKeyHash,
+      passwordProtected,
       isOwner,
     });
   },
@@ -263,83 +89,9 @@ export const viewSecret = asyncHandler(
     const slug = req.params.secretid;
     const { secretKey } = req.body;
 
-    const updatedSecret = await prisma.$transaction(async (tx) => {
-      const originalSecret = await tx.secret.findUnique({
-        where: { slug },
-      });
+    const viewedSecret = await SecretService.viewSecret(slug, secretKey, user);
 
-      if (!originalSecret) {
-        throw new AppError("Secret doesn't exist", HTTP_NOT_FOUND);
-      }
-
-      const originalStatus = computeSecretStatus(originalSecret);
-
-      if (!originalSecret || originalStatus === "VIEWED") {
-        throw new AppError("Secret has already been viewed", HTTP_GONE);
-      }
-
-      if (originalStatus === "EXPIRED") {
-        throw new AppError(
-          "This secret has expired and is no longer available",
-          HTTP_GONE,
-        );
-      }
-
-      if (originalSecret.receiverEmail) {
-        if (!user) {
-          throw new AppError(
-            "Please sign in to view this secret",
-            HTTP_UNAUTHORIZED,
-          );
-        }
-        if (!user.emailVerified) {
-          throw new AppError(
-            "You must verify your email to view this secret",
-            HTTP_UNAUTHORIZED,
-          );
-        }
-        if (originalSecret.receiverEmail !== user.email) {
-          throw new AppError(
-            "You are not authorized to view this secret",
-            HTTP_FORBIDDEN,
-          );
-        }
-      }
-
-      if (originalSecret.secretKeyHash) {
-        const verified = await SecretService.verifySecretKey(
-          originalSecret.secretKeyHash,
-          secretKey,
-        );
-
-        if (!verified) {
-          throw new AppError("Incorrect password", HTTP_BAD_REQUEST);
-        }
-      }
-
-      const updatedSecret = await tx.secret.update({
-        where: { slug },
-        data: {
-          encryptedText: "",
-          encryptionIV: "",
-          viewedAt: new Date(),
-        },
-      });
-
-      const status = computeSecretStatus(updatedSecret);
-      return {
-        id: updatedSecret.id,
-        slug: updatedSecret.slug,
-        encryptedText: originalSecret.encryptedText,
-        encryptionIV: originalSecret.encryptionIV,
-        receiverEmail: originalSecret.receiverEmail,
-        viewedAt: updatedSecret.viewedAt,
-        creatorId: updatedSecret.creatorId,
-        status,
-      };
-    });
-
-    res.status(HTTP_SUCCESS).json(updatedSecret);
+    res.status(HTTP_SUCCESS).json(viewedSecret);
   },
 );
 
@@ -356,16 +108,7 @@ export const deleteSecret = asyncHandler(
       throw new AppError("You are unauthenticated!", HTTP_UNAUTHORIZED);
     }
 
-    const secret = await prisma.secret.delete({
-      where: { slug, creatorId: user.id },
-    });
-
-    if (!secret) {
-      throw new AppError(
-        "Secret does not exist or you are unauthorized!",
-        HTTP_BAD_REQUEST,
-      );
-    }
+    await SecretService.deleteSecret(slug, user.id);
 
     res.status(HTTP_SUCCESS).json({
       message: slug + " Deleted successfully",

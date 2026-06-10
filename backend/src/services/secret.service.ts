@@ -1,118 +1,296 @@
-import argon2 from "argon2";
-import { customAlphabet } from "nanoid";
-import {
-  ONE_DAY_MS,
-  ONE_HOUR_MS,
-  SEVEN_DAYS_MS,
-} from "../constants/time_ms.js";
-import { HTTP_BAD_REQUEST } from "../constants/http_status.js";
-import {
-  CreateSecretValidation,
-  SecretExpirationOptions,
-} from "../dtos/secret.dto.js";
+import { prisma } from "../lib/prisma-client.js";
+import { CreateSecretDto, ComputedStatus } from "../dtos/secret.dto.js";
+import { SecretUtil } from "../utils/secret.util.js";
 import { AppError } from "../utils/AppError.js";
+import { computeSecretStatus } from "../utils/computeSecretStatus.js";
+import {
+  HTTP_BAD_REQUEST,
+  HTTP_FORBIDDEN,
+  HTTP_GONE,
+  HTTP_NOT_FOUND,
+  HTTP_UNAUTHORIZED,
+} from "../constants/http_status.js";
+import { UserDto } from "../dtos/auth.dto.js";
 
 export const SecretService = {
-  isValidExpiration(value: string): value is SecretExpirationOptions {
-    return ["1h", "1d", "7d"].includes(value);
+  // Create Secret
+  async createSecret(payload: CreateSecretDto, user: UserDto | undefined) {
+    const {
+      encryptedText,
+      encryptionIV,
+      timeTillExpiration,
+      receiverEmail,
+      secretKey,
+    } = payload;
+
+    SecretUtil.validateSecretPayload({
+      isAuthenticated: !!user,
+      encryptedText,
+      encryptionIV,
+      timeTillExpiration,
+      receiverEmail,
+      secretKey,
+    });
+
+    const secretKeyHash = await SecretUtil.hashSecretKey(secretKey);
+    const expiresAt = SecretUtil.setSecretExpirationDate(timeTillExpiration);
+    const slug = SecretUtil.generateSlug();
+
+    const createdSecret = await prisma.secret.create({
+      data: {
+        slug,
+        encryptedText,
+        encryptionIV,
+        receiverEmail:
+          receiverEmail && user ? receiverEmail.trim().toLowerCase() : null,
+        secretKeyHash,
+        expiresAt: expiresAt!,
+        creatorId: user ? user.id : null,
+      },
+    });
+
+    const secret = {
+      id: createdSecret.id,
+      slug: createdSecret.slug,
+      creatorId: createdSecret.creatorId,
+      createdAt: createdSecret.createdAt,
+      updatedAt: createdSecret.updatedAt,
+      expiresAt: createdSecret.expiresAt,
+      viewedAt: createdSecret.viewedAt,
+      receiverEmail: createdSecret.receiverEmail,
+      passwordProtected: !!createdSecret.secretKeyHash,
+      status: "ACTIVE" as ComputedStatus,
+    };
+
+    const createdSecretResponse = {
+      message: "Secret created successfully",
+      secret: {
+        ...secret,
+      },
+      shareUrl: `${process.env.FRONTEND_URL}/secret/${secret.slug}`,
+    };
+
+    return createdSecretResponse;
   },
 
-  setSecretExpirationDate(value: SecretExpirationOptions): Date {
-    switch (value) {
-      case "1h":
-        return new Date(Date.now() + ONE_HOUR_MS);
-      case "1d":
-        return new Date(Date.now() + ONE_DAY_MS);
-      case "7d":
-        return new Date(Date.now() + SEVEN_DAYS_MS);
+  // Get My Secretss
+  async getMySecrets(userId: string) {
+    const userWithSecrets = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        ownedSecrets: {
+          select: {
+            id: true,
+            slug: true,
+            createdAt: true,
+            expiresAt: true,
+            viewedAt: true,
+            receiverEmail: true,
+            secretKeyHash: true,
+          },
+        },
+      },
+    });
+
+    if (!userWithSecrets) {
+      throw new AppError("Failure to find user and/or secrets", HTTP_NOT_FOUND);
     }
+
+    const secrets = userWithSecrets.ownedSecrets.map((secret) => {
+      let computedStatus: ComputedStatus = computeSecretStatus(secret);
+      return {
+        id: secret.id,
+        slug: secret.slug,
+        receiverEmail: secret.receiverEmail,
+        createdAt: secret.createdAt,
+        status: computedStatus,
+        passwordProtected: !!secret.secretKeyHash,
+      };
+    });
+
+    return secrets;
   },
 
-  validateSecretPayload({
-    isAuthenticated,
-    encryptedText,
-    encryptionIV,
-    timeTillExpiration,
-    receiverEmail,
-    secretKey,
-  }: CreateSecretValidation) {
-    if (!encryptedText) {
-      throw new AppError("Secret text field cannot be empty", HTTP_BAD_REQUEST);
-    }
-    if (!encryptionIV) {
-      throw new AppError("Error encrypting secret", HTTP_BAD_REQUEST);
+  // Get Secret Details
+  async getSecretDetails(slug: string, userId: string) {
+    const secret = await prisma.secret.findUnique({
+      where: { slug },
+      select: {
+        id: true,
+        slug: true,
+        receiverEmail: true,
+        creatorId: true,
+        createdAt: true,
+        updatedAt: true,
+        expiresAt: true,
+        viewedAt: true,
+        secretKeyHash: true,
+      },
+    });
+
+    if (!secret) {
+      throw new AppError("That secret does not exist", HTTP_NOT_FOUND);
     }
 
-    const charLimit = isAuthenticated ? 30000 : 3000;
+    if (secret.creatorId !== userId) {
+      throw new AppError("Unauthorized to view this secret", HTTP_UNAUTHORIZED);
+    }
 
-    if (encryptedText.length > charLimit) {
+    const { secretKeyHash, ...secretToReturn } = secret;
+
+    const secretMetadata = {
+      ...secretToReturn,
+      status: computeSecretStatus(secret),
+      passwordProtected: !!secret.secretKeyHash,
+    };
+
+    return secretMetadata;
+  },
+
+  // Get Secret MetaData
+  async getSecretMetadata(slug: string, hasHash: boolean, user: any) {
+    if (!hasHash) {
+      throw new AppError("Incorrect secret link", HTTP_UNAUTHORIZED);
+    }
+
+    const secret = await prisma.secret.findUnique({
+      where: { slug },
+      select: {
+        secretKeyHash: true,
+        expiresAt: true,
+        viewedAt: true,
+        creatorId: true,
+        receiverEmail: true,
+      },
+    });
+
+    if (!secret) {
+      throw new AppError("Secret doesn't exist", HTTP_NOT_FOUND);
+    }
+
+    const status = computeSecretStatus(secret);
+    const isOwner = user ? user.id === secret.creatorId : false;
+
+    if (status === "VIEWED") {
+      throw new AppError("Secret has already been viewed", HTTP_GONE);
+    }
+
+    if (status === "EXPIRED") {
       throw new AppError(
-        "Secret size too large. Try using less special characters.",
-        HTTP_BAD_REQUEST,
+        "This secret has expired and is no longer available",
+        HTTP_GONE,
       );
     }
 
-    // 2. Base64 validation
-    const base64Regex =
-      /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-
-    if (!base64Regex.test(encryptedText)) {
-      throw new AppError("Invalid encrypted text format", HTTP_BAD_REQUEST);
-    }
-
-    if (!base64Regex.test(encryptionIV)) {
-      throw new AppError("Error encrypting secret", HTTP_BAD_REQUEST);
-    }
-
-    // 3. IV must decode to exactly 12 bytes (AES-GCM requirement)
-    const ivBytes = Buffer.from(encryptionIV, "base64");
-
-    if (ivBytes.length !== 12) {
-      throw new AppError("Error encrypting secret", HTTP_BAD_REQUEST);
-    }
-
-    if (!this.isValidExpiration(timeTillExpiration)) {
-      throw new AppError(
-        "Received incorrect expiration time option",
-        HTTP_BAD_REQUEST,
-      );
-    }
-
-    if (receiverEmail) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(receiverEmail)) {
+    if (secret.receiverEmail) {
+      if (!user) {
         throw new AppError(
-          "Please enter a valid recipient email",
-          HTTP_BAD_REQUEST,
+          "Please sign in to view this secret",
+          HTTP_UNAUTHORIZED,
+        );
+      }
+      if (!user.emailVerified) {
+        throw new AppError(
+          "Your email must be verified to view this secret",
+          HTTP_FORBIDDEN,
+        );
+      }
+      if (secret.receiverEmail !== user.email) {
+        throw new AppError(
+          "You are not authorized to view this secret",
+          HTTP_FORBIDDEN,
         );
       }
     }
 
-    if (secretKey) {
-      if (secretKey.length < 3) {
+    return {
+      passwordProtected: !!secret.secretKeyHash,
+      isOwner,
+    };
+  },
+
+  // View Secret
+  async viewSecret(slug: string, secretKey: string, user: any) {
+    return await prisma.$transaction(async (tx) => {
+      const originalSecret = await tx.secret.findUnique({
+        where: { slug },
+      });
+
+      if (!originalSecret) {
+        throw new AppError("Secret doesn't exist", HTTP_NOT_FOUND);
+      }
+
+      const originalStatus = computeSecretStatus(originalSecret);
+
+      if (originalStatus === "VIEWED") {
+        throw new AppError("Secret has already been viewed", HTTP_GONE);
+      }
+
+      if (originalStatus === "EXPIRED") {
         throw new AppError(
-          "Password must be atleast 3 characters long.",
-          HTTP_BAD_REQUEST,
+          "This secret has expired and is no longer available",
+          HTTP_GONE,
         );
       }
-    }
-    return { success: true };
+
+      if (originalSecret.receiverEmail) {
+        if (!user) {
+          throw new AppError(
+            "Please sign in to view this secret",
+            HTTP_UNAUTHORIZED,
+          );
+        }
+        if (!user.emailVerified) {
+          throw new AppError(
+            "You must verify your email to view this secret",
+            HTTP_UNAUTHORIZED,
+          );
+        }
+        if (originalSecret.receiverEmail !== user.email) {
+          throw new AppError(
+            "You are not authorized to view this secret",
+            HTTP_FORBIDDEN,
+          );
+        }
+      }
+
+      if (originalSecret.secretKeyHash) {
+        const verified = await SecretUtil.verifySecretKey(
+          originalSecret.secretKeyHash,
+          secretKey,
+        );
+        if (!verified) {
+          throw new AppError("Incorrect password", HTTP_BAD_REQUEST);
+        }
+      }
+
+      const updatedSecret = await tx.secret.update({
+        where: { slug },
+        data: {
+          encryptedText: "",
+          encryptionIV: "",
+          viewedAt: new Date(),
+        },
+      });
+
+      return {
+        id: updatedSecret.id,
+        slug: updatedSecret.slug,
+        encryptedText: originalSecret.encryptedText,
+        encryptionIV: originalSecret.encryptionIV,
+        receiverEmail: originalSecret.receiverEmail,
+        viewedAt: updatedSecret.viewedAt,
+        creatorId: updatedSecret.creatorId,
+        status: computeSecretStatus(updatedSecret),
+      };
+    });
   },
 
-  async hashSecretKey(secretKey: string | undefined) {
-    if (!secretKey) return null;
-    const secretKeyHash = await argon2.hash(secretKey);
-    return secretKeyHash;
-  },
-
-  async verifySecretKey(hash: string, secretKey: string): Promise<boolean> {
-    return argon2.verify(hash, secretKey);
-  },
-
-  generateSlug() {
-    const alphabet =
-      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    const nanoid = customAlphabet(alphabet, 12);
-    return nanoid();
+  // Delete Secret
+  async deleteSecret(slug: string, userId: string) {
+    await prisma.secret.delete({
+      where: { slug, creatorId: userId },
+    });
   },
 };
