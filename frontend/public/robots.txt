@@ -8,6 +8,9 @@ Allow: /privacy-policy
 # Block auth pages (no SEO value, thin content)
 Disallow: /sign-in
 Disallow: /create-account
+Disallow: /verify-email
+Disallow: /forgot-password
+Disallow: /reset-password
  
 # Block private/user pages
 Disallow: /my-secrets

@@ -21,6 +21,8 @@ const InvalidToken = ({ type }: { type: TokenType }) => {
   const cfg = InvalidTokenConfig[type];
   return (
     <main className="flex flex-col items-center justify-center min-h-[70vh] px-4">
+      <title>{cfg.title} | MonoShare</title>
+      <meta name="robots" content="noindex, follow" />
       <div className="w-full max-w-md p-8 rounded-2xl bg-(--white)/2 border border-(--white)/8 backdrop-blur-md flex flex-col items-center text-center shadow-2xl">
         {/* Warning Icon */}
         <div className="mb-8 mt-6 p-2 rounded-full bg-red-500/15 text-red-500 ring-8 ring-red-500/10">

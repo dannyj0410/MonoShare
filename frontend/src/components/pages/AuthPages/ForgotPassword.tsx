@@ -15,6 +15,8 @@ const ForgotPassword = () => {
 
   return (
     <main className="flex flex-col items-center justify-center min-h-[70vh] px-4">
+      <title>Forgot Password | MonoShare</title>
+      <meta name="robots" content="noindex, follow" />
       <div className="w-full max-w-sm flex flex-col gap-4">
         {/* Heading */}
         <div className="flex flex-col gap-1">
