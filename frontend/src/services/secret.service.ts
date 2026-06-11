@@ -26,6 +26,7 @@ export const createEncryptedSecret = async (
     timeTillExpiration: formData.timeTillExpiration,
     receiverEmail: formData.receiverEmail,
     secretKey: formData.secretKey,
+    turnstileToken: formData.turnstileToken,
   });
 
   return {

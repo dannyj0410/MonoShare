@@ -21,10 +21,13 @@ import { useDebounce } from "../../../../hooks/useDebounce";
 import { createEncryptedSecret } from "../../../../services/secret.service";
 import CharCounter from "./CharCounter";
 import CreateSecretButton from "./CreateSecretButton";
+import TurnstileWidget from "../../CommonPartials/TurnstileWidget";
 
 const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
   const { isAuthenticated } = useAuthCheck();
   const navigate = useNavigate();
+
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [secretFormData, setSecretFormData] = useState<ICreateSecretFormData>({
@@ -97,7 +100,7 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
     }
 
     const secretResponse = await createEncryptedSecret(
-      secretFormData,
+      { ...secretFormData, turnstileToken },
       createSecretMutateAsync,
     );
 
@@ -181,9 +184,17 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
             </p>
           </div>
         )}
+        {!isAuthenticated && (
+          <div className="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
+            <TurnstileWidget
+              onVerify={setTurnstileToken}
+              onExpire={() => setTurnstileToken("")}
+            />
+          </div>
+        )}
       </form>
 
-      {/* Sign in, Login features */}
+      {/* Sign in, Sigh up features */}
       <ActionRow isAuthenticated={isAuthenticated} />
     </div>
   );

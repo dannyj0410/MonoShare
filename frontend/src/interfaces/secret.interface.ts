@@ -29,6 +29,7 @@ export interface ICreateSecretFormData {
   secret: string;
   secretKey: string;
   timeTillExpiration: ExpirationTimeOptions;
+  turnstileToken?: string;
 }
 
 export interface ICreateSecretRequest {
@@ -37,6 +38,7 @@ export interface ICreateSecretRequest {
   encryptionIV: string;
   secretKey: string;
   timeTillExpiration: ExpirationTimeOptions;
+  turnstileToken?: string;
 }
 
 export interface ICreateSecretResponse {
