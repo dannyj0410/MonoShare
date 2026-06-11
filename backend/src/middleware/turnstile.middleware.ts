@@ -16,9 +16,10 @@ export const verifyTurnstile = async (
   const token = req.body?.turnstileToken;
 
   if (!token) {
-    return res
-      .status(HTTP_BAD_REQUEST)
-      .json({ message: "Captcha token missing" });
+    return res.status(HTTP_BAD_REQUEST).json({
+      message:
+        "Failed or still verifying you are human. Please wait a moment and try again.",
+    });
   }
 
   try {
