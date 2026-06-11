@@ -10,8 +10,10 @@ import type { ISignInCredentials } from "../../../interfaces/auth.interface";
 import Spinner from "../../loaders/Spinner";
 import EmailInput from "../../partials/AuthPartials/EmailInput";
 import PasswordInput from "../../partials/AuthPartials/PasswordInput";
+import TurnstileWidget from "../../partials/CommonPartials/TurnstileWidget";
 
 const SignIn = () => {
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
   const [createFormData, setCreateFormData] = useState<ISignInCredentials>({
     email: "",
     password: "",
@@ -63,7 +65,7 @@ const SignIn = () => {
       return;
     }
 
-    signinMutate(createFormData);
+    signinMutate({ ...createFormData, turnstileToken });
   };
 
   return (
@@ -117,6 +119,11 @@ const SignIn = () => {
               Forgot password?
             </Link>
           </div>
+
+          <TurnstileWidget
+            onVerify={setTurnstileToken}
+            onExpire={() => setTurnstileToken("")}
+          />
 
           {/* submit button */}
           <button

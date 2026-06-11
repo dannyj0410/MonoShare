@@ -11,8 +11,10 @@ import type { ISignUpCredentials } from "../../../interfaces/auth.interface";
 import Spinner from "../../loaders/Spinner";
 import EmailInput from "../../partials/AuthPartials/EmailInput";
 import PasswordInput from "../../partials/AuthPartials/PasswordInput";
+import TurnstileWidget from "../../partials/CommonPartials/TurnstileWidget";
 
 const CreateAccount = () => {
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
   const [createFormData, setCreateFormData] = useState<ISignUpCredentials>({
     email: "",
     password: "",
@@ -81,7 +83,7 @@ const CreateAccount = () => {
       return;
     }
 
-    registerMutate(createFormData);
+    registerMutate({ ...createFormData, turnstileToken });
   };
 
   return (
@@ -142,6 +144,11 @@ const CreateAccount = () => {
                 confirm: undefined,
               }))
             }
+          />
+
+          <TurnstileWidget
+            onVerify={setTurnstileToken}
+            onExpire={() => setTurnstileToken("")}
           />
 
           <button

@@ -3,6 +3,7 @@ import {
   type IUserCheckResponse,
   type ISignUpCredentials,
   type ISignInCredentials,
+  type forgotPasswordPayload,
 } from "../interfaces/auth.interface";
 import { axiosInstance } from "./axios";
 
@@ -38,8 +39,8 @@ export const resendEmailVerification = async () => {
   return res.data;
 };
 
-export const forgotPassword = async (email: string) => {
-  const res = await axiosInstance.post("/auth/forgot-password", { email });
+export const forgotPassword = async (payload: forgotPasswordPayload) => {
+  const res = await axiosInstance.post("/auth/forgot-password", payload);
   return res.data;
 };
 

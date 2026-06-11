@@ -5,6 +5,8 @@ import { validateEmail } from "../../../utils/validators/auth.validator";
 import EmailInput from "../../partials/AuthPartials/EmailInput";
 import Spinner from "../../loaders/Spinner";
 import type { UseMutateFunction } from "@tanstack/react-query";
+import TurnstileWidget from "../../partials/CommonPartials/TurnstileWidget";
+import type { forgotPasswordPayload } from "../../../interfaces/auth.interface";
 
 const ForgotPassword = () => {
   const {
@@ -51,9 +53,16 @@ const SendEmailForm = ({
   forgotPasswordMutate,
   isPending,
 }: {
-  forgotPasswordMutate: UseMutateFunction<string, Error, string, unknown>;
+  forgotPasswordMutate: UseMutateFunction<
+    object,
+    Error,
+    forgotPasswordPayload,
+    unknown
+  >;
   isPending: boolean;
 }) => {
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+
   const [email, setEmail] = useState("");
   const [touched, setTouched] = useState(false);
   const emailError =
@@ -71,13 +80,19 @@ const SendEmailForm = ({
     e.preventDefault();
     setTouched(true);
     if (!email || emailError) return;
-    forgotPasswordMutate(email.trim().toLowerCase());
+    const trimmedEmail = email.trim().toLowerCase();
+    forgotPasswordMutate({ email: trimmedEmail, turnstileToken });
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col" noValidate>
       {/* Email Input */}
       <EmailInput email={email} error={emailError} onChange={onChangeHandler} />
+
+      <TurnstileWidget
+        onVerify={setTurnstileToken}
+        onExpire={() => setTurnstileToken("")}
+      />
 
       <div className="flex flex-col ml-auto gap-3">
         {/* Submit button */}

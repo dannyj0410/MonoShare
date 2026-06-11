@@ -16,13 +16,25 @@ import {
   signInLimiterMessage,
 } from "../constants/limiter_messages.js";
 import { userCheck } from "../middleware/user-check.middleware.js";
+import { verifyTurnstile } from "../middleware/turnstile.middleware.js";
 
 const router = express.Router();
 
-router.post("/register", rateLimiter(registerLimiterMessage, 3), createUser);
-router.post("/signin", rateLimiter(signInLimiterMessage), signinUser);
+router.post(
+  "/register",
+  verifyTurnstile,
+  rateLimiter(registerLimiterMessage, 3),
+  createUser,
+);
+router.post(
+  "/signin",
+  verifyTurnstile,
+  rateLimiter(signInLimiterMessage),
+  signinUser,
+);
 router.post("/logout", requireAuth, logoutUser);
 router.get("/user-check", requireAuth, checkUser);
+
 router.post(
   "/verify-email",
   userCheck,
@@ -37,6 +49,7 @@ router.post(
 );
 router.post(
   "/forgot-password",
+  verifyTurnstile,
   rateLimiter("Too many requests. Please try again later.", 5),
   forgotPassword,
 );

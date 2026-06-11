@@ -7,6 +7,7 @@ export interface IUser {
 export interface ISignInCredentials {
   email: string;
   password: string;
+  turnstileToken?: string;
 }
 
 export interface ISignUpCredentials extends ISignInCredentials {
@@ -20,4 +21,9 @@ export interface IUserCheckResponse {
 export interface IUserResponse {
   message: string;
   user: IUser;
+}
+
+export interface forgotPasswordPayload {
+  email: string;
+  turnstileToken?: string;
 }

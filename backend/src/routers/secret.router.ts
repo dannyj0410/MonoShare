@@ -11,12 +11,14 @@ import { requireAuth } from "../middleware/auth.middleware.js";
 import { userCheck } from "../middleware/user-check.middleware.js";
 import { apiLimiter, rateLimiter } from "../middleware/rateLimit.middleware.js";
 import { createSecretLimiterMessage } from "../constants/limiter_messages.js";
+import { verifyTurnstileIfGuest } from "../middleware/turnstile.middleware.js";
 
 const router = Router();
 
 router.post(
   "/create",
   userCheck,
+  verifyTurnstileIfGuest,
   rateLimiter(createSecretLimiterMessage, 20, 10),
   createSecret,
 );
