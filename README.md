@@ -36,6 +36,8 @@ The answer: a link that destroys itself.
 - The decryption key lives only in the **URL hash fragment** (never sent to the server)
 - The secret **auto-erases** on first view or on expiration — whichever comes first
 - Registered users get a full **dashboard** with secret management, timeline tracking, recipient email restrictions, and manual deletion
+- Email verification and password reset flows are fully supported
+- Cloudflare Turnstile protects sensitive endpoints from automated abuse
 
 ---
 
@@ -63,6 +65,7 @@ The answer: a link that destroys itself.
 - Choose expiration: **1 hour**, **1 day**, or **7 days**
 - Optional **password protection** (Argon2-hashed server-side)
 - Secrets auto-erase on view or expiration
+- Cloudflare Turnstile bot protection on secret creation
 
 ### For Registered Users
 
@@ -72,6 +75,8 @@ The answer: a link that destroys itself.
 - **Timeline view** with creation, expiration, and view timestamps
 - **Manual deletion** before expiration
 - Secret detail pages with share link and status tracking
+- Email verification to confirm account ownership and unlock restricted features
+- Forgot password and reset password via email
 
 ### Security Highlights
 
@@ -81,8 +86,11 @@ The answer: a link that destroys itself.
 - Argon2 password hashing for account passwords and optional secret passwords
 - HttpOnly, Secure, SameSite=Strict cookies
 - Rate limiting on all sensitive endpoints
+- Cloudflare Turnstile on auth forms and secret creation
 - HTTP security headers (CSP, X-Frame-Options, Referrer-Policy, etc.)
 - LRU session cache to reduce database load
+- Sentry error monitoring on both frontend and backend
+- Time-limited tokens for email verification (24h) and password reset (1h)
 
 ---
 
@@ -101,6 +109,8 @@ The answer: a link that destroys itself.
 | Axios             | HTTP client             |
 | React Router v7   | Client-side routing     |
 | Web Crypto API    | AES-128-GCM encryption  |
+| Sentry            | Error monitoring        |
+| Turnstile         | Cloudflare captcha      |
 
 ### Backend
 
@@ -114,6 +124,8 @@ The answer: a link that destroys itself.
 | nanoid             | Secure slug generation    |
 | lru-cache          | In-memory session caching |
 | express-rate-limit | Rate limiting             |
+| resend             | Transactional email       |
+| Sentry             | Error monitoring          |
 
 ---
 
@@ -167,6 +179,10 @@ The answer: a link that destroys itself.
 
 **LRU session cache:** Authenticated requests look up the session from an in-memory LRU cache before hitting the database, reducing latency and database load on frequently active sessions.
 
+**Cloudflare Turnstile:** A non-interactive captcha widget is embedded on auth forms and secret creation. Server-side verification is performed before any account or secret is created; verification is automatically bypassed in development and during Playwright test runs.
+
+**Email verification tokens:** On registration, a 32-byte random token is SHA-256 hashed before storage in the `Token` collection with a 24-hour expiry. Password reset tokens expire in 1 hour. Both are single-use and cannot be replayed.
+
 ---
 
 ## Getting Started
@@ -199,6 +215,9 @@ SESSION_SECRET=your-128-char-hmac-secret
 FRONTEND_URL=http://localhost:9000
 PORT=8001
 NODE_ENV=development
+RESEND_API_KEY=re_xxxxxxxxxxxx
+SENTRY_DSN=https://...@sentry.io/...
+TURNSTILE_SECRET_KEY=0xYOUR_KEY
 ```
 
 Generate the Prisma client and push the schema:
@@ -244,22 +263,28 @@ NODE_ENV=production npm run start
 
 ### Backend (`backend/.env`)
 
-| Variable         | Required | Description                                                                                               |
-| ---------------- | -------- | --------------------------------------------------------------------------------------------------------- |
-| `DATABASE_URL`   | ✅       | MongoDB connection string                                                                                 |
-| `SESSION_SECRET` | ✅       | Secret key used for HMAC-SHA256 session token hashing. Use a long, random value (128+ chars recommended). |
-| `FRONTEND_URL`   | ✅       | Frontend origin, used for CORS and share URL generation (e.g. `https://monoshare.site`)                   |
-| `PORT`           | ❌       | Server port (default: `5000`)                                                                             |
-| `NODE_ENV`       | ❌       | `development` or `production`                                                                             |
+| Variable               | Required | Description                                                                                               |
+| ---------------------- | -------- | --------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`         | ✅       | MongoDB connection string                                                                                 |
+| `SESSION_SECRET`       | ✅       | Secret key used for HMAC-SHA256 session token hashing. Use a long, random value (128+ chars recommended). |
+| `FRONTEND_URL`         | ✅       | Frontend origin, used for CORS and share URL generation (e.g. `https://monoshare.site`)                   |
+| `PORT`                 | ❌       | Server port (default: `5000`)                                                                             |
+| `NODE_ENV`             | ❌       | `development` or `production`                                                                             |
+| `RESEND_API_KEY`       | ❌       | API key for Resend email delivery. Emails are console-logged in development.                              |
+| `SENTRY_DSN`           | ❌       | Sentry DSN for backend error monitoring. Disabled if not set.                                             |
+| `TURNSTILE_SECRET_KEY` | ❌       | Cloudflare Turnstile secret key for server-side captcha verification. Skipped in development.             |
 
 ### Frontend
 
 The frontend uses Vite environment files:
 
-| File               | Variable            | Value                               |
-| ------------------ | ------------------- | ----------------------------------- |
-| `.env.development` | `VITE_API_BASE_URL` | `http://localhost:BACKEND_PORT/api` |
-| `.env.production`  | `VITE_API_BASE_URL` | `/api`                              |
+| File               | Variable                  | Value                                      |
+| ------------------ | ------------------------- | ------------------------------------------ |
+| `.env.development` | `VITE_API_BASE_URL`       | `http://localhost:BACKEND_PORT/api`        |
+| `.env.development` | `VITE_TURNSTILE_SITE_KEY` | `1x00000000000000000000AA` (always passes) |
+| `.env.production`  | `VITE_API_BASE_URL`       | `/api`                                     |
+| `.env.production`  | `VITE_SENTRY_DSN`         | `Your Sentry DSN`                          |
+| `.env.production`  | `VITE_TURNSTILE_SITE_KEY` | `Your Cloudflare Turnstile site key`       |
 
 ---
 
@@ -269,12 +294,16 @@ All routes are prefixed with `/api`.
 
 ### Auth — `/api/auth`
 
-| Method | Endpoint      | Auth     | Description                            |
-| ------ | ------------- | -------- | -------------------------------------- |
-| `POST` | `/register`   | Public   | Create a new account                   |
-| `POST` | `/signin`     | Public   | Sign in and receive a session cookie   |
-| `POST` | `/logout`     | Required | Invalidate current session             |
-| `GET`  | `/user-check` | Required | Verify session and return current user |
+| Method | Endpoint               | Auth     | Description                                                     |
+| ------ | ---------------------- | -------- | --------------------------------------------------------------- |
+| `POST` | `/register`            | Public   | Create a new account                                            |
+| `POST` | `/signin`              | Public   | Sign in and receive a session cookie                            |
+| `POST` | `/logout`              | Required | Invalidate current session                                      |
+| `GET`  | `/user-check`          | Required | Verify session and return current user                          |
+| `POST` | `/verify-email`        | Optional | Verify email address using the token from the verification link |
+| `POST` | `/resend-verification` | Required | Resend the email verification link                              |
+| `POST` | `/forgot-password`     | Public   | Send a password reset link to the provided email address        |
+| `POST` | `/reset-password`      | Public   | Reset password using a valid, unexpired reset token             |
 
 ### Secrets — `/api/secret`
 
@@ -289,12 +318,16 @@ All routes are prefixed with `/api`.
 
 ### Rate Limits
 
-| Endpoint             | Limit        | Window |
-| -------------------- | ------------ | ------ |
-| `/auth/register`     | 3 requests   | 10 min |
-| `/auth/signin`       | 10 requests  | 10 min |
-| `/secret/create`     | 20 requests  | 10 min |
-| All other API routes | 100 requests | 10 min |
+| Endpoint                    | Limit        | Window |
+| --------------------------- | ------------ | ------ |
+| `/auth/register`            | 3 requests   | 10 min |
+| `/auth/signin`              | 10 requests  | 10 min |
+| `/auth/verify-email`        | 5 requests   | 10 min |
+| `/auth/resend-verification` | 5 requests   | 10 min |
+| `/auth/forgot-password`     | 5 requests   | 10 min |
+| `/auth/reset-password`      | 5 requests   | 10 min |
+| `/secret/create`            | 20 requests  | 10 min |
+| All other API routes        | 100 requests | 10 min |
 
 > Rate limiting is skipped in `NODE_ENV=development` for convenience.
 
@@ -317,16 +350,28 @@ Secret **metadata** only: slugs, creation timestamps, expiration timestamps, opt
 - Cookies are `HttpOnly`, `Secure`, and `SameSite=Strict`
 - Sessions expire after 7 days with sliding expiry
 - Previous sessions are invalidated on new login
+- All active sessions are invalidated when a password is reset
 
 ### Password hashing
 
 Both account passwords and optional secret access passwords are hashed with **Argon2** (a memory-hard algorithm). Plaintext passwords are never stored.
 
+### Email verification & password reset
+
+- Verification and reset tokens are 32 cryptographically random bytes, SHA-256 hashed before storage
+- Email verification tokens expire after 24 hours; password reset tokens expire after 1 hour
+- Tokens are single-use — consumed immediately on success and cannot be replayed
+- Password reset responses are deliberately identical whether or not the provided email exists, preventing user enumeration
+
+### Bot protection
+
 ### HTTP security headers
+
+Cloudflare Turnstile is enforced server-side on registration, sign-in, forgot-password, and secret creation for unauthenticated users. Authenticated users bypass Turnstile on secret creation. Verification is skipped automatically in NODE_ENV=development and during Playwright test runs.
 
 Every response includes:
 
-- `Content-Security-Policy` (restrictive: no inline scripts, limited connect-src)
+- `Content-Security-Policy` (restrictive: no inline scripts, limited `connect-src` including Sentry ingest endpoints)
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
 - `Referrer-Policy: no-referrer`
@@ -337,6 +382,8 @@ Every response includes:
 ---
 
 ## Testing
+
+### Unit & Integration Tests (Vitest)
 
 The frontend has a test suite covering unit and integration tests using **Vitest** and **Testing Library**.
 
@@ -357,6 +404,35 @@ npm run test:coverage
 
 - **Unit tests** — utility functions (time formatters, validators, crypto helpers, email shortener, debounce hook, toast interface type guard)
 - **Integration tests** — React component behaviour (form validation, rendering, user interactions) for auth pages, the secret form, spinners, and empty state lists
+
+### End-to-End Tests (Playwright)
+
+Full browser automation tests run against a live server instance.
+
+```bash
+cd frontend
+
+# Run all E2E tests (headless)
+npm run e2e
+
+# Run with the Playwright UI
+npm run e2e:ui
+
+# Run with a visible browser window
+npm run e2e:headed
+
+# View the HTML test report
+npm run e2e:report
+```
+
+### What's covered
+
+- **Smoke tests** — home page loads, auth pages render, health check endpoint responds
+- **Authentication** — registration, sign-in, logout, redirect guards, validation errors
+- **Secret lifecycle** — create as guest, view via share link, erase on view, block double-view, empty text validation, character counter
+- **Dashboard** — authenticated access, secret appearing after creation, deleting a secret
+
+> E2E tests require a running server. Configure PLAYWRIGHT_BASE_URL or rely on the default http://localhost:8001. Rate limiting is automatically bypassed when PLAYWRIGHT_TEST=true.
 
 ---
 
@@ -393,18 +469,17 @@ The PM2 config runs the compiled `built/server.js`, restarts on crash, limits me
 monoshare/
 ├── backend/
 │   ├── prisma/
-│   │   └── schema.prisma          # MongoDB schema (User, Secret, Session)
+│   │   └── schema.prisma          # MongoDB schema (User, Secret, Session, Token)
 │   └── src/
 │       ├── constants/             # HTTP status codes, rate limit messages, time constants
 │       ├── controllers/           # Route handlers (auth.controller, secret.controller)
 │       ├── dtos/                  # TypeScript interfaces for request/response shapes
-│       ├── helper/                # computeSecretStatus utility
-│       ├── lib/                   # Prisma client singleton, LRU session cache
-│       ├── middleware/            # Auth, error handling, rate limiting
+│       ├── lib/                   # Prisma client singleton, LRU session cache, Sentry init
+│       ├── middleware/            # Auth, error handling, rate limiting, Turnstile verification, user-check (optional auth)
 │       ├── routers/               # Express route definitions
-│       ├── services/              # AuthService, SecretService (hashing, validation, etc.)
+│       ├── services/              # AuthService, SecretService, EmailService, TokenService
 │       ├── types/                 # Express type augmentation (req.user, req.session)
-│       ├── utils/                 # AppError class
+│       ├── utils/                 # AppError class, auth utilities, secret utilities, computeSecretStatus
 │       └── server.ts              # App entry point
 │
 └── frontend/
@@ -415,25 +490,35 @@ monoshare/
         │   ├── icons/             # SVG icon components
         │   ├── layouts/           # Header, Footer
         │   ├── loaders/           # Spinner, BoxSkeleton, PageLoader, SecretSkeleton
-        │   └── pages/             # Home, ViewSecret, SecretDetails, MySecrets, Auth pages
-        │       └── partials/      # CreateSecretForm, Timeline, Toast, ConfirmationPopup, etc.
+        │   └── pages/             # Home, ViewSecret, SecretDetails, MySecrets,
+        │       │                  # TermsOfService, PrivacyPolicy, NotFound, ErrorPage
+        │       │                  # AuthPages: SignIn, CreateAccount, ForgotPassword,
+        │       │                  # ResetPassword, VerifyEmail
+        │       └── partials/      # CreateSecretForm, Timeline, Toast, ConfirmationPopup,
+        │                          # TurnstileWidget, VerificationBanner, and more
         ├── contexts/
         │   └── toast/             # Global toast notification context + provider
         ├── hooks/
-        │   ├── authHooks/         # useAuthCheck, useLogin, useLogout, useRegister, useUser
-        │   └── secretHooks/       # useCreateSecret, useDeleteSecret, useMySecrets, useViewSecret, etc.
+        │   ├── authHooks/         # useAuthCheck, useLogin, useLogout, useRegister, useUser,
+        │   │                      # useVerifyEmail, useResendVerification,
+        │   │                      # useForgotPassword, useResetPassword
+        │   └── secretHooks/       # useCreateSecret, useDeleteSecret, useMySecrets,
+        │                          # useViewSecret, useSecretDetails, useSecretMetadata
         ├── interfaces/            # TypeScript interfaces (auth, secret, toast, process)
-        ├── lib/                   # queryClient
+        ├── lib/                   # queryClient, Sentry init
         ├── services/              # createEncryptedSecret orchestration
         ├── test/
-        │   ├── integration/       # Component and page tests
+        │   ├── integration/       # Component and page tests (Vitest + Testing Library)
         │   └── unit/              # Hook, utility, and interface tests
         ├── utils/
-        │   ├── encryption/        # Web Crypto API wrappers (generate, encrypt, decrypt, export/import key)
-        │   ├── time/              # Date formatting, time remaining, time percentage
+        │   ├── encryption/        # Web Crypto API wrappers (generate, encrypt, decrypt,
+        │   │                      # export/import key, random key generation)
+        │   ├── time/              # Date formatting, time remaining, time percentage,
+        │   │                      # time past creation
         │   └── validators/        # Form validation (auth, secret)
         ├── App.tsx                # Route definitions + lazy-loaded pages
-        ├── main.tsx               # App entry point (QueryClient, Router, ToastProvider)
+        ├── main.tsx               # App entry point (QueryClient, Router, ToastProvider,
+        │                          # Sentry init)
         └── index.css              # Tailwind v4 + custom CSS (animations, component styles)
 ```
 

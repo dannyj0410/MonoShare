@@ -134,7 +134,7 @@ export const checkUser = asyncHandler(async (req: Request, res: Response) => {
   return;
 });
 
-// Email verification
+// *Email verification
 export const verifyEmail = asyncHandler(async (req, res) => {
   const { token } = req.body;
   if (!token) throw new AppError("Token is required", HTTP_BAD_REQUEST);
@@ -182,7 +182,9 @@ export const resendVerification = asyncHandler(async (req, res) => {
   res.status(HTTP_SUCCESS).json({ message: "Verification email sent" });
 });
 
-// Password
+//// Password Controllers
+
+// *Forgot
 export const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
   if (!email) throw new AppError("Email is required", HTTP_BAD_REQUEST);
@@ -193,26 +195,18 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    // No await on purpose, runs in background to protect from timing attacks checking response times
-    TokenService.createPasswordResetToken(user.id)
-      .then((token) => EmailService.sendPasswordResetEmail(user.email, token))
-      .catch((error) => {
-        console.error(
-          `Forgot password background task failed for user ${user.id}:`,
-          error,
-        );
-
-        Sentry.captureException(error, {
-          tags: { mechanism: "background-task" },
-          user: { id: user.id, email: user.email },
-        });
-      });
+    const token = await TokenService.createPasswordResetToken(user.id);
+    await EmailService.sendPasswordResetEmail(user.email, token);
+  } else {
+    // Sleep to protect against enumeration vulnerability
+    await new Promise((resolve) => setTimeout(resolve, 200));
   }
   res.status(HTTP_SUCCESS).json({
     message: "A reset link has been sent to that email",
   });
 });
 
+// *Reset
 export const resetPassword = asyncHandler(async (req, res) => {
   const { token, password } = req.body;
   if (!token || !password) {
