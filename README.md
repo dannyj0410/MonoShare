@@ -365,9 +365,9 @@ Both account passwords and optional secret access passwords are hashed with **Ar
 
 ### Bot protection
 
-### HTTP security headers
-
 Cloudflare Turnstile is enforced server-side on registration, sign-in, forgot-password, and secret creation for unauthenticated users. Authenticated users bypass Turnstile on secret creation. Verification is skipped automatically in NODE_ENV=development and during Playwright test runs.
+
+### HTTP security headers
 
 Every response includes:
 
@@ -475,11 +475,13 @@ monoshare/
 │       ├── controllers/           # Route handlers (auth.controller, secret.controller)
 │       ├── dtos/                  # TypeScript interfaces for request/response shapes
 │       ├── lib/                   # Prisma client singleton, LRU session cache, Sentry init
-│       ├── middleware/            # Auth, error handling, rate limiting, Turnstile verification, user-check (optional auth)
+│       ├── middleware/            # Auth, error handling, rate limiting, Turnstile verification,
+│       │                          # user-check (optional auth)
 │       ├── routers/               # Express route definitions
 │       ├── services/              # AuthService, SecretService, EmailService, TokenService
 │       ├── types/                 # Express type augmentation (req.user, req.session)
-│       ├── utils/                 # AppError class, auth utilities, secret utilities, computeSecretStatus
+│       ├── utils/                 # AppError class, auth utilities, secret utilities,
+│       │                          # computeSecretStatus
 │       └── server.ts              # App entry point
 │
 └── frontend/
