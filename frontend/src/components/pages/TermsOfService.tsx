@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import BackButton from "../partials/CommonPartials/BackButton";
 
 const TermsOfService = () => {
-  const version = "1.0";
+  const version = "1.1";
   return (
     <div className="legal-wrapper scroll-smooth">
       <title>Terms of Service | MonoShare</title>
@@ -15,7 +15,7 @@ const TermsOfService = () => {
           </h1>
           <p className="electrolize text-xs text-(--gray) tracking-[0.08em]">
             Effective Date:{" "}
-            <span className="text-(--main-light-blue)">13 April 2026</span>{" "}
+            <span className="text-(--main-light-blue)">13 June 2026</span>{" "}
             &nbsp;·&nbsp; Version:{" "}
             <span className="text-(--main-light-blue)">{version}</span>{" "}
             &nbsp;·&nbsp; Governing Law:{" "}
@@ -247,9 +247,11 @@ const TermsOfService = () => {
           </p>
           <h3>3.4 Service Availability</h3>
           <p>
-            The Service is provided on an "as available" basis. We do not
-            guarantee continuous, uninterrupted, or error-free access. Scheduled
-            or unscheduled maintenance may result in temporary unavailability.
+            The Service is provided on an "as available" basis and is hosted on
+            infrastructure located in <strong>Frankfurt, Germany (EU)</strong>.
+            We do not guarantee continuous, uninterrupted, or error-free access.
+            Scheduled or unscheduled maintenance may result in temporary
+            unavailability.
           </p>
         </section>
 
@@ -346,7 +348,8 @@ const TermsOfService = () => {
           <ul>
             <li>
               Attempt to bypass, circumvent, or defeat any rate limiting,
-              authentication, or security mechanism of the Service;
+              authentication, or security mechanism of the Service, including
+              controls enforced at the Nginx proxy layer;
             </li>
             <li>
               Conduct automated scraping, crawling, or bulk requests against the
@@ -367,16 +370,22 @@ const TermsOfService = () => {
           <div className="callout callout-warn">
             <strong>Enforcement:</strong> Violation of this Acceptable Use
             Policy may result in immediate Account suspension or termination,
-            rate limiting, IP blocking, and, where required by law, reporting to
-            competent authorities, including law enforcement.
+            rate limiting, automated IP blocking, and, where required by law,
+            reporting to competent authorities, including law enforcement.
           </div>
-          <h3>5.4 Rate Limiting</h3>
+          <h3>5.4 Rate Limiting &amp; Automated Security Controls</h3>
           <p>
-            The Service implements rate limiting to protect infrastructure
-            integrity: account creation is limited to 3 attempts per window,
-            sign-in to 10 attempts per 10 minutes, Secret creation to 20 per 10
-            minutes, and general API access to 100 requests per 10 minutes per
-            IP address.
+            The Service enforces rate limiting at multiple layers to protect
+            infrastructure integrity. At the application level: account creation
+            is limited to 3 attempts per 10 minutes, sign-in to 10 attempts per
+            10 minutes, Secret creation to 20 per 10 minutes, and general API
+            access to 100 requests per 10 minutes per IP address. An Nginx
+            reverse proxy independently enforces additional rate limits at the
+            network level before requests reach the application. Clients that
+            persistently trigger these controls may be automatically and
+            temporarily blocked at the IP level by fail2ban, our intrusion
+            prevention service, for security purposes. These blocks are not
+            permanent and do not constitute a ban on the User's Account.
           </p>
         </section>
 
@@ -398,6 +407,8 @@ const TermsOfService = () => {
             fragment (never sent to the server), the Operator has no technical
             capability to decrypt or read the plaintext content of any Secret.
             Our servers store only ciphertext and an initialization vector (IV).
+            This applies at every layer of the infrastructure, including the
+            Nginx reverse proxy.
           </p>
           <h3>6.2 User Responsibility for Link Security</h3>
           <p>
@@ -430,9 +441,10 @@ const TermsOfService = () => {
           <p>
             The zero-knowledge guarantee applies only to Secret content. Account
             metadata — including email addresses, creation timestamps,
-            expiration times, IP addresses, and secret slugs — may be accessible
-            to the Operator and may be disclosed pursuant to a valid legal
-            obligation. See the Privacy Policy for full details.
+            expiration times, IP addresses, and secret slugs — as well as
+            infrastructure logs generated by Nginx and fail2ban, may be
+            accessible to the Operator and may be disclosed pursuant to a valid
+            legal obligation. See the Privacy Policy for full details.
           </p>
         </section>
 
@@ -556,10 +568,11 @@ const TermsOfService = () => {
           </p>
           <h3>9.3 Third-Party Infrastructure</h3>
           <p>
-            The Service may depend on third-party infrastructure (hosting
-            providers, database services, CDNs). The Operator is not liable for
-            failures, outages, or security incidents originating with
-            third-party providers.
+            The Service depends on third-party infrastructure including VPS
+            hosting, managed database services, and supporting software (Nginx,
+            fail2ban). The Operator is not liable for failures, outages, or
+            security incidents originating with third-party providers or
+            open-source software components.
           </p>
           <h3>9.4 Consumer Rights</h3>
           <p>
