@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import BackButton from "../../partials/CommonPartials/BackButton";
 import {
@@ -26,6 +26,10 @@ const CreateAccount = () => {
   >({});
 
   const { mutate: registerMutate, isPending: isRegistering } = useRegister();
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken("");
+  }, []);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -146,9 +150,10 @@ const CreateAccount = () => {
             }
           />
 
+          {/* Cloudflare Captcha  */}
           <TurnstileWidget
             onVerify={setTurnstileToken}
-            onExpire={() => setTurnstileToken("")}
+            onExpire={handleTurnstileExpire}
           />
 
           <button

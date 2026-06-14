@@ -40,6 +40,10 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
   const { mutateAsync: createSecretMutateAsync, isPending: isCreating } =
     useCreateSecret();
 
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken("");
+  }, []);
+
   const debouncedEmail = useDebounce(secretFormData.receiverEmail, 200);
   const debouncedSecret = useDebounce(secretFormData.secret, 300);
   const debouncedSecretKey = useDebounce(secretFormData.secretKey, 200);
@@ -184,11 +188,12 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
             </p>
           </div>
         )}
+        {/* Cloudflare Captcha  */}
         {!isAuthenticated && (
           <div className="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
             <TurnstileWidget
               onVerify={setTurnstileToken}
-              onExpire={() => setTurnstileToken("")}
+              onExpire={handleTurnstileExpire}
             />
           </div>
         )}

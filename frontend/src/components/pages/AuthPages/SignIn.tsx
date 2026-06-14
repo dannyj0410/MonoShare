@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import BackButton from "../../partials/CommonPartials/BackButton";
 import {
@@ -24,6 +24,10 @@ const SignIn = () => {
   >({});
 
   const { mutate: signinMutate, isPending: isSigningIn } = useSignin();
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken("");
+  }, []);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name as keyof ISignInCredentials;
@@ -120,9 +124,10 @@ const SignIn = () => {
             </Link>
           </div>
 
+          {/* Cloudflare Captcha  */}
           <TurnstileWidget
             onVerify={setTurnstileToken}
-            onExpire={() => setTurnstileToken("")}
+            onExpire={handleTurnstileExpire}
           />
 
           {/* submit button */}

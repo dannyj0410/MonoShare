@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { useForgotPassword } from "../../../hooks/authHooks/useForgotPassword";
 import { validateEmail } from "../../../utils/validators/auth.validator";
@@ -68,8 +68,11 @@ const SendEmailForm = ({
   const emailError =
     touched && validateEmail(email) ? "Enter a valid email address" : undefined;
 
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken("");
+  }, []);
+
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const name = e.target.name;
     setTouched(true);
     const value = e.target.value;
 
@@ -89,9 +92,10 @@ const SendEmailForm = ({
       {/* Email Input */}
       <EmailInput email={email} error={emailError} onChange={onChangeHandler} />
 
+      {/* Cloudflare captcha */}
       <TurnstileWidget
         onVerify={setTurnstileToken}
-        onExpire={() => setTurnstileToken("")}
+        onExpire={handleTurnstileExpire}
       />
 
       <div className="flex flex-col ml-auto gap-3">
