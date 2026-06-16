@@ -38,15 +38,22 @@ const Home = () => {
   }, [location]);
 
   useEffect(() => {
-    const id = requestIdleCallback(
+    // requestIdleCallback if supported by browser/device. Else mimic.
+    const requestIdle =
+      window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+    const cancelIdle =
+      window.cancelIdleCallback || ((id) => clearTimeout(id as number));
+
+    const id = requestIdle(
       () => {
         import("../partials/HomePartials/InfoSectionPartials/InfoSection");
         import("../partials/HomePartials/ProcessSectionPartials/Process");
         import("../partials/HomePartials/FeaturesSection");
       },
-      { timeout: 3000 },
+      { timeout: 3000 } as IdleRequestOptions,
     );
-    return () => cancelIdleCallback(id);
+
+    return () => cancelIdle(id);
   }, []);
 
   return (
