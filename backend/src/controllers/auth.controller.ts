@@ -98,7 +98,7 @@ export const signinUser = asyncHandler(
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   const tokenHash = req.session!.tokenHash;
 
-  AuthService.logoutUser(tokenHash);
+  await AuthService.logoutUser(tokenHash);
 
   res.clearCookie("session", {
     httpOnly: true,
