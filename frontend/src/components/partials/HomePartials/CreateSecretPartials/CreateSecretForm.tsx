@@ -190,7 +190,7 @@ const CreateSecretForm = forwardRef<HTMLDivElement>((_, ref) => {
         )}
         {/* Cloudflare Captcha  */}
         {!isAuthenticated && (
-          <div className="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
+          <div className="overflow-hidden rounded-lg" aria-hidden="true">
             <TurnstileWidget
               onVerify={setTurnstileToken}
               onExpire={handleTurnstileExpire}

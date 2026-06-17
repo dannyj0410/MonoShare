@@ -96,6 +96,7 @@ const SendEmailForm = ({
       <TurnstileWidget
         onVerify={setTurnstileToken}
         onExpire={handleTurnstileExpire}
+        containerClasses="my-2 overflow-hidden rounded-lg"
       />
 
       <div className="flex flex-col ml-auto gap-3">

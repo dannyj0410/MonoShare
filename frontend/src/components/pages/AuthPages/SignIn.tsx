@@ -128,6 +128,7 @@ const SignIn = () => {
           <TurnstileWidget
             onVerify={setTurnstileToken}
             onExpire={handleTurnstileExpire}
+            containerClasses="my-2 overflow-hidden rounded-lg"
           />
 
           {/* submit button */}

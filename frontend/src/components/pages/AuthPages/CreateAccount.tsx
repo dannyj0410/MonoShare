@@ -154,6 +154,7 @@ const CreateAccount = () => {
           <TurnstileWidget
             onVerify={setTurnstileToken}
             onExpire={handleTurnstileExpire}
+            containerClasses="mb-2 overflow-hidden rounded-lg"
           />
 
           <button
