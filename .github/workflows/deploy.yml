@@ -50,5 +50,5 @@ jobs:
           script: |
             export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             cd /home/deploy/MonoShare
-            bash deploy.sh
+            bash deploy.sh "${{ github.sha }}"
           script_stop: true
