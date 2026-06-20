@@ -37,7 +37,7 @@ fi
 
 echo "Restarting app..."
 cd $APP_DIR
-pm2 restart MonoShare
+pm2 reload MonoShare
 
 echo "Done. Checking status..."
 pm2 status
