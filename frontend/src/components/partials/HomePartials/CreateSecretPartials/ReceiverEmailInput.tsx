@@ -14,7 +14,9 @@ const ReceiverEmailInput = memo(function ReceiverEmailInputField({
   onChange,
   onClear,
 }: ReceiverEmailInputProps) {
-  const [placeholderText, setPlaceholderText] = useState("Require Account?");
+  const [placeholderText, setPlaceholderText] = useState(
+    "Require Verified Account?",
+  );
 
   return (
     <div
